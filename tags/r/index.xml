@@ -24,5 +24,14 @@ Suppose we ask a group of 10 how many brothers and sisters they have. The number
 The mean of our data is the arithmetic average of the observations whereas the median is the middle value when the observations are ranked in order.</description>
     </item>
     
+    <item>
+      <title>Familiarisation with R</title>
+      <link>https://christospitsi.github.io/blog/familiarisation-with-r/</link>
+      <pubDate>Fri, 22 Sep 2017 23:03:48 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/familiarisation-with-r/</guid>
+      <description>rows and columns</description>
+    </item>
+    
   </channel>
 </rss>
