@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/" />
-<meta property="og:title" content="Blog" />
-<meta property="twitter:title" content="Blog">
+<meta property="og:url" content="https://christospitsi.github.io/blog/statistics-101/" />
+<meta property="og:title" content="Statistics 101" />
+<meta property="twitter:title" content="Statistics 101">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Blog 
+       Christos Pitsikas - Statistics 101 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/statistics-101/">
 
 
 <style media="screen">
@@ -957,8 +957,6 @@ margin-left: -4%;
 
 
 
-  <link href="https://christospitsi.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="  Christos Pitsikas" />
-
 
 </head>
 
@@ -966,7 +964,7 @@ margin-left: -4%;
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
 
     <div class="container">
         <a href="https://christospitsi.github.io/"><img class="logo" src="https://christospitsi.github.io/img/logo.png" alt="logo" /></a>
@@ -1003,27 +1001,110 @@ margin-left: -4%;
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="posts">
-                <div class="page-heading">Blog</div>
-                <ul>
-                    
-                        <li class="groupby">Sep, 2017</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Sep 28, 2017</span>
-    <a href="https://christospitsi.github.io/blog/statistics-101/"><span>Statistics 101</span></a>
-</li>
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
+    Statistics 101
+
+</div>
+
+                </div>
+                <div class="meta">
+                    <div class="date" title="Thu Sep 28 2017 19:52:49 UTC">Sep 28, 2017</div>
+                    
                         
                     
-                </ul>
+                    <div class="reading-time middot">2 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/r">R</a> </li>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/statistical-learning">Statistical Learning</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="markdown">
+                
+    
+    
+
+<h2 id="mean-median-and-mode">Mean, Median and Mode</h2>
+
+<p>A few introductory words about
+the very basic definitions and <code>R</code> commands
+of measures of central tendency and spread in statistics.</p>
+
+<p>Suppose we ask a group of 10
+how many brothers and sisters they have.
+The number obtained are as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(2&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;
+  &nbsp;5&nbsp;&nbsp;2&nbsp;&nbsp;1
+  &nbsp;&nbsp;1&nbsp;&nbsp;0&nbsp;&nbsp;3
+  &nbsp;&nbsp;3)</p>
+
+<p>The <em>mean</em> of our data is the arithmetic average of the observations whereas the <em>median</em> is the middle value when the observations are ranked in order.</p>
+
+<p>Those values can be calculated simply by creating a vector with the obervations and then calling the respective build-in <code>R</code> commands as shown below:</p>
+
+<pre><code class="language-r vector">x = c(2, 3, 0, 5, 2, 1, 1, 0, 3, 3)
+mean(x)
+## [1] 2
+median(x)
+## [1] 2
+</code></pre>
+
+<p>The <em>mode</em> of our data is the most frequently occurring observation. The most frequent observation in our example is 3 which appears three times.</p>
+
+<p>Since there is no built-in R command for mode calculation, we have to create a simple function.</p>
+
+<p>For this purpose, we will use <code>table()</code> function which returns a table with the frequency of each observation and <code>sort()</code> which sorts the frequences from high to low. <code>names()[1]</code> will then return the first element of the sorted vector, which is our most frequent value.</p>
+
+<pre><code class="language-r">mode = function(x) {
+  names(sort(table(x), decreasing = TRUE))[1]
+}
+
+mode(x)
+## [1] &quot;3&quot;
+</code></pre>
+
+<p><img src = "/images/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;"/></p>
+
+
+                <br>
+            </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div style="width: 100%;"></div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 

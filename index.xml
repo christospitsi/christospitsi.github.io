@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Christos Pitsikas</copyright>
-    <lastBuildDate>Sun, 19 Nov 2017 18:08:49 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Nov 2017 19:46:22 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Project1</title>
+      <link>https://christospitsi.github.io/projects/project1/</link>
+      <pubDate>Sun, 19 Nov 2017 19:46:22 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/projects/project1/</guid>
+      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>https://christospitsi.github.io/projects/projects/</link>
+      <pubDate>Sun, 19 Nov 2017 19:31:51 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/projects/projects/</guid>
+      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+    </item>
+    
+    <item>
+      <title>Resume</title>
+      <link>https://christospitsi.github.io/resume/resume/</link>
+      <pubDate>Sun, 19 Nov 2017 19:09:45 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/resume/resume/</guid>
+      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+    </item>
     
     <item>
       <title>Home</title>
@@ -22,12 +49,15 @@
     </item>
     
     <item>
-      <title>Post 1</title>
-      <link>https://christospitsi.github.io/blog/post-1/</link>
-      <pubDate>Sun, 19 Nov 2017 17:57:41 +0000</pubDate>
+      <title>Statistics 101</title>
+      <link>https://christospitsi.github.io/blog/statistics-101/</link>
+      <pubDate>Thu, 28 Sep 2017 19:52:49 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/post-1/</guid>
-      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+      <guid>https://christospitsi.github.io/blog/statistics-101/</guid>
+      <description>Mean, Median and Mode A few introductory words about the very basic definitions and R commands of measures of central tendency and spread in statistics.
+Suppose we ask a group of 10 how many brothers and sisters they have. The number obtained are as follows:
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (2&amp;nbsp;&amp;nbsp;3&amp;nbsp;&amp;nbsp;0&amp;nbsp; &amp;nbsp;5&amp;nbsp;&amp;nbsp;2&amp;nbsp;&amp;nbsp;1 &amp;nbsp;&amp;nbsp;1&amp;nbsp;&amp;nbsp;0&amp;nbsp;&amp;nbsp;3 &amp;nbsp;&amp;nbsp;3)
+The mean of our data is the arithmetic average of the observations whereas the median is the middle value when the observations are ranked in order.</description>
     </item>
     
   </channel>
