@@ -1019,7 +1019,7 @@ margin-left: -4%;
                     
                         
                     
-                    <div class="reading-time middot">2 minute read</div>
+                    <div class="reading-time middot">3 minute read</div>
                     <div class="tags">
                         <ul>
                           
@@ -1048,9 +1048,9 @@ margin-left: -4%;
 the very basic definitions and <code>R</code> commands
 of measures of central tendency and spread in statistics.</p>
 
-<p>Suppose we ask a group of 10
-how many brothers and sisters they have.
-The number obtained are as follows:</p>
+<p>Suppose we ask a group of 10 students
+how many brothers and sisters they have and
+the number obtained are as follows:</p>
 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 (2&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;
@@ -1060,7 +1060,7 @@ The number obtained are as follows:</p>
 
 <p>The <em>mean</em> of our data is the arithmetic average of the observations whereas the <em>median</em> is the middle value when the observations are ranked in order.</p>
 
-<p>Those values can be calculated simply by creating a vector with the obervations and then calling the respective build-in <code>R</code> commands as shown below:</p>
+<p>Those values can be calculated simply by creating a vector with the observations and then calling the respective build-in <code>R</code> commands as shown below:</p>
 
 <pre><code class="language-r vector">x = c(2, 3, 0, 5, 2, 1, 1, 0, 3, 3)
 mean(x)
@@ -1083,6 +1083,57 @@ mode(x)
 ## [1] &quot;3&quot;
 </code></pre>
 
+<p>Now, let&rsquo;s assume that the age of the students asked
+is as follows:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(23&nbsp;&nbsp;25&nbsp;&nbsp;18&nbsp;
+  &nbsp;45&nbsp;&nbsp;30&nbsp;&nbsp;21
+  &nbsp;&nbsp;22&nbsp;&nbsp;19&nbsp;&nbsp;29
+  &nbsp;&nbsp;35)</p>
+
+<h2 id="variance-and-standard-deviation">Variance and Standard deviation</h2>
+
+<p><em>Variance</em> and <em>standard deviation</em> are measures of spread and describe
+how much the observations vary from the mean value.
+We can calculate those measures of spread,
+between the numbers of siblings and theirs age
+using the <code>R</code> build-in functions <code>var()</code> and <code>sd()</code>.</p>
+
+<pre><code class="language-r">var(x)
+## [1] 2.444444
+sd(x)
+## [1] 1.563472
+</code></pre>
+
+<p><code>R</code> calculates the <em>unbiased</em> values of variance and standard deviation
+where the <em>Bessel&rsquo;s correction</em> has been applied.</p>
+
+<h2 id="covariance-and-correlation">Covariance and correlation</h2>
+
+<p>The <em>covariance</em> measures how much the movement in one variable predicts
+the movement in a corresponding variable.
+In our example,
+variable <code>x</code> is the number of siblings
+and <code>y</code> the age of the students.</p>
+
+<p>In order to calculate those values,
+we create the vectors for <code>x</code> and <code>y</code> variables
+and then call the respective functions</p>
+
+<pre><code class="language-r">y = c(23, 25, 18, 45, 30, 21, 22, 19, 29, 35)
+message('The covariance coefficient is: ',cov(x,y))
+## The covariance coefficient is: 11.8888888888889
+message('The correlation coefficient is: ',cor(x,y))
+## The correlation coefficient is: 0.91169712523063
+</code></pre>
+
+<p>Since the calculated correlation coefficient (0.91) is positive and near 1,
+we can safely state that there is a very strong positive relationship between x and y.</p>
+
+<p>Although there is a strong relationship between the number of siblings and the age of a student,
+we cannot conclude that there is causation between the two variables since the probability of having a certain amount of siblings is independent from age.</p>
+
 
                 <br>
             </div>
@@ -1093,7 +1144,7 @@ mode(x)
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/familiarisation-with-r/">Familiarisation with R</a>
+                        <a href="https://christospitsi.github.io/blog/familiarisation-with-r---boston-dataset-#1/">Familiarisation with R - Boston Dataset #1</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     
