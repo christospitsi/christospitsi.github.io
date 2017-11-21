@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</loc>
+    <lastmod>2017-11-21T23:06:10+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://christospitsi.github.io/projects/project1/</loc>
     <lastmod>2017-11-19T19:46:22+00:00</lastmod>
   </url>
@@ -23,24 +28,19 @@
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/blog/familiarisation-with-r---boston-dataset-#1/</loc>
-    <lastmod>2017-10-03T23:03:48+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://christospitsi.github.io/blog/statistics-101/</loc>
     <lastmod>2017-09-28T19:52:49+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/</loc>
-    <lastmod>2017-11-19T19:46:22+00:00</lastmod>
+    <lastmod>2017-11-21T23:06:10+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/blog/</loc>
-    <lastmod>2017-10-03T23:03:48+00:00</lastmod>
+    <lastmod>2017-11-21T23:06:10+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -57,7 +57,7 @@
   
   <url>
     <loc>https://christospitsi.github.io/tags/r/</loc>
-    <lastmod>2017-10-03T23:03:48+00:00</lastmod>
+    <lastmod>2017-09-28T19:52:49+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -69,13 +69,13 @@
   
   <url>
     <loc>https://christospitsi.github.io/tags/statistical-learning/</loc>
-    <lastmod>2017-10-03T23:03:48+00:00</lastmod>
+    <lastmod>2017-09-28T19:52:49+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/tags/</loc>
-    <lastmod>2017-10-03T23:03:48+00:00</lastmod>
+    <lastmod>2017-09-28T19:52:49+00:00</lastmod>
     <priority>0</priority>
   </url>
   

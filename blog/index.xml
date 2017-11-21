@@ -7,17 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Christos Pitsikas</copyright>
-    <lastBuildDate>Tue, 03 Oct 2017 23:03:48 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Nov 2017 23:06:10 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Familiarisation with R - Boston Dataset #1</title>
-      <link>https://christospitsi.github.io/blog/familiarisation-with-r---boston-dataset-#1/</link>
-      <pubDate>Tue, 03 Oct 2017 23:03:48 +0000</pubDate>
+      <title>Some Simple R Commands - Boston Dataset</title>
+      <link>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</link>
+      <pubDate>Tue, 21 Nov 2017 23:06:10 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/familiarisation-with-r---boston-dataset-#1/</guid>
+      <guid>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</guid>
       <description>The Boston data set, part of the MASS library, contains information regarding the housing values in the suburbs of Boston.
 The dimensions of the data frame are shown below:
 library (MASS) dim(Boston) ## [1] 506 14  The 506 rows of the dataset correspond to 506 observations, each of which has 14 predictors (number of columns).</description>
