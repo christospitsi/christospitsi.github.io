@@ -7,26 +7,50 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Christos Pitsikas</copyright>
-    <lastBuildDate>Tue, 21 Nov 2017 23:06:10 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 Sep 2017 00:09:00 +0200</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Logistic Regression 1</title>
+      <link>https://christospitsi.github.io/blog/logistic-regression-1/</link>
+      <pubDate>Fri, 08 Sep 2017 00:09:00 +0200</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/logistic-regression-1/</guid>
+      <description>For the purposes of this post we will use the Weekly dataset, included in the ISLR library. The dataset consists of percentage returns for the S&amp;amp;P 500 stock index between 1990 and 2010.
+In the data frame, there are 1089 observations and the following variables:
+In the data frame, there are 1089 observations and the following 9 variables:
+ year: Year that the observation was recorded lag1: Percentage return for previous week lag2: Percentage return for 2 weeks previous lag3: Percentage return for 3 weeks previous lag4: Percentage return for 4 weeks previous lag5: Percentage return for 5 weeks previous volume: Volume of shares traded (average number of daily shares traded in billions) today: Percentage return for this week direction: A factor with levels Down and Up indicating whether the market had a positive or negative return on a given week  Below we can see a numerical summary for all predictors:</description>
+    </item>
+    
+    <item>
+      <title>Linear Regression 1</title>
+      <link>https://christospitsi.github.io/blog/linear-regression-1/</link>
+      <pubDate>Mon, 04 Sep 2017 22:52:49 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/linear-regression-1/</guid>
+      <description>In this exercise we create some simulated data and fit a simple linear regression model. The simulated data are generated using the rnorm() function with mean 0 and variance 1. The generated data are stored in vector X.
+set.seed(1) x &amp;lt;- rnorm(100, 0, 1)  In addition to the data, we generate vector eps which will represent the error of the model.
+eps &amp;lt;- rnorm(100, 0, sqrt(0.25))  We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.</description>
+    </item>
+    
+    <item>
       <title>Some Simple R Commands - Boston Dataset</title>
       <link>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</link>
-      <pubDate>Tue, 21 Nov 2017 23:06:10 +0000</pubDate>
+      <pubDate>Sun, 27 Aug 2017 21:06:10 +0000</pubDate>
       
       <guid>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</guid>
       <description>The Boston data set, part of the MASS library, contains information regarding the housing values in the suburbs of Boston.
 The dimensions of the data frame are shown below:
-library (MASS) dim(Boston) ## [1] 506 14  The 506 rows of the dataset correspond to 506 observations, each of which has 14 predictors (number of columns).</description>
+library (MASS) dim(Boston) ## [1] 506 14  The 506 rows of the dataset correspond to 506 observations, each of which has 14 predictors (number of columns).
+Using pairs() function, we generate scatterplots for all combinations between predictors in order to try to figure out any possible associations.</description>
     </item>
     
     <item>
       <title>Statistics 101</title>
       <link>https://christospitsi.github.io/blog/statistics-101/</link>
-      <pubDate>Thu, 28 Sep 2017 19:52:49 +0000</pubDate>
+      <pubDate>Mon, 21 Aug 2017 19:52:49 +0000</pubDate>
       
       <guid>https://christospitsi.github.io/blog/statistics-101/</guid>
       <description>Mean, Median and Mode A few introductory words about the very basic definitions and R commands of measures of central tendency and spread in statistics.

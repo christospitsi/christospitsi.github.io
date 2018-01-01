@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/statistics-101/" />
-<meta property="og:title" content="Statistics 101" />
-<meta property="twitter:title" content="Statistics 101">
+<meta property="og:url" content="https://christospitsi.github.io/blog/logistic-regression-1/" />
+<meta property="og:title" content="Logistic Regression 1" />
+<meta property="twitter:title" content="Logistic Regression 1">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Statistics 101 
+       Christos Pitsikas - Logistic Regression 1 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/statistics-101/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/logistic-regression-1/">
 
 
 <style media="screen">
@@ -1009,17 +1009,17 @@ margin-left: -4%;
                 <div class="title-container">
                     <div class="page-heading">
 
-    Statistics 101
+    Logistic Regression 1
 
 </div>
 
                 </div>
                 <div class="meta">
-                    <div class="date" title="Mon Aug 21 2017 19:52:49 UTC">Aug 21, 2017</div>
+                    <div class="date" title="Fri Sep 8 2017 00:09:00 &#43;0200">Sep 8, 2017</div>
                     
                         
                     
-                    <div class="reading-time middot">3 minute read</div>
+                    <div class="reading-time middot">6 minute read</div>
                     <div class="tags">
                         <ul>
                           
@@ -1042,99 +1042,199 @@ margin-left: -4%;
     
     
 
-<h3 id="mean-median-and-mode">Mean, Median and Mode</h3>
+<p>For the purposes of this post we will use the <code>Weekly</code> dataset, included in the <code>ISLR</code> library. The dataset consists of percentage returns
+for the S&amp;P 500 stock index between 1990 and 2010.</p>
 
-<p>A few introductory words about
-the very basic definitions and <code>R</code> commands
-of measures of central tendency and spread in statistics.</p>
+<p>In the data frame, there are 1089 observations and the following variables:</p>
 
-<p>Suppose we ask a group of 10 students
-how many brothers and sisters they have and
-the number obtained are as follows:</p>
+<p>In the data frame, there are 1089 observations and the following 9 variables:</p>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-(2&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;
-  &nbsp;5&nbsp;&nbsp;2&nbsp;&nbsp;1
-  &nbsp;&nbsp;1&nbsp;&nbsp;0&nbsp;&nbsp;3
-  &nbsp;&nbsp;3)</p>
+<ul>
+<li><em>year</em>: Year that the observation was recorded</li>
+<li><em>lag1</em>: Percentage return for previous week</li>
+<li><em>lag2</em>: Percentage return for 2 weeks previous</li>
+<li><em>lag3</em>: Percentage return for 3 weeks previous</li>
+<li><em>lag4</em>: Percentage return for 4 weeks previous</li>
+<li><em>lag5</em>: Percentage return for 5 weeks previous</li>
+<li><em>volume</em>: Volume of shares traded (average number of daily shares traded in billions)</li>
+<li><em>today</em>: Percentage return for this week</li>
+<li><em>direction</em>: A factor with levels Down and Up indicating whether the market had a positive or negative return on a given week</li>
+</ul>
 
-<p>The <em>mean</em> of our data is the arithmetic average of the observations whereas the <em>median</em> is the middle value when the observations are ranked in order.</p>
+<p>Below we can see a numerical summary for all predictors:</p>
 
-<p>Those values can be calculated simply by creating a vector with the observations and then calling the respective build-in <code>R</code> commands as shown below:</p>
+<pre><code class="language-r">library(ISLR)
 
-<pre><code class="language-r">x &lt;- c(2, 3, 0, 5, 2, 1, 1, 0, 3, 3)
-mean(x)
-## [1] 2
-median(x)
-## [1] 2
+## Warning: package 'ISLR' was built under R version 3.4.2
+
+sprintf(&quot;The Weekly data frame has %d observations and %d predictors&quot;,
+        nrow(Weekly), ncol((Weekly)))
+
+## [1] &quot;The Weekly data frame has 1089 observations and 9 predictors&quot;          
 </code></pre>
 
-<p>The <em>mode</em> of our data is the most frequently occurring observation. The most frequent observation in our example is 3 which appears three times.</p>
-
-<p>Since there is no built-in R command for mode calculation, we have to create a simple function.</p>
-
-<p>For this purpose, we will use <code>table()</code> function which returns a table with the frequency of each observation and <code>sort()</code> which sorts the frequencies from high to low. <code>names()[1]</code> will then return the first element of the sorted vector, which is our most frequent value.</p>
-
-<pre><code class="language-r">mode &lt;- function(x) {
-  names(sort(table(x), decreasing = TRUE))[1]
-}
-
-mode(x)
-## [1] &quot;3&quot;
+<pre><code class="language-r">summary(Weekly)
 </code></pre>
 
-<h3 id="variance-and-standard-deviation">Variance and Standard deviation</h3>
-
-<p>Now, let&rsquo;s assume that the age of the students asked
-are as follows:</p>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-(23&nbsp;&nbsp;25&nbsp;&nbsp;18&nbsp;
-  &nbsp;45&nbsp;&nbsp;30&nbsp;&nbsp;21
-  &nbsp;&nbsp;22&nbsp;&nbsp;19&nbsp;&nbsp;29
-  &nbsp;&nbsp;35)</p>
-
-<p><em>Variance</em> and <em>standard deviation</em> are measures of spread and describe
-how much the observations vary from the mean value.
-We can calculate those measures of spread,
-between the numbers of siblings and theirs age
-using the <code>R</code> build-in functions <code>var()</code> and <code>sd()</code>.</p>
-
-<pre><code class="language-r">var(x)
-## [1] 2.444444
-sd(x)
-## [1] 1.563472
+<pre><code class="language-r">##       Year           Lag1               Lag2               Lag3         
+##  Min.   :1990   Min.   :-18.1950   Min.   :-18.1950   Min.   :-18.1950
+##  1st Qu.:1995   1st Qu.: -1.1540   1st Qu.: -1.1540   1st Qu.: -1.1580
+##  Median :2000   Median :  0.2410   Median :  0.2410   Median :  0.2410
+##  Mean   :2000   Mean   :  0.1506   Mean   :  0.1511   Mean   :  0.1472
+##  3rd Qu.:2005   3rd Qu.:  1.4050   3rd Qu.:  1.4090   3rd Qu.:  1.4090
+##  Max.   :2010   Max.   : 12.0260   Max.   : 12.0260   Max.   : 12.0260
+##       Lag4               Lag5              Volume       
+##  Min.   :-18.1950   Min.   :-18.1950   Min.   :0.08747  
+##  1st Qu.: -1.1580   1st Qu.: -1.1660   1st Qu.:0.33202  
+##  Median :  0.2380   Median :  0.2340   Median :1.00268  
+##  Mean   :  0.1458   Mean   :  0.1399   Mean   :1.57462  
+##  3rd Qu.:  1.4090   3rd Qu.:  1.4050   3rd Qu.:2.05373  
+##  Max.   : 12.0260   Max.   : 12.0260   Max.   :9.32821  
+##      Today          Direction
+##  Min.   :-18.1950   Down:484  
+##  1st Qu.: -1.1540   Up  :605  
+##  Median :  0.2410             
+##  Mean   :  0.1499             
+##  3rd Qu.:  1.4050             
+##  Max.   : 12.0260
 </code></pre>
 
-<p><code>R</code> calculates the <em>unbiased</em> values of variance and standard deviation
-where the <em>Bessel&rsquo;s correction</em> has been applied.</p>
+<p>It appears that all percentage return predictors (<code>Lag1-5</code> and <code>Today</code>) have identical minimum and maximum values, also known as <em>trading curbs</em>. Those limits were introduced to prevent both speculative gains and dramatic losses within a small time frame.</p>
 
-<h3 id="covariance-and-correlation">Covariance and correlation</h3>
+<p>Additionally, we can calculate all pairwise correlations coefficients among the predictors, with the exception of <code>Direction</code> which is qualitative.</p>
 
-<p>The <em>covariance</em> measures how much the movement in one variable predicts
-the movement in a corresponding variable.
-In our example,
-variable <code>x</code> is the number of siblings
-and <code>y</code> the age of the students.</p>
+<pre><code class="language-r">cor(Weekly[, -9])
 
-<p>In order to calculate those values,
-we create the vectors for <code>x</code> and <code>y</code> variables
-and then call the respective functions</p>
-
-<pre><code class="language-r">y &lt;- c(23, 25, 18, 45, 30, 21, 22, 19, 29, 35)
-
-message('The covariance coefficient is: ',cov(x,y))
-## The covariance coefficient is: 11.8888888888889
-
-message('The correlation coefficient is: ',cor(x,y))
-## The correlation coefficient is: 0.91169712523063
+##               Year         Lag1        Lag2        Lag3         Lag4
+## Year    1.00000000 -0.032289274 -0.03339001 -0.03000649 -0.031127923
+## Lag1   -0.03228927  1.000000000 -0.07485305  0.05863568 -0.071273876
+## Lag2   -0.03339001 -0.074853051  1.00000000 -0.07572091  0.058381535
+## Lag3   -0.03000649  0.058635682 -0.07572091  1.00000000 -0.075395865
+## Lag4   -0.03112792 -0.071273876  0.05838153 -0.07539587  1.000000000
+## Lag5   -0.03051910 -0.008183096 -0.07249948  0.06065717 -0.075675027
+## Volume  0.84194162 -0.064951313 -0.08551314 -0.06928771 -0.061074617
+## Today  -0.03245989 -0.075031842  0.05916672 -0.07124364 -0.007825873
+##                Lag5      Volume        Today
+## Year   -0.030519101  0.84194162 -0.032459894
+## Lag1   -0.008183096 -0.06495131 -0.075031842
+## Lag2   -0.072499482 -0.08551314  0.059166717
+## Lag3    0.060657175 -0.06928771 -0.071243639
+## Lag4   -0.075675027 -0.06107462 -0.007825873
+## Lag5    1.000000000 -0.05851741  0.011012698
+## Volume -0.058517414  1.00000000 -0.033077783
+## Today   0.011012698 -0.03307778  1.000000000
 </code></pre>
 
-<p>Since the calculated correlation coefficient (0.91) is positive and near 1,
-we can safely state that there is a very strong positive relationship between <code>x</code> and <code>y</code>.</p>
+<p>As expected, the percentage return predictors are not corellated with any of the other predictors and the only association appears to be between <code>Year</code> and <code>Volume</code>. The association is strongly positive and it can be seen graphically on the below plot:</p>
 
-<p>Although there is a strong relationship between the number of siblings and the age of a student,
-we cannot conclude that there is causation between the two variables since the probability of having a certain amount of siblings is independent from age.</p>
+<pre><code class="language-r">plot(Weekly$Year, Weekly$Volume, col = &quot;coral2&quot;,
+    xlab = &quot;Year&quot;,
+    ylab = &quot;Average number of daily shares traded (billions)&quot;,
+    type = &quot;p&quot;, pch = 20, cex.axis = 0.8, cex.lab = 0.8)
+</code></pre>
+
+<p><img src="https://christospitsi.github.io/images/unnamed-chunk-1-1.png" width="100%" style="display: block; margin: auto;" /></p>
+
+<p>We can see below the plots for all combinations of the predictors. The scatterplots between <code>Today</code> and <code>Lag1-5</code> predictors are very similar and there is no indication of an association between them.</p>
+
+<pre><code class="language-r">pairs(Weekly)
+</code></pre>
+
+<p><img src="https://christospitsi.github.io/images/unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /></p>
+
+<h3 id="logistic-regression-model">Logistic Regression Model</h3>
+
+<p>We now fit a logistic regression model with <code>Direction</code> as the response and the five lag variables plus <code>Volume</code> as predictors, using the <code>glm()</code> and <code>summary</code> functions as shown below:</p>
+
+<pre><code class="language-r">weekly.fit &lt;- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume,
+                 data = Weekly, family = binomial)
+summary(weekly.fit)
+
+##
+    ## Call:
+    ## glm(formula = Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 +
+    ##     Volume, family = binomial, data = Weekly)
+    ##
+    ## Deviance Residuals:
+    ##     Min       1Q   Median       3Q      Max  
+    ## -1.6949  -1.2565   0.9913   1.0849   1.4579  
+    ##
+    ## Coefficients:
+    ##             Estimate Std. Error z value Pr(&gt;|z|)   
+    ## (Intercept)  0.26686    0.08593   3.106   0.0019 **
+    ## Lag1        -0.04127    0.02641  -1.563   0.1181   
+    ## Lag2         0.05844    0.02686   2.175   0.0296 *
+    ## Lag3        -0.01606    0.02666  -0.602   0.5469   
+    ## Lag4        -0.02779    0.02646  -1.050   0.2937   
+    ## Lag5        -0.01447    0.02638  -0.549   0.5833   
+    ## Volume      -0.02274    0.03690  -0.616   0.5377   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ##
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ##
+    ##     Null deviance: 1496.2  on 1088  degrees of freedom
+    ## Residual deviance: 1486.4  on 1082  degrees of freedom
+    ## AIC: 1500.4
+    ##
+    ## Number of Fisher Scoring iterations: 4
+</code></pre>
+
+<p>The last column of the results shows the <em>P-Values</em> for each variable. For variables <code>Lag1</code>, <code>Lag3</code>, <code>Lag4</code>, <code>Lag5</code> and <code>Volume</code>, we can accept the <em>null hypothesis</em> that there is no relationship between them and <code>Direction</code>.</p>
+
+<p>With regards to variable <code>Lag2</code>, the <em>P-Value</em> is equal to 0.0296 which is smaller than the <em>P-Value</em> associated with a 95 percent confidence (a = 0.05). In theory, based on those results, we should reject the null hypothesis Ho that there is no relation between <code>Lag2</code> and <code>Direction</code>, however, it must be noted that since <em>P-Value</em> is very close to the limit value of 0.05, we may as well accept the hypothesis.</p>
+
+<p>The positive coefficient for predictor <code>Lag2</code> suggests that if the market had a positive return two weeks ago, then it is more likely that it will move upwards this week.</p>
+
+<h3 id="testing-and-confusion-matrix">Testing and Confusion Matrix</h3>
+
+<p>We can now use <code>predict()</code> function and the generated model to predict the probability that the market will go up at the end of the week, given values of the predictors.</p>
+
+<p>Since we used the whole dataset to train our model, the probabilities will be calculated using the training data.</p>
+
+<pre><code class="language-r">weekly.prd &lt;- predict(weekly.fit, type = &quot;response&quot;)
+contrasts(Weekly$Direction)
+</code></pre>
+
+<pre><code>##      Up
+## Down  0
+## Up    1
+</code></pre>
+
+<p>We have created vector <code>weekly.prd</code>, the elements of which are the calculated probabilities. We know that these values correspond to the probability of the market going up on a given week because the <code>contrasts()</code> function indicates that <code>R</code> has created a dummy variable, assigning value 1 to <code>Up</code>.</p>
+
+<p>In order to compare the predicted values to the actual direction of the market, first we convert the calculated probabilities to &ldquo;Up&rdquo; (for values greater than 0.5) and &ldquo;Down&rdquo; (for values lower than 0.5).</p>
+
+<pre><code class="language-r">weekly.prd.dir &lt;- rep(&quot;Up&quot;, 1089)
+weekly.prd.dir[weekly.prd &lt; 0.5] &lt;- &quot;Down&quot;
+</code></pre>
+
+<p>Using the <code>table()</code> function, we can create the <em>confusion matrix</em> and determine how many of the predictions were actually correct:</p>
+
+<pre><code class="language-r">table(weekly.prd.dir, Weekly$Direction)
+</code></pre>
+
+<pre><code>##               
+## weekly.prd.dir Down  Up
+##           Down   54  48
+##           Up    430 557
+</code></pre>
+
+<p>The results above can be interpreted as follows:</p>
+
+<ul>
+<li>Element [1,1] = 54: Indicates how many times Predicted Value = &ldquo;Down&rdquo; AND Real Value = &ldquo;Down&rdquo; (Correct prediction)</li>
+<li>Element [1,2] = 48: Indicates how many times Predicted Value = &ldquo;Up&rdquo; AND Real Value = &ldquo;Down&rdquo; (Incorrect prediction)</li>
+<li>Element [2,1] = 430: Indicates how many times Predicted Value = &ldquo;Down&rdquo; AND Real Value = &ldquo;Up&rdquo; (Incorrect prediction)</li>
+<li>Element [2,2] = 557: Indicates how many times Predicted Value = &ldquo;Up&rdquo; AND Real Value = &ldquo;Up&rdquo; (Correct prediction)</li>
+</ul>
+
+<p>We can calculate the overall fraction of correct predictions by using the <code>mean()</code> function. The result shows that out model made a correct prediction 56.1% of the time.</p>
+
+<pre><code class="language-r">mean(weekly.prd.dir == Weekly$Direction)
+
+## [1] 0.5610652
+</code></pre>
 
 
                 <br>
@@ -1143,12 +1243,12 @@ we cannot conclude that there is causation between the two variables since the p
             
                 <div class="navigation">
                     
-                    <div style="width: 100%;"></div>
-                    
                     <div>
-                        <a href="https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/">Some Simple R Commands - Boston Dataset</a>
-                        <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
+                        <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
+                        <a href="https://christospitsi.github.io/blog/linear-regression-1/">Linear Regression 1</a>
                     </div>
+                    
+                    <div style="width: 100%;"></div>
                     
                 </div>
             
