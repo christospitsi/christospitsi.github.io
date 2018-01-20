@@ -6,7 +6,7 @@
     <description>Recent content on   Christos Pitsikas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2017 Christos Pitsikas</copyright>
+    <copyright>Copyright © 2017 Christos Pitsikas, Powered by Hugo and Cocoa-Eh theme</copyright>
     <lastBuildDate>Sun, 19 Nov 2017 19:46:22 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/index.xml" rel="self" type="application/rss+xml" />
@@ -49,34 +49,74 @@
     </item>
     
     <item>
-      <title>Logistic Regression 1</title>
-      <link>https://christospitsi.github.io/blog/logistic-regression-1/</link>
+      <title>Cross validation on a simulated dataset</title>
+      <link>https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/</link>
+      <pubDate>Wed, 25 Oct 2017 10:06:06 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/</guid>
+      <description>For the purposes of this exercise, we generate the simulated data using the below equation:
+set.seed(1) x &amp;lt;- rnorm(100) y &amp;lt;- x -2*x^2 + rnorm(100)  Our data set consists of 100 values for x (n = 100) and one predictor (p = 1) The function for the calculation of y is of the below form:
+Y = β0 + β1X + β2X2 + ϵ. In our example, β0 = 0, β1 = 1, β2 = −2 and the error is a randomly generated number.</description>
+    </item>
+    
+    <item>
+      <title>S&amp;P 500 stock exchange - A &#39;for loop&#39; Leave-one-out cross validation solution</title>
+      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-leave-one-out-cross-validation-solution/</link>
+      <pubDate>Wed, 18 Oct 2017 23:24:14 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-leave-one-out-cross-validation-solution/</guid>
+      <description>The Leave-one-out cross validation test error can be estimated using the R build-in function cv.glm, however, it is worth exploring an alternative solution, using functions glm, predict.glm and a for loop. For the purposes of this exercise, we will revisit the percentage returns for the S&amp;amp;P 500 stock index included in Weekly dataset.
+We first fit a logistic regression model which predicts Direction using Lag1 and Lag2 variables and the whole dataset as training set.</description>
+    </item>
+    
+    <item>
+      <title>The credit card problem - Validation set approach</title>
+      <link>https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/</link>
+      <pubDate>Tue, 10 Oct 2017 22:17:53 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/</guid>
+      <description>Default is a simulated data set from ISLR library with information on ten thousand customers. We are interested in predicting whether a customer will default using the following predictors:
+ balance: The average balance that the customer has remaining on their credit card after making their monthly payment income: Income of the customer.  We fit a logistic regression model which uses income and balance to predict default and then we print a summary with all the calculated values.</description>
+    </item>
+    
+    <item>
+      <title>Predicting vehicle gas consumption</title>
+      <link>https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/</link>
+      <pubDate>Fri, 22 Sep 2017 21:48:18 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/</guid>
+      <description>The Auto data set, included in the ISLR library provides us with details for 392 vehicles and the following variables for each observation:
+ Mpg: Miles per gallon cylinders: Number of cylinders (4-8) displacement: Engine displacement (cu. inches) horsepower: Engine power weight: Vehicle weight (lbs.) acceleration: Time to accelerate from 0 to 60 mph (sec.) year: Model Year (modulo 100) origin: Origin of the car (1. American, 2. European, 3.</description>
+    </item>
+    
+    <item>
+      <title>S&amp;P 500 stock exchange - Logistic regression model</title>
+      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/</link>
       <pubDate>Fri, 08 Sep 2017 00:09:00 +0200</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/logistic-regression-1/</guid>
+      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/</guid>
       <description>For the purposes of this post we will use the Weekly dataset, included in the ISLR library. The dataset consists of percentage returns for the S&amp;amp;P 500 stock index between 1990 and 2010.
 In the data frame, there are 1089 observations and the following variables:
-In the data frame, there are 1089 observations and the following 9 variables:
  year: Year that the observation was recorded lag1: Percentage return for previous week lag2: Percentage return for 2 weeks previous lag3: Percentage return for 3 weeks previous lag4: Percentage return for 4 weeks previous lag5: Percentage return for 5 weeks previous volume: Volume of shares traded (average number of daily shares traded in billions) today: Percentage return for this week direction: A factor with levels Down and Up indicating whether the market had a positive or negative return on a given week  Below we can see a numerical summary for all predictors:</description>
     </item>
     
     <item>
-      <title>Linear Regression 1</title>
-      <link>https://christospitsi.github.io/blog/linear-regression-1/</link>
+      <title>A simple linear regression model using simulated data</title>
+      <link>https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/</link>
       <pubDate>Mon, 04 Sep 2017 22:52:49 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/linear-regression-1/</guid>
+      <guid>https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/</guid>
       <description>In this exercise we create some simulated data and fit a simple linear regression model. The simulated data are generated using the rnorm() function with mean 0 and variance 1. The generated data are stored in vector X.
 set.seed(1) x &amp;lt;- rnorm(100, 0, 1)  In addition to the data, we generate vector eps which will represent the error of the model.
 eps &amp;lt;- rnorm(100, 0, sqrt(0.25))  We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.</description>
     </item>
     
     <item>
-      <title>Some Simple R Commands - Boston Dataset</title>
-      <link>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</link>
+      <title>A few &#39;Hello World&#39; R commands and Boston housing prices</title>
+      <link>https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/</link>
       <pubDate>Sun, 27 Aug 2017 21:06:10 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/some-simple-r-commands---boston-dataset/</guid>
+      <guid>https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/</guid>
       <description>The Boston data set, part of the MASS library, contains information regarding the housing values in the suburbs of Boston.
 The dimensions of the data frame are shown below:
 library (MASS) dim(Boston) ## [1] 506 14  The 506 rows of the dataset correspond to 506 observations, each of which has 14 predictors (number of columns).

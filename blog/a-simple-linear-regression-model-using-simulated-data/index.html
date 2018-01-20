@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/" />
-<meta property="og:title" content="Blog" />
-<meta property="twitter:title" content="Blog">
+<meta property="og:url" content="https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/" />
+<meta property="og:title" content="A simple linear regression model using simulated data" />
+<meta property="twitter:title" content="A simple linear regression model using simulated data">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Blog 
+       Christos Pitsikas - A simple linear regression model using simulated data 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/">
 
 
 <style media="screen">
@@ -964,8 +964,6 @@ margin-left: -4%;
 
 
 
-  <link href="https://christospitsi.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="  Christos Pitsikas" />
-
 
 </head>
 
@@ -973,7 +971,8 @@ margin-left: -4%;
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
+
 
     <div class="container">
         <a href="https://christospitsi.github.io/"><img class="logo" src="https://christospitsi.github.io/img/logo.png" alt="logo" /></a>
@@ -1011,75 +1010,136 @@ margin-left: -4%;
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="posts">
-                <div class="page-heading">Blog</div>
-                <ul>
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
+
+    A simple linear regression model using simulated data
+
+</div>
+
+                </div>
+                <div class="meta">
+                    <div class="date" title="Mon Sep 4 2017 22:52:49 UTC">Sep 4, 2017</div>
                     
-                        <li class="groupby">Oct, 2017</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Oct 10, 2017</span>
-    <a href="https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/"><span>The credit card problem - Validation set approach</span></a>
-</li>
-
-                        
-                            <li class="post-item">
-    <span class="meta">Oct 18, 2017</span>
-    <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-leave-one-out-cross-validation-solution/"><span>S&amp;P 500 stock exchange - A &#39;for loop&#39; Leave-one-out cross validation solution</span></a>
-</li>
-
-                        
-                            <li class="post-item">
-    <span class="meta">Oct 25, 2017</span>
-    <a href="https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/"><span>Cross validation on a simulated dataset</span></a>
-</li>
-
                         
                     
-                        <li class="groupby">Sep, 2017</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Sep 4, 2017</span>
-    <a href="https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/"><span>A simple linear regression model using simulated data</span></a>
-</li>
-
-                        
-                            <li class="post-item">
-    <span class="meta">Sep 8, 2017</span>
-    <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/"><span>S&amp;P 500 stock exchange - Logistic regression model</span></a>
-</li>
-
-                        
-                            <li class="post-item">
-    <span class="meta">Sep 22, 2017</span>
-    <a href="https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/"><span>Predicting vehicle gas consumption</span></a>
-</li>
-
-                        
-                    
-                        <li class="groupby">Aug, 2017</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Aug 21, 2017</span>
-    <a href="https://christospitsi.github.io/blog/statistics-101/"><span>Statistics 101</span></a>
-</li>
-
-                        
-                            <li class="post-item">
-    <span class="meta">Aug 27, 2017</span>
-    <a href="https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/"><span>A few &#39;Hello World&#39; R commands and Boston housing prices</span></a>
-</li>
-
-                        
-                    
-                </ul>
+                    <div class="reading-time middot">2 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/r">R</a> </li>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/statistical-learning">Statistical Learning</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="markdown">
+                
+    
+    
+
+<p>In this exercise we create some simulated data and fit a simple linear
+regression model. The simulated data are generated using the <code>rnorm()</code>
+function with mean 0 and variance 1. The generated data are stored in
+vector X.</p>
+
+<pre><code class="language-r">set.seed(1)
+
+x &lt;- rnorm(100, 0, 1)
+</code></pre>
+
+<p>In addition to the data, we generate vector <code>eps</code> which
+will represent the error of the model.</p>
+
+<pre><code class="language-r">eps &lt;- rnorm(100, 0, sqrt(0.25))
+</code></pre>
+
+<p>We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.5.
+The length of y is equal to the length of x vector.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+y = -1 + 0.5X + ε</p>
+
+<pre><code class="language-r">y = -1 + 0.5 * x + eps
+length(y)
+
+## [1] 100
+</code></pre>
+
+<p>We can see below the plot of <code>x</code> and <code>y</code> values. As expected, we observe a linear relationship between them although not perfectly linear duto to the addition of the error <code>eps</code>.</p>
+
+<pre><code class="language-r">plot(x, y, col = &quot;deepskyblue2&quot;,
+     xlab = &quot;x&quot;, ylab = &quot;y&quot;,
+     type = &quot;p&quot;, pch = 20, cex.axis = 1, cex.lab = 1)
+</code></pre>
+
+<p><img src="https://christospitsi.github.io/images/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /></p>
+
+<h3 id="least-squares-model">Least Squares model</h3>
+
+<p>We fit a least squares linear model using the <code>lm.fit</code> function. The calculated parameters are quite close to the actual parameters (-1 and 0.5)</p>
+
+<pre><code class="language-r">lm.fit = lm(y~x)
+lm.fit
+##
+## Call:
+## lm(formula = y ~ x)
+##
+## Coefficients:
+## (Intercept)            x  
+##     -1.0188       0.4995
+</code></pre>
+
+<p>We can compare the generated model to the actual equation by plotting the least squares line
+compared to the population regression line. As we can see, the two line are quite close to
+each other.</p>
+
+<p><img src="https://christospitsi.github.io/images/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /></p>
+
+
+                <br>
+            </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
+                        <a href="https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/">A few &#39;Hello World&#39; R commands and Boston housing prices</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/">S&amp;P 500 stock exchange - Logistic regression model</a>
+                        <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
+                    </div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 
