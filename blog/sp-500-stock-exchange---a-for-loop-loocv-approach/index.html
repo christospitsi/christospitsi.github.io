@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/" />
-<meta property="og:title" content="Predicting vehicle gas consumption" />
-<meta property="twitter:title" content="Predicting vehicle gas consumption">
+<meta property="og:url" content="https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/" />
+<meta property="og:title" content="S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach" />
+<meta property="twitter:title" content="S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Predicting vehicle gas consumption 
+       Christos Pitsikas - S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/">
 
 
 <style media="screen">
@@ -1010,17 +1010,17 @@ margin-left: -4%;
                 <div class="title-container">
                     <div class="page-heading">
 
-    Predicting vehicle gas consumption
+    S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach
 
 </div>
 
                 </div>
                 <div class="meta">
-                    <div class="date" title="Fri Sep 22 2017 21:48:18 UTC">Sep 22, 2017</div>
+                    <div class="date" title="Wed Oct 18 2017 23:24:14 UTC">Oct 18, 2017</div>
                     
                         
                     
-                    <div class="reading-time middot">4 minute read</div>
+                    <div class="reading-time middot">3 minute read</div>
                     <div class="tags">
                         <ul>
                           
@@ -1043,103 +1043,111 @@ margin-left: -4%;
     
     
 
-<p>The <em>Auto</em> data set, included in the ISLR library provides us with details for 392 vehicles and the following variables for each observation:</p>
+<p>The Leave-one-out cross validation test error can be estimated using the <code>R</code> build-in
+function <code>cv.glm</code>, however, it is worth exploring an alternative solution,
+using functions <code>glm</code>, <code>predict.glm</code> and a for loop.
+For the purposes of this exercise,
+we will revisit the percentage returns for the S&amp;P 500 stock index included in
+<a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model">Weekly dataset.</a></p>
 
-<ul>
-<li><em>Mpg</em>: Miles per gallon</li>
-<li><em>cylinders</em>: Number of cylinders (4-8)</li>
-<li><em>displacement</em>: Engine displacement (cu. inches)</li>
-<li><em>horsepower</em>: Engine power</li>
-<li><em>weight</em>: Vehicle weight (lbs.)</li>
-<li><em>acceleration</em>: Time to accelerate from 0 to 60 mph (sec.)</li>
-<li><em>year</em>: Model Year (modulo 100)</li>
-<li><em>origin</em>: Origin of the car (1. American, 2. European, 3. Japanese)</li>
-<li><em>name</em>: Vehicle name</li>
-</ul>
+<p>We first fit a logistic regression model which predicts <em>Direction</em>
+using <em>Lag1</em> and <em>Lag2</em> variables and the whole dataset as training set.</p>
 
-<p>Based on the <em>mpg</em> variable, we create variable <em>mpg01</em> which is equal to 1 if <em>mpg</em> is above the median <em>mpg</em> value and equal 0 if <em>mpg</em> value is below the median.</p>
-
-<p>First we create a vector with size equal to the number of observations and fill it with 0s. Following that, we change 0s to 1s based on the above condition. Finally, we create a new data frame <em>df</em> which consists of the original data set plus the new variable <em>mpg01</em>.</p>
-
-<pre><code class="language-r">library(ISLR)
-mpg01 &lt;- rep(&quot;0&quot;, nrow(Auto))
-mpg01[Auto$mpg &gt; (median(Auto$mpg))] &lt;- &quot;1&quot;
-df &lt;- data.frame(Auto, mpg01)
+<pre><code class="language-r">weekly.fits &lt;- glm(Direction ~ Lag1 + Lag2, family = binomial, data = Weekly)
+summary(weekly.fits)
 </code></pre>
 
-<p>Based on the aforementioned, variable <em>mpg01</em> equals to 1 when <em>mpg</em> is above the median value which means that the car has relatively low gas consumption since it does more miles per gallon. We expect a car to have low consumption when it is not heavy and it is not a &ldquo;sports&rdquo; car i.e. it doesn&rsquo;t have high <em>horsepower</em> neither many <em>cylinders</em>. As we can see below, the data confirm our predictions about those variables.</p>
-
-<p>Firstly, we investigate whether there is association between <em>horsepower</em> and low gas consumption. On the below plot we can see all values of variable <em>horsepower</em> conditionally coloured based on consumption. Observations with mpg = 1 (low consumption) are in blue colour whereas the ones with mpg = 0 (high consumption) are in red. It is apparent that all vehicles with low consumption are the ones with low horsepower and the two variables are indeed associated.</p>
-
-<pre><code class="language-r">plot(df$horsepower, col = ifelse(df$mpg01 == 1, &quot;blue&quot;, &quot;red&quot;),
-     type = &quot;p&quot;, pch = 20, cex.axis = 1, cex.lab = 1,
-     main = &quot;Horsepower&quot;,
-     ylab = &quot;Horsepower&quot;)
-
-legend(250, 225, c(&quot;Low Consumption&quot;, &quot;High Consumption&quot;),
-       pch = c(20, 20), col = c(&quot;Blue&quot;, &quot;Red&quot;))
+<pre><code>##
+## Call:
+## glm(formula = Direction ~ Lag1 + Lag2, family = binomial, data = Weekly)
+##
+## Deviance Residuals:
+##    Min      1Q  Median      3Q     Max  
+## -1.623  -1.261   1.001   1.083   1.506  
+##
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.22122    0.06147   3.599 0.000319 ***
+## Lag1        -0.03872    0.02622  -1.477 0.139672    
+## Lag2         0.06025    0.02655   2.270 0.023232 *  
+## ---
+## Signif. codes:  0 *** 0.001 ** 0.01 * 0.05 '.' 0.1 ' ' 1
+##
+## (Dispersion parameter for binomial family taken to be 1)
+##
+##     Null deviance: 1496.2  on 1088  degrees of freedom
+## Residual deviance: 1488.2  on 1086  degrees of freedom
+## AIC: 1494.2
+##
+## Number of Fisher Scoring iterations: 4
 </code></pre>
 
-<p><img src="https://christospitsi.github.io/images/horsepower_mpg-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>We now fit a logistic regression model which predicts <em>Direction</em>
+using <em>Lag1</em> and <em>Lag2</em> and all but the first observation as training set.</p>
 
-<p>With regard to the cylinder predictor, as we can see on the below boxplot, all vehicles with 4 cylinders (with the exception of four outliers) have low gas consumption whereas the vehicles with 6-8 cylinders have all high consumption and as a consequence low miles per gallon. The result confirms our expectations that fast cars (with many cylinders) have high consumption.</p>
+<p>The generated model predicts that the first observation will go &ldquo;Up&rdquo;,
+based on the fact that P(Direction = &ldquo;Up&rdquo; | Lag1, Lag2) = 0.571 which is greater than 0.5.
+The predicted value is incorrect since the real value for than particular observation is -0.27
+which means that the market moved downwards.</p>
 
-<pre><code class="language-r">boxplot(cylinders~mpg01, data = df,
-        xlab = &quot;mpg01&quot;, ylab = &quot;Cylinders&quot;, col = &quot;Red&quot;)
+<pre><code class="language-r">loocv.fits &lt;- glm(Direction ~ Lag1 + Lag2,
+                  family = binomial,
+                  data = Weekly[-1,])
+
+loocv.prob &lt;- predict(loocv.fits, Weekly[1, ], type = &quot;response&quot;)
+loocv.prob
 </code></pre>
 
-<p><img src="https://christospitsi.github.io/images/cyl_box-1.png" width="80%" style="display: block; margin: auto;" /></p>
-
-<p>Finally, the below plot confirms that heavier vehicles have higher consumption:</p>
-
-<pre><code class="language-r">plot(df$weight, col = ifelse(df$mpg01 == 1, &quot;blue&quot;, &quot;red&quot;),
-     type = &quot;p&quot;, pch = 20, cex.axis = 1, cex.lab = 1,
-     main = &quot;Weight&quot;,
-     ylab = &quot;Vehicle Weight&quot;)
-
-legend(255, 5280, c(&quot;Low Consumption&quot;, &quot;High Consumption&quot;),
-       pch = c(20, 20), col = c(&quot;Blue&quot;, &quot;Red&quot;))
+<pre><code>##         1
+## 0.5713923
 </code></pre>
 
-<p><img src="https://christospitsi.github.io/images/weight_mpg-1.png" width="80%" style="display: block; margin: auto;" /></p>
-
-<h3 id="logistic-regression-model">Logistic regression model</h3>
-
-<p>We now split the data into training and test set in order to predict the consumption of a car, using the above features as predictors.
-The logistic regression model is performed on the training set and then we calculate the test error.</p>
-
-<pre><code class="language-r">set.seed(1)
-train &lt;- sample(nrow(df), nrow(df) / 2) #Creates training set
-
-mpg01.fits &lt;- glm(mpg01 ~ horsepower + cylinders + weight,
-                    family = binomial, data = df, subset = train)
-
-#Predicts probabilities
-glm.probs &lt;- predict(mpg01.fits, df[-train, ], type = &quot;response&quot;)
-
-#Converts probabilities to boolean
-glm.probs.b &lt;- ifelse(glm.probs &gt; 0.5, &quot;1&quot;, &quot;0&quot;)
-
-df.test &lt;- df[-train, ] #Test set
-
-table(glm.probs.b, df.test$mpg01) #Prints confusion matrix
+<pre><code class="language-r">Weekly[1, 8]
 </code></pre>
 
-<pre><code>##            
-## glm.probs.b  0  1
-##           0 78  6
-##           1 15 97
+<pre><code>## [1] -0.27
 </code></pre>
 
-<pre><code class="language-r">#Test error calculation
-test.error &lt;- (1 - mean(glm.probs.b == df.test$mpg01))*100  
-sprintf(&quot;Test error: %g%%&quot;, test.error)
+<h3 id="for-loop-loocv">For-loop LOOCV</h3>
+
+<p>The below loop is executed n times.
+Each time,
+the algorithm fits a logistic regression model and
+estimates the error using validation set approach, each time with a different observation as validation set.
+The average of those errors is, by definition, the LOOCV test estimation.</p>
+
+<p>The LOOCV estimated test MSE is 44.99%, a result which shows that our model is slightly better than random guessing.</p>
+
+<pre><code class="language-r">prob.dir &lt;- rep(&quot;Up&quot;, 1089)
+prob.err &lt;- rep(0, 1089)
+prob.loop &lt;- rep(0, 1089)
+
+for (n in 1:nrow(Weekly)) {
+
+   loocv.loop &lt;- glm(Direction ~ Lag1 + Lag2,
+                  family = binomial,
+                  data = Weekly[-n, ])
+    prob.loop[n] &lt;- predict(loocv.loop, Weekly[n, ], type = &quot;response&quot;)
+
+    if (prob.loop[n] &lt; 0.5) {
+            prob.dir[n] &lt;- &quot;Down&quot;
+    }
+
+    if (prob.dir[n] == Weekly[n, 9]) {
+            prob.err[n] &lt;- 1
+    }
+
+err &lt;- (1 - mean(prob.err))*100
+}
+
+sprintf(&quot;LOOCV estimate for test MSE: %g%%&quot;,
+        err)
 </code></pre>
 
-<pre><code>## [1] &quot;Test error: 10.7143%&quot;
+<pre><code>## [1] &quot;LOOCV estimate for test MSE: 44.9954%&quot;
 </code></pre>
 
-<p><em>This analysis is based on Exercise 4.11 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+<p><em>This analysis is based on Exercise 5.7 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
                 <br>
@@ -1150,13 +1158,13 @@ sprintf(&quot;Test error: %g%%&quot;, test.error)
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/">S&amp;P 500 stock exchange - Logistic regression model</a>
+                        <a href="https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/">The credit card problem - Validation set approach</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/">The credit card problem - Validation set approach</a>
+                        <a href="https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/">Cross validation on a simulated dataset</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     

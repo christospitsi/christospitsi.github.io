@@ -6,37 +6,86 @@
     <description>Recent content on   Christos Pitsikas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2017 Christos Pitsikas, Powered by Hugo and Cocoa-Eh theme</copyright>
-    <lastBuildDate>Sun, 19 Nov 2017 19:46:22 +0000</lastBuildDate>
+    <copyright>Copyright © 2018 Christos Pitsikas, Powered by Hugo and Cocoa-Eh</copyright>
+    <lastBuildDate>Mon, 22 Jan 2018 19:09:45 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Project 1</title>
-      <link>https://christospitsi.github.io/projects/project1/</link>
-      <pubDate>Sun, 19 Nov 2017 19:46:22 +0000</pubDate>
+      <title>About</title>
+      <link>https://christospitsi.github.io/about/</link>
+      <pubDate>Mon, 22 Jan 2018 19:09:45 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/projects/project1/</guid>
-      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+      <guid>https://christospitsi.github.io/about/</guid>
+      <description>I am Christos, software engineer, and I am currently working at Sauter Automation Ltd as a Control Applications Design Engineer.
+I possess a BSc and Msc (Hons 2:1) from Democritus University of Thrace in Electrical and Computer Engineering and I am currently studying towards an MSc degree in Data Analytics in Birkbeck, University of London.
+My current professional role involves designing and programming automation applications for Building Management Systems (BMS), analysing data acquired from various sources and predicting the building&amp;rsquo;s behaviour, with an emphasis on optimising energy consumption and sustainability.</description>
     </item>
     
     <item>
-      <title>Projects</title>
-      <link>https://christospitsi.github.io/projects/projects/</link>
-      <pubDate>Sun, 19 Nov 2017 19:31:51 +0000</pubDate>
+      <title>PCA and K-means clustering</title>
+      <link>https://christospitsi.github.io/blog/pca-and-k-means-clustering/</link>
+      <pubDate>Sat, 20 Jan 2018 18:49:07 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/projects/projects/</guid>
-      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+      <guid>https://christospitsi.github.io/blog/pca-and-k-means-clustering/</guid>
+      <description>In this problem, we will generate simulated data, and then permorm PCA and K-means clustering on the data.
+We first create cluster c1 using rnorm() function and then, by shifting the observations of that cluster, we create clusters c2 and c3. Finally, using rbind() function, we combine all three clusters to a single data frame.
+set.seed(1) c1 &amp;lt;- matrix(rnorm(1000), ncol = 50) c2 &amp;lt;- c1 + 2 c3 &amp;lt;- c1 - 3 data &amp;lt;- rbind(c1, c2, c3)  PCA We now perform principal component analysis using the prcomp() function without scaling the data and then plot the principal component score vectors and the clusters.</description>
     </item>
     
     <item>
-      <title>Resume</title>
-      <link>https://christospitsi.github.io/resume/resume/</link>
-      <pubDate>Sun, 19 Nov 2017 19:09:45 +0000</pubDate>
+      <title>Unsupervised learning - Hierarchical clustering</title>
+      <link>https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/</link>
+      <pubDate>Mon, 15 Jan 2018 14:23:58 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/resume/resume/</guid>
-      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+      <guid>https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/</guid>
+      <description>Hierarchical Clustering USArrests data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973.
+We perform hierarchical clustering on the data set, with complete linkage and Euclidean distance and we cut the dendrogram at a height that results in three distinct clusters. We can see below the clusters created by the model.
+hc.complete &amp;lt;- hclust(dist(USArrests), method = &amp;quot;complete&amp;quot;) a &amp;lt;- cutree(hc.</description>
+    </item>
+    
+    <item>
+      <title>Support vector machines and customer behaviour classification</title>
+      <link>https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/</link>
+      <pubDate>Thu, 04 Jan 2018 13:25:28 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/</guid>
+      <description>SVM TEST In this post we will re-examine the OJ data set, by applying this time a support vector machines (SVM) model. In addition to the ISLR library, we import e1071 library which provides us with the necessary SVM functions and methods.
+After splitting the data into training and test sets, we fit a SVM classifier to the training data using cost = 0.01, with Purchase as the response and all the other variables as predictors.</description>
+    </item>
+    
+    <item>
+      <title>Customer behaviour and classification trees</title>
+      <link>https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/</link>
+      <pubDate>Mon, 18 Dec 2017 12:39:29 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/</guid>
+      <description>In this example we are going to use OJ dataset which contains 1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and a number of characteristics of the customer and product. (please see documentation for more details)
+Before we examine the possible models, we create as usual a training set with 800 observations and the test set with the remaining observations from the OJ data set.</description>
+    </item>
+    
+    <item>
+      <title>Predicting sales using regression trees and bagging</title>
+      <link>https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/</link>
+      <pubDate>Thu, 14 Dec 2017 12:15:54 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/</guid>
+      <description>Carseats is a simulated data set containing sales of child car seats at 400 different stores and various predictors (please see documentation for more details).
+We will examine how classification trees, bagging and random forest models can be applied to predict the sales of this product.
+We load the necessary libraries and then we split the data set into a training and a test set
+library(tree) library(randomForest) library(ISLR) train &amp;lt;- sample(1:nrow(Carseats), 200) Carseats.</description>
+    </item>
+    
+    <item>
+      <title>Random forests in all shapes and sizes</title>
+      <link>https://christospitsi.github.io/blog/random-forests-in-all-shapes-and-sizes/</link>
+      <pubDate>Sat, 02 Dec 2017 11:28:37 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/blog/random-forests-in-all-shapes-and-sizes/</guid>
+      <description>As presented in previous post, Boston data set provides information regarding the housing values in the suburbs of Boston.
+In this post, we will use random forest models of different sizes and taking under consideration different number of predictors, in order to predict the median house value.
+As we can see on the generated plot, the error rate for a model with small number of trees (less than 100) is quite high.</description>
     </item>
     
     <item>
@@ -45,13 +94,13 @@
       <pubDate>Sun, 19 Nov 2017 18:08:49 +0000</pubDate>
       
       <guid>https://christospitsi.github.io/home/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</description>
+      <description></description>
     </item>
     
     <item>
       <title>Cross validation on a simulated dataset</title>
       <link>https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/</link>
-      <pubDate>Wed, 25 Oct 2017 10:06:06 +0000</pubDate>
+      <pubDate>Mon, 30 Oct 2017 10:06:06 +0000</pubDate>
       
       <guid>https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/</guid>
       <description>For the purposes of this exercise, we generate the simulated data using the below equation:
@@ -60,11 +109,11 @@ Y = β0 + β1X + β2X2 + ϵ. In our example, β0 = 0, β1 
     </item>
     
     <item>
-      <title>S&amp;P 500 stock exchange - A &#39;for loop&#39; Leave-one-out cross validation solution</title>
-      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-leave-one-out-cross-validation-solution/</link>
+      <title>S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach</title>
+      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/</link>
       <pubDate>Wed, 18 Oct 2017 23:24:14 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-leave-one-out-cross-validation-solution/</guid>
+      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/</guid>
       <description>The Leave-one-out cross validation test error can be estimated using the R build-in function cv.glm, however, it is worth exploring an alternative solution, using functions glm, predict.glm and a for loop. For the purposes of this exercise, we will revisit the percentage returns for the S&amp;amp;P 500 stock index included in Weekly dataset.
 We first fit a logistic regression model which predicts Direction using Lag1 and Lag2 variables and the whole dataset as training set.</description>
     </item>

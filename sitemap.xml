@@ -3,18 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://christospitsi.github.io/projects/project1/</loc>
-    <lastmod>2017-11-19T19:46:22+00:00</lastmod>
+    <loc>https://christospitsi.github.io/about/</loc>
+    <lastmod>2018-01-22T19:09:45+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/projects/projects/</loc>
-    <lastmod>2017-11-19T19:31:51+00:00</lastmod>
+    <loc>https://christospitsi.github.io/blog/pca-and-k-means-clustering/</loc>
+    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/resume/resume/</loc>
-    <lastmod>2017-11-19T19:09:45+00:00</lastmod>
+    <loc>https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/</loc>
+    <lastmod>2018-01-15T14:23:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/</loc>
+    <lastmod>2018-01-04T13:25:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/</loc>
+    <lastmod>2017-12-18T12:39:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/</loc>
+    <lastmod>2017-12-14T12:15:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/blog/random-forests-in-all-shapes-and-sizes/</loc>
+    <lastmod>2017-12-02T11:28:37+00:00</lastmod>
   </url>
   
   <url>
@@ -24,11 +44,11 @@
   
   <url>
     <loc>https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/</loc>
-    <lastmod>2017-10-25T10:06:06+00:00</lastmod>
+    <lastmod>2017-10-30T10:06:06+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-leave-one-out-cross-validation-solution/</loc>
+    <loc>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/</loc>
     <lastmod>2017-10-18T23:24:14+00:00</lastmod>
   </url>
   
@@ -64,13 +84,13 @@
   
   <url>
     <loc>https://christospitsi.github.io/</loc>
-    <lastmod>2017-11-19T19:46:22+00:00</lastmod>
+    <lastmod>2018-01-22T19:09:45+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/blog/</loc>
-    <lastmod>2017-10-25T10:06:06+00:00</lastmod>
+    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -80,32 +100,20 @@
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/projects/</loc>
-    <lastmod>2017-11-19T19:46:22+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://christospitsi.github.io/tags/r/</loc>
-    <lastmod>2017-10-25T10:06:06+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/resume/</loc>
-    <lastmod>2017-11-19T19:09:45+00:00</lastmod>
+    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/tags/statistical-learning/</loc>
-    <lastmod>2017-10-25T10:06:06+00:00</lastmod>
+    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/tags/</loc>
-    <lastmod>2017-10-25T10:06:06+00:00</lastmod>
+    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
