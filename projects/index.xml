@@ -6,28 +6,21 @@
     <description>Recent content in Projects on   Christos Pitsikas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2017 Christos Pitsikas, Powered by Hugo and Cocoa-Eh theme</copyright>
-    <lastBuildDate>Sun, 19 Nov 2017 19:46:22 +0000</lastBuildDate>
+    <copyright>Copyright © 2018 Christos Pitsikas, Powered by Hugo and Cocoa-Eh</copyright>
+    <lastBuildDate>Mon, 22 Jan 2018 21:48:18 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Project 1</title>
-      <link>https://christospitsi.github.io/projects/project1/</link>
-      <pubDate>Sun, 19 Nov 2017 19:46:22 +0000</pubDate>
+      <title>A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)</title>
+      <link>https://christospitsi.github.io/projects/wdbc/</link>
+      <pubDate>Mon, 22 Jan 2018 21:48:18 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/projects/project1/</guid>
-      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
-    </item>
-    
-    <item>
-      <title>Projects</title>
-      <link>https://christospitsi.github.io/projects/projects/</link>
-      <pubDate>Sun, 19 Nov 2017 19:31:51 +0000</pubDate>
-      
-      <guid>https://christospitsi.github.io/projects/projects/</guid>
-      <description>&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;</description>
+      <guid>https://christospitsi.github.io/projects/wdbc/</guid>
+      <description>(The full code of the application can by found on github)
+1. Introduction The recent advances in machine learning methods and computational power, in conjunction with the development of highly sophisticated tools and frameworks, have provided us with a powerful toolbox with which we can predict with high accuracy and train algorithms effectively and quickly.
+Medical practice is one of the fields in which the aforementioned methods are widely used for diagnostic purposes.</description>
     </item>
     
   </channel>

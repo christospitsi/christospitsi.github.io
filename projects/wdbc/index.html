@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/tags/statistical-learning/" />
-<meta property="og:title" content="Statistical Learning" />
-<meta property="twitter:title" content="Statistical Learning">
+<meta property="og:url" content="https://christospitsi.github.io/projects/wdbc/" />
+<meta property="og:title" content="A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)" />
+<meta property="twitter:title" content="A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Statistical Learning 
+       Christos Pitsikas - A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC) 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/tags/statistical-learning/">
+<link rel="canonical" href="https://christospitsi.github.io/projects/wdbc/">
 
 
 <style media="screen">
@@ -964,8 +964,6 @@ margin-left: -4%;
 
 
 
-  <link href="https://christospitsi.github.io/tags/statistical-learning/index.xml" rel="alternate" type="application/rss+xml" title="  Christos Pitsikas" />
-
 
 </head>
 
@@ -973,7 +971,8 @@ margin-left: -4%;
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
+
 
     <div class="container">
         <a href="https://christospitsi.github.io/"><img class="logo" src="https://christospitsi.github.io/img/logo.png" alt="logo" /></a>
@@ -1012,101 +1011,239 @@ margin-left: -4%;
 <div class="main column">
     <div class="container">
         <div class="content">
-            <div class="posts">
-                <div class="page-heading">Posts about Statistical Learning</div>
-                <ul>
-                    
-                        <li class="post-item">
-    <span class="meta">Aug 21, 2017</span>
-    <a href="https://christospitsi.github.io/blog/statistics-101/"><span>Statistics 101</span></a>
-</li>
+            <div class="page-heading">
 
-                    
-                        <li class="post-item">
-    <span class="meta">Aug 27, 2017</span>
-    <a href="https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/"><span>A few &#39;Hello World&#39; R commands and Boston housing prices</span></a>
-</li>
+    A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)
 
-                    
-                        <li class="post-item">
-    <span class="meta">Sep 4, 2017</span>
-    <a href="https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/"><span>A simple linear regression model using simulated data</span></a>
-</li>
+</div>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Sep 8, 2017</span>
-    <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/"><span>S&amp;P 500 stock exchange - Logistic regression model</span></a>
-</li>
+            <div class="markdown">
+                
+    
+    
 
-                    
-                        <li class="post-item">
-    <span class="meta">Sep 22, 2017</span>
-    <a href="https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/"><span>Predicting vehicle gas consumption</span></a>
-</li>
+<p>(<em>The full code of the application can by found on <a href="https://github.com/christospitsi/wdbc-ann">github</a></em>)</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Oct 10, 2017</span>
-    <a href="https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/"><span>The credit card problem - Validation set approach</span></a>
-</li>
+<h2 id="1-introduction">1. Introduction</h2>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Oct 18, 2017</span>
-    <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/"><span>S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach</span></a>
-</li>
+<p>The recent advances in machine learning methods and computational power, in conjunction with the development of highly sophisticated tools and frameworks, have provided us with a powerful toolbox with which we can predict with high accuracy and train algorithms effectively and quickly.</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Oct 30, 2017</span>
-    <a href="https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/"><span>Cross validation on a simulated dataset</span></a>
-</li>
+<p>Medical practice is one of the fields in which the aforementioned methods are widely used for diagnostic purposes. A practitioner can use a machine learning tool in order to conclude whether an abnormal condition such as breast cancer is present and judge on the seriousness of the condition.</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Dec 2, 2017</span>
-    <a href="https://christospitsi.github.io/blog/random-forests-in-all-shapes-and-sizes/"><span>Random forests in all shapes and sizes</span></a>
-</li>
+<p>Breast cancer may be detected via a careful study of clinical history, physical examination, and imaging with either mammography or ultrasound. However, deﬁnitive diagnosis of a breast mass can only be established through ﬁne-needle aspiration (FNA) biopsy, core needle biopsy, or excisional biopsy. Among these methods, FNA is the easiest and fastest method of obtaining a breast biopsy. [5]</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Dec 14, 2017</span>
-    <a href="https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/"><span>Predicting sales using regression trees and bagging</span></a>
-</li>
+<p>In this project, it is examined the usage of Artificial Neural Networks on the Wisconsin Diagnosis Breast Cancer (WDBC) data set, in order to classify a mass as benign or malignant, based on 30 features extracted from FNA biopsies.</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Dec 18, 2017</span>
-    <a href="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/"><span>Customer behaviour and classification trees</span></a>
-</li>
+<p>The neural network approach was followed since it has been shown that it performs quite well on problems of image recognition and they have been widely used on applications of computer vision.</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Jan 4, 2018</span>
-    <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/"><span>Support vector machines and customer behaviour classification</span></a>
-</li>
+<h2 id="2-a-neural-network-approach-to-wisconsin-diagnosis-breast-cancer-wdbc">2. A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)</h2>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Jan 15, 2018</span>
-    <a href="https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/"><span>Unsupervised learning - Hierarchical clustering</span></a>
-</li>
+<p>An artificial neural network consists of a number of interconnected processors, called neurons (nodes). The nodes are connected by weighted links passing signals from one node to another [6], dependent on the activation function.</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Jan 20, 2018</span>
-    <a href="https://christospitsi.github.io/blog/pca-and-k-means-clustering/"><span>PCA and K-means clustering</span></a>
-</li>
+<p>Specifically, for this application, a Multilayer Perceptron (MLP) model has been built, using as an input the features of the data set, and as an output the classification i.e. whether a mass is malignant or benign.</p>
 
-                    
-                        <li class="post-item">
-    <span class="meta">Jan 22, 2018</span>
-    <a href="https://christospitsi.github.io/projects/wdbc/"><span>A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)</span></a>
-</li>
+<p>The application was developed using <code>R</code> interface to <code>Keras</code> framework [2][3] and <code>TensorFlow</code> [1] backend engine in order to create and train a sequential model which uses the backpropagation algorithm. <code>Keras</code> is a high-level neural networks API, written in Python and capable of running on top of TensorFlow software library.</p>
 
-                    
-                </ul>
+<h3 id="2-1-data-and-preprocessing">2.1 Data and preprocessing</h3>
+
+<p>The data used for model training and testing consist of 30 features extracted from the image captured during FNA biopsies for each nucleus. The features used are:</p>
+
+<ul>
+<li>radius (mean of distances from centre to points on the perimeter)</li>
+<li>texture (standard deviation of gray-scale values)</li>
+<li>perimeter</li>
+<li>area</li>
+<li>smoothness (local variation in radius lengths)</li>
+<li>compactness (perimeter^2 / area - 1.0)</li>
+<li>concavity (severity of concave portions of the contour)</li>
+<li>concave points (number of concave portions of the contour)</li>
+<li>symmetry</li>
+<li>fractal dimension (“coastline approximation” - 1)</li>
+</ul>
+
+<p>The mean, standard error, and “worst” or largest (mean of the three largest values) of these features were computed for each image, resulting in 30 features. [7]</p>
+
+<p>The data set was split into training and test sets (roughly 80% and 20% respectively) and converted to arrays in order to be used by <code>Keras</code>.</p>
+
+<p>A close look to the original data set revealed that the features have different order of magnitude. In order to avoid a situation where features with higher values have greater contribution to the outcome of the model, each feature was normalized using R build-in scale() function.  scale() function transforms each value by subtracting the mean value of the feature and dividing it by the standard deviation.</p>
+
+<p>With regard to the output of the model, the M and B categories corresponding to Malignant” and Benign” masses, where converted to 1 and 0 respectively.</p>
+
+<h3 id="2-2-model-structure">2.2 Model structure</h3>
+
+<p>The initial model built was a Multilayer Perceptron Model with one input layer with 30 nodes (one per feature), one hidden layer with 32 nodes (layer1) and the output layer with 1 node. The value of the output node represents the prediction of the value, as described in section 2.1.</p>
+
+<p>Although the initial model had 32 nodes on its hidden layer, after multiple experiments with different layer structures it became apparent that the model with a 16-node hidden layer perform better than the one with 32 nodes. (see section 3.2 for details)</p>
+
+<h3 id="2-3-model-parameters">2.3 Model parameters</h3>
+
+<ul>
+<li><p>Rectified Linear Unit (ReLU) was selected as the <strong>activation function</strong> for the hidden layer since it resulted to slightly higher accuracy compared to Sigmoid. With regard to the output layer, a sigmoid activation function was used. Although the softmax function is probably the most common choice for classification problems, this application deals with a binary classification, thus, softmax (and ReLU) activation functions were proved unsuitable for the output layer.</p></li>
+
+<li><p>The <strong>optimization method</strong> set in <code>Keras</code> compiler was Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments [4]. The learning rate of the optimizer, after a few experimentations with different values, was set to 0.0003.</p></li>
+
+<li><p>Finally, it is worth mentioning the initializers used on all models. The <strong>biases</strong> for all models were arbitrarily initialized to ‘1’ since it was observed that when the biases were initialized to ‘zeros’, the model performed slightly worse. Additionally, the <strong>weights</strong> were arbitrarily initialized to have mean = 0 and standard deviation = 0.1 in all models examined in section 3.</p></li>
+</ul>
+
+<h3 id="2-4-cross-validation">2.4 Cross validation</h3>
+
+<p>A 20% of the training set was used as validation data. The model used this fraction of the training set to evaluate the loss and accuracy on this data at the end of each epoch. As a consequence, the validation set was not used for training purposes.</p>
+
+<h2 id="3-experiments">3. Experiments</h2>
+
+<p>The model described in section 2 was trained for 20 epochs. The below plot shows how accuracy and loss values change, for both training and validation sets.
+As we can see, the accuracy of the model increases significantly during the first 5 epochs, after which stabilizes. After epoch 5, the loss values continue to drop, and the accuracy keeps increasing, however at a lower rate.</p>
+
+<p><center><img align = "middle" src="https://christospitsi.github.io/images/wdbc_1.png" style="width: 70%; height: 70%;"/></center></p>
+
+<h3 id="3-1-activation-functions">3.1 Activation functions</h3>
+
+<p>It was tested how a different activation function changes the learning ability/speed and accuracy of the neural network, keeping all other parameters constant. The hidden layer of the neural network for this experiment consisted of 32 nodes.</p>
+
+<p>The ReLU activation function has output 0 if the input is negative. In all other cases, the output equals to the input.
+The mathematical equations below show the expressions for both activation functions.</p>
+
+<p>On the below plot we can see how the loss decreases as the training progresses. It is depicted that the curves have similar shape, however the loss corresponding to ReLU function seems to decrease slightly faster but most importantly, it settles at a lower value that the Sigmoid curve.</p>
+
+<p><center><img align = "middle" src="https://christospitsi.github.io/images/wdbc_2.png" style="width: 70%; height: 70%;"/></center></p>
+
+<p>Following the loss for each function, it was examined how the training accuracy of the model changes as the training progresses. On the below plot we can see the values for both activation functions.</p>
+
+<p>The sigmoid curve follows the familiar “S” shape and, as mentioned on section 2.3, results on slightly lower accuracy. The ReLU curve has the expected shape based on its function and at the end of the training phase has achieved slightly higher accuracy.</p>
+
+<p><center><img align = "middle" src="https://christospitsi.github.io/images/wdbc_3.png" style="width: 70%; height: 70%;"/></center></p>
+
+<p>The results on the table below show the testing accuracy for both models. We can observe that the majority of the errors for both models are false negatives i.e. observations labeled as “Benign” while their real value is “Malignant”, however, as determined during the training process, the model using the ReLU activation function has higher overall accuracy.
+The table below table shows the type of classification errors in addition to the overall accuracy. It appears that the model using ReLU activation function generates only Type II (false negative) errors whereas the model using sigmoid generates both Type I (false positive) and Type II (false negative) errors.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Activation Function</th>
+<th align="center">Benign(%)</th>
+<th align="center">Malignant(%)</th>
+<th align="center">Overall</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">Sigmoid</td>
+<td align="center">98</td>
+<td align="center">84</td>
+<td align="center">92</td>
+</tr>
+
+<tr>
+<td align="center">ReLU</td>
+<td align="center">100</td>
+<td align="center">84</td>
+<td align="center">93</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="3-2-architecture">3.2 Architecture</h3>
+
+<p>In addition to the changes due to different activation function, it was examined how neural networks learn and perform when the number of the nodes on the hidden layer is changed and all other parameters kept constant.</p>
+
+<p>For that purpose, models with 4, 8, 16 and 64 nodes on the hidden layer were created and compared to the one already examined in the previous chapter with 32 nodes on the hidden layer. The same training weights and biases were used for all models and each training phase lasted for 20 epochs.</p>
+
+<p><center><img align = "middle" src="https://christospitsi.github.io/images/wdbc_4.png" style="width: 70%; height: 70%;"/></center></p>
+
+<p>The bar plot above describes the findings regarding the testing accuracy for the above models. It appears that the model with the worst accuracy is the one with 8 nodes on its hidden layer whereas the models with 16 and 64 nodes have the highest accuracy.</p>
+
+<p>In addition to the testing accuracy, the below bar plot shows the training accuracy of the above models. The model with the 64 nodes appears to have very high training accuracy (98%). It is worth pointing out that the model with 16 nodes performs worst on the training data compared to the test data whereas the opposite behaviour is observed for the 32-node model. Finally, we can see that the 8-node model has been trained rather poorly since its training accuracy is below 90%.</p>
+
+<p><center><img align = "middle" src="https://christospitsi.github.io/images/wdbc_5.png" style="width: 70%; height: 70%;"/></center></p>
+
+<p>In order to have a better perception of the accuracy of each model and the type of wrong classifications, the test classification accuracy for each class was calculated in addition to the overall accuracy presented on the “Testing Accuracy” graph. The following table (Table 2) sums up the results for all different architectures during the test phase.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Architecture (Nodes)</strong></th>
+<th align="center"><strong>Benign(%)</strong></th>
+<th align="center"><strong>Malignant(%)</strong></th>
+<th align="center"><strong>Overall</strong></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">4</td>
+<td align="center">100</td>
+<td align="center">84</td>
+<td align="center">93</td>
+</tr>
+
+<tr>
+<td align="center">8</td>
+<td align="center">86</td>
+<td align="center">100</td>
+<td align="center">92</td>
+</tr>
+
+<tr>
+<td align="center">16</td>
+<td align="center">92</td>
+<td align="center">100</td>
+<td align="center">96</td>
+</tr>
+
+<tr>
+<td align="center">32</td>
+<td align="center">100</td>
+<td align="center">84</td>
+<td align="center">93</td>
+</tr>
+
+<tr>
+<td align="center">64</td>
+<td align="center">100</td>
+<td align="center">89</td>
+<td align="center">96</td>
+</tr>
+</tbody>
+</table>
+
+<p>The data presented show that each architecture produces only one kind of error; either Type I (false positive) or Type II (false negative). More specifically, 4, 32, and 64 node architectures do only false negative predictions, whereas all wrong predictions of 8 and 16 node architectures are false positives.</p>
+
+<p>Although both 16 and 64-node models have the same overall accuracy, given that the 16-node model has a 100% accuracy rate on classifying the “Malignant” tumours, we can state that this is the best model amongst the ones examined in this project.</p>
+
+<h2 id="4-conclusions">4. Conclusions</h2>
+
+<h3 id="4-1-summary">4.1 Summary</h3>
+
+<p>In this project it was presented how a neural network can be used in order to classify masses as “Benign” or “Malignant”, based on the Breast Cancer Wisconsin data set. It was examined how different activation functions, learning rates and network architectures have an effect on the network accuracy and speed.</p>
+
+<p>Based on the testing accuracy of the best performing models (~96% for the models with 16 and 64-node hidden layers), it can be said that the neural network performed fairly well. The training time for each model using a standard home computer was below 10 seconds, a fact which reinforces the point made in the introductory section that the computational power available to everyone today can be used to built very efficient and accurate models.</p>
+
+<h3 id="4-2-future-work">4.2 Future work</h3>
+
+<p>Although the models of this application produced fairly good predictions, there are different approaches that can be examined in the future which can produce even better results. As stated in the description of the dataset [7], the best predictive accuracy obtained using one separating plane had an estimated accuracy 97.5%. The neural network approach described in this project can be modified to a model which may produce accuracy of that level.</p>
+
+<p>As described in section 2, the neural network developed consists of one hidden layer, in addition to the input and output ones. In the future, different layer architectures can be examined, with more than one hidden layer and different layer configurations in terms of nodes per layer. Although the data set is fairly small and probably performs better using simpler architectures, a more complex one may produce better results.</p>
+
+<p>In addition to the architecture, the network parameters can be modified as well. The application presented in this project used fixed and arbitrarily chosen biases and weights, as described in section 2.3. In the future, a more comprehensive list of values of biases, weights and optimizer parameters can be examined which can have as a result a more accurate model.</p>
+
+<h2 id="5-bibliography">5. Bibliography</h2>
+
+<p>[1] Martín Abadiet et al. TensorFlow: Large-scale machine learning on heterogeneous systems, 2015. Software available from tensorflow.org.</p>
+
+<p>[2] Chollet François, Allaire JJ, available online at <a href="https://Keras.rstudio.com/">https://Keras.rstudio.com/</a> and on Github <a href="https://github.com/rstudio/Keras">https://github.com/rstudio/Keras</a></p>
+
+<p>[3] Chollet François and others, Keras, 2015, GitHub, available online at <a href="https://github.com/Keras-team/Keras">https://github.com/Keras-team/Keras</a></p>
+
+<p>[4] Diederik P. Kingma, Jimmy Ba, Adam: A Method for Stochastic Optimization, 2005, available online at <a href="https://arxiv.org/abs/1412.6980">https://arxiv.org/abs/1412.6980</a></p>
+
+<p>[5] Tingting Mu, Asoke K. Nandi. Breast cancer diagnosis from fine-needle aspiration using supervised compact hyperspheres and establishment of confidence of malignancy. Department of Electrical Engineering and Electronics, The University of Liverpool, 2008</p>
+
+<p>[6] Michael Negnevitsky. Artificial Intelligence, A Guide to Intelligent Systems, 2nd edn. Pearson Education Limited, Second Edition, 2005</p>
+
+<p>[7] UCI Machine Learning Repository, available online at <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic">https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic</a>), last accessed 14/01/2018</p>
+
+
             </div>
         </div>
     </div>

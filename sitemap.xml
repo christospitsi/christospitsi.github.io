@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://christospitsi.github.io/projects/wdbc/</loc>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://christospitsi.github.io/about/</loc>
     <lastmod>2018-01-22T19:09:45+00:00</lastmod>
   </url>
@@ -84,7 +89,7 @@
   
   <url>
     <loc>https://christospitsi.github.io/</loc>
-    <lastmod>2018-01-22T19:09:45+00:00</lastmod>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -100,20 +105,26 @@
   </url>
   
   <url>
+    <loc>https://christospitsi.github.io/projects/</loc>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://christospitsi.github.io/tags/r/</loc>
-    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/tags/statistical-learning/</loc>
-    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christospitsi.github.io/tags/</loc>
-    <lastmod>2018-01-20T18:49:07+00:00</lastmod>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
     <priority>0</priority>
   </url>
   

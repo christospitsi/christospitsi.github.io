@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2018 Christos Pitsikas, Powered by Hugo and Cocoa-Eh</copyright>
-    <lastBuildDate>Sat, 20 Jan 2018 18:49:07 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jan 2018 21:48:18 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/tags/statistical-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A Neural Network Approach to Wisconsin Diagnosis Breast Cancer (WDBC)</title>
+      <link>https://christospitsi.github.io/projects/wdbc/</link>
+      <pubDate>Mon, 22 Jan 2018 21:48:18 +0000</pubDate>
+      
+      <guid>https://christospitsi.github.io/projects/wdbc/</guid>
+      <description>(The full code of the application can by found on github)
+1. Introduction The recent advances in machine learning methods and computational power, in conjunction with the development of highly sophisticated tools and frameworks, have provided us with a powerful toolbox with which we can predict with high accuracy and train algorithms effectively and quickly.
+Medical practice is one of the fields in which the aforementioned methods are widely used for diagnostic purposes.</description>
+    </item>
     
     <item>
       <title>PCA and K-means clustering</title>
