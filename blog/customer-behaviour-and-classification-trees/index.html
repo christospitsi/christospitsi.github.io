@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/projects/projects/" />
-<meta property="og:title" content="Projects" />
-<meta property="twitter:title" content="Projects">
+<meta property="og:url" content="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/" />
+<meta property="og:title" content="Customer behaviour and classification trees" />
+<meta property="twitter:title" content="Customer behaviour and classification trees">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Projects 
+       Christos Pitsikas - Customer behaviour and classification trees 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/projects/projects/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/">
 
 
 <style media="screen">
@@ -1008,24 +1008,247 @@ margin-left: -4%;
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="page-heading">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-    Projects
+    Customer behaviour and classification trees
 
 </div>
 
+                </div>
+                <div class="meta">
+                    <div class="date" title="Mon Dec 18 2017 12:39:29 UTC">Dec 18, 2017</div>
+                    
+                        
+                    
+                    <div class="reading-time middot">5 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/r">R</a> </li>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/statistical-learning">Statistical Learning</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="markdown">
                 
     
     
 
+<p>In this example we are going to use <code>OJ</code> dataset which contains
+1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and
+a number of characteristics of the customer and product.
+(please see <a href="https://www.rdocumentation.org/packages/ISLR/versions/1.2/topics/OJ">documentation</a>
+for more details)</p>
+
+<p>Before we examine the possible models,
+we create as usual a training set with 800 observations and the test set
+with the remaining observations from the <code>OJ</code> data set.</p>
+
+<pre><code class="language-r">library(ISLR)
+library(tree)
+
+set.seed(1)
+train &lt;- sample(1:nrow(OJ), 800)
+OJ.test &lt;- OJ[-train, ]
+</code></pre>
+
+<p>We now fit a tree to the training data with <em>Purchase</em> as the response and the other variables as predictors.</p>
+
+<pre><code class="language-r">tree.OJ &lt;- tree(Purchase~., data = OJ, subset = train)
+summary(tree.OJ)
+</code></pre>
+
+<pre><code>##
+## Classification tree:
+## tree(formula = Purchase ~ ., data = OJ, subset = train)
+## Variables actually used in tree construction:
+## [1] &quot;LoyalCH&quot;       &quot;PriceDiff&quot;     &quot;SpecialCH&quot;     &quot;ListPriceDiff&quot;
+## Number of terminal nodes:  8
+## Residual mean deviance:  0.7305 = 578.6 / 792
+## Misclassification error rate: 0.165 = 132 / 800
+</code></pre>
+
+<p>Using the summary function we can produce summary statistics about the tree.
+As we can see, the tree has 8 terminal nodes and the training error rate is 16.5%.</p>
+
+<p>In addition to the tree statistics,
+by typing the name of the tree we can get a detailed text output which describes
+the tree structure and the various parameters for each node/branch.</p>
+
+<pre><code class="language-r">tree.OJ
+</code></pre>
+
+<pre><code>## node), split, n, deviance, yval, (yprob)
+##       * denotes terminal node
+##
+##  1) root 800 1064.00 CH ( 0.61750 0.38250 )  
+##    2) LoyalCH &lt; 0.508643 350  409.30 MM ( 0.27143 0.72857 )  
+##      4) LoyalCH &lt; 0.264232 166  122.10 MM ( 0.12048 0.87952 )  
+##        8) LoyalCH &lt; 0.0356415 57   10.07 MM ( 0.01754 0.98246 ) *
+##        9) LoyalCH &gt; 0.0356415 109  100.90 MM ( 0.17431 0.82569 ) *
+##      5) LoyalCH &gt; 0.264232 184  248.80 MM ( 0.40761 0.59239 )  
+##       10) PriceDiff &lt; 0.195 83   91.66 MM ( 0.24096 0.75904 )  
+##         20) SpecialCH &lt; 0.5 70   60.89 MM ( 0.15714 0.84286 ) *
+##         21) SpecialCH &gt; 0.5 13   16.05 CH ( 0.69231 0.30769 ) *
+##       11) PriceDiff &gt; 0.195 101  139.20 CH ( 0.54455 0.45545 ) *
+##    3) LoyalCH &gt; 0.508643 450  318.10 CH ( 0.88667 0.11333 )  
+##      6) LoyalCH &lt; 0.764572 172  188.90 CH ( 0.76163 0.23837 )  
+##       12) ListPriceDiff &lt; 0.235 70   95.61 CH ( 0.57143 0.42857 ) *
+##       13) ListPriceDiff &gt; 0.235 102   69.76 CH ( 0.89216 0.10784 ) *
+##      7) LoyalCH &gt; 0.764572 278   86.14 CH ( 0.96403 0.03597 ) *
+</code></pre>
+
+<p>For instance, the line for terminal node 20 shows that under the branch <code>SpecialCH &lt; 0.5</code>,
+60.89 observations have been classified as <code>MM</code> which is the most occurring class on that node.
+Moreover, the deviance is 70 and the <em>class proportions</em> of <code>CH</code> and <code>MM</code> are 15.7 and 84.2 respectively.</p>
+
+<p>On the graphical presentation of the tree below,
+we can see that it has 7 <em>internal nodes</em> and 8 <em>terminal nodes</em>.
+The most important predictor appears to be the <em>LoyalCH</em>
+since it have been used to split the data on the first node and
+then again on the next two internal nodes.
+Additionally, all splits on the right branch have been performed in order to
+increase the node <em>purity</em> since all terminal nodes have been classified as <code>CH</code>.</p>
+
+<pre><code class="language-r">plot(tree.OJ)
+text(tree.OJ, pretty = 0, cex = 0.7)  
+</code></pre>
+
+<p><img src="https://christospitsi.github.io/images/OJ_4-1.png" style="display: block; margin: auto;" /></p>
+
+<p>We will now predict the response on the test data and generate the confusion matrix.</p>
+
+<pre><code class="language-r">OJ.pred &lt;- predict(tree.OJ, OJ.test, type = &quot;class&quot;)
+table(OJ.pred, OJ.test[ ,&quot;Purchase&quot;])
+</code></pre>
+
+<pre><code>##        
+## OJ.pred  CH  MM
+##      CH 147  49
+##      MM  12  62
+</code></pre>
+
+<p>As we see on the confusion matrix above, the correct predictions percentage is:
+(62 + 147)/(62 + 147 + 12 + 49) = 77%,
+hence the (test) classification error rate is 23%.</p>
+
+<h3 id="optimal-tree-size">Optimal tree size</h3>
+
+<p>We will now apply the <code>cv.tree()</code> function
+in order to determine the optimal tree size.</p>
+
+<p>On the plotted error rate and the <code>cv.OJ</code> printed parameters,
+we see that the trees with 8, 5 and 2 terminal nodes have 156 cross-validatiod errors each
+which is the lowest cross-validation error rate.</p>
+
+<pre><code class="language-r">cv.OJ &lt;- cv.tree(tree.OJ, FUN = prune.misclass)
+cv.OJ
+</code></pre>
+
+<pre><code>## $size
+## [1] 8 5 2 1
+##
+## $dev
+## [1] 156 156 156 306
+##
+## $k
+## [1]       -Inf   0.000000   4.666667 160.000000
+##
+## $method
+## [1] &quot;misclass&quot;
+##
+## attr(,&quot;class&quot;)
+## [1] &quot;prune&quot;         &quot;tree.sequence&quot;
+</code></pre>
+
+<pre><code class="language-r">plot(cv.OJ$size, cv.OJ$dev, type = &quot;b&quot;,
+     ylab = &quot;Test Error Rate&quot;, xlab = &quot;Tree Size&quot;)
+</code></pre>
+
+<p><img src="https://christospitsi.github.io/images/OJ_7-1.png" style="display: block; margin: auto;" /></p>
+
+<h3 id="pruned-trees">Pruned trees</h3>
+
+<p>We apply the <code>prune.misclass()</code> method in order to produce pruned trees with 5 terminal nodes.</p>
+
+<pre><code class="language-r">prune.OJ &lt;- prune.misclass(tree.OJ, best = 5)
+summary(prune.OJ)
+</code></pre>
+
+<pre><code>##
+## Classification tree:
+## snip.tree(tree = tree.OJ, nodes = 3:4)
+## Variables actually used in tree construction:
+## [1] &quot;LoyalCH&quot;   &quot;PriceDiff&quot; &quot;SpecialCH&quot;
+## Number of terminal nodes:  5
+## Residual mean deviance:  0.8256 = 656.4 / 795
+## Misclassification error rate: 0.165 = 132 / 800
+</code></pre>
+
+<p>We will now predict the response on the test data and produce the confusion matrix,
+using the pruned tree model.</p>
+
+<pre><code class="language-r">prune.OJ.pred &lt;- predict(prune.OJ, OJ.test, type = &quot;class&quot;)
+table(prune.OJ.pred, OJ.test[ ,&quot;Purchase&quot;])
+</code></pre>
+
+<pre><code>##              
+## prune.OJ.pred  CH  MM
+##            CH 147  49
+##            MM  12  62
+</code></pre>
+
+<p>As we see on the confusion matrix above,
+the classification error rate of the pruned tree is identical to the error rate
+of the unpruned tree and equal to 23%.</p>
+
+<p><em>This analysis is based on Exercise 8.4.9 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+
+
+                <br>
             </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
+                        <a href="https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/">Predicting sales using regression trees and bagging</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">Support vector machines and customer behaviour classification</a>
+                        <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
+                    </div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 

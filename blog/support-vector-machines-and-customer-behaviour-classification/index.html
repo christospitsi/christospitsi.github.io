@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/projects/projects/" />
-<meta property="og:title" content="Projects" />
-<meta property="twitter:title" content="Projects">
+<meta property="og:url" content="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/" />
+<meta property="og:title" content="Support vector machines and customer behaviour classification" />
+<meta property="twitter:title" content="Support vector machines and customer behaviour classification">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Projects 
+       Christos Pitsikas - Support vector machines and customer behaviour classification 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/projects/projects/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">
 
 
 <style media="screen">
@@ -1008,24 +1008,435 @@ margin-left: -4%;
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="page-heading">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-    Projects
+    Support vector machines and customer behaviour classification
 
 </div>
 
+                </div>
+                <div class="meta">
+                    <div class="date" title="Thu Jan 4 2018 13:25:28 UTC">Jan 4, 2018</div>
+                    
+                        
+                    
+                    <div class="reading-time middot">6 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/r">R</a> </li>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/statistical-learning">Statistical Learning</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="markdown">
                 
     
     
 
+<h3 id="svm">SVM</h3>
+
+<p>In this post we will re-examine the <code>OJ</code> data set,
+by applying this time a <em>support vector machines</em> (SVM) model.
+In addition to the <code>ISLR</code> library,
+we import <code>e1071</code> library which
+provides us with the necessary SVM functions and methods.</p>
+
+<p>After splitting the data into training and test sets,
+we fit a SVM classifier to the training data using <code>cost = 0.01</code>,
+with <code>Purchase</code> as the response and all the other variables as predictors.</p>
+
+<p>As we can see, the classifier has a total of 432 support vectors,
+215 of which lie on the <code>CH</code> side (or the wrong side of the margin) and
+217 on the <code>MM</code> side (or the wrong side of the margin).</p>
+
+<pre><code class="language-r">library(ISLR)
+library(e1071)
+
+set.seed(1)
+train &lt;- sample(1:nrow(OJ), 800)
+OJ.train &lt;-OJ[train, ]
+OJ.test &lt;- OJ[-train, ]
+
+svmfit &lt;- svm(Purchase~., data = OJ, subset = train,
+                kernel = &quot;linear&quot;, cost = 0.01)
+
+summary(svmfit)
+</code></pre>
+
+<pre><code>##
+## Call:
+## svm(formula = Purchase ~ ., data = OJ, kernel = &quot;linear&quot;, cost = 0.01,
+##     subset = train)
+##
+##
+## Parameters:
+##    SVM-Type:  C-classification
+##  SVM-Kernel:  linear
+##        cost:  0.01
+##       gamma:  0.05555556
+##
+## Number of Support Vectors:  432
+##
+##  ( 215 217 )
+##
+##
+## Number of Classes:  2
+##
+## Levels:
+##  CH MM
+</code></pre>
+
+<p>Using the confusion matrices for the training and test data,
+we calculate the errors using the below function.</p>
+
+<pre><code class="language-r">error &lt;- function(x){
+  return((((x[2] + x[3])/sum(x))*100))
+}
+
+pred.train &lt;- predict(svmfit, OJ.train)
+(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
+</code></pre>
+
+<pre><code>##           
+## pred.train  CH  MM
+##         CH 439  78
+##         MM  55 228
+</code></pre>
+
+<pre><code class="language-r">sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+</code></pre>
+
+<pre><code>## [1] &quot;The training error rate is: 16.625000%&quot;
+</code></pre>
+
+<pre><code class="language-r">pred.test &lt;- predict(svmfit, OJ.test)
+(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
+sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
+</code></pre>
+
+<pre><code>##          
+## pred.test  CH  MM
+##        CH 141  31
+##        MM  18  80
+
+## [1] &quot;The test error rate is: 18.148148%&quot;
+</code></pre>
+
+<h3 id="optimal-cost">Optimal Cost</h3>
+
+<p>Using the <code>tune()</code> function we can find the optimal <code>cost</code> among the below values.
+<code>Cost</code> controls the bias-variance trade-off of the model.</p>
+
+<p>The calculated optimal <code>cost</code> value is 0.05.</p>
+
+<pre><code class="language-r">tune.out &lt;- tune(svm, Purchase~., data = OJ.train,
+                 kernel = &quot;linear&quot;,
+                 ranges = list(cost = c(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10)))
+
+tune.out$best.model$cost
+</code></pre>
+
+<pre><code>## [1] 0.05
+</code></pre>
+
+<p>We can now calculate the training and test error rates using a SVM and the optimal cost.
+As we can see, the training error rate has slightly decreased
+whereas the test error rate is the same.</p>
+
+<pre><code class="language-r">svmfit.2 &lt;- svm(Purchase~., data = OJ, subset = train,
+                kernel = &quot;linear&quot;,
+                cost = tune.out$best.model$cost,
+                scale = FALSE)
+
+pred.train &lt;- predict(svmfit.2, OJ.train)
+(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
+sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+</code></pre>
+
+<pre><code>##           
+## pred.train  CH  MM
+##         CH 437  75
+##         MM  57 231
+
+## [1] &quot;The training error rate is: 16.500000%&quot;
+</code></pre>
+
+<pre><code class="language-r">pred.test &lt;- predict(svmfit.2, OJ.test)
+(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
+sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
+</code></pre>
+
+<pre><code>##          
+## pred.test  CH  MM
+##        CH 143  33
+##        MM  16  78
+
+## [1] &quot;The test error rate is: 18.148148%&quot;
+</code></pre>
+
+<h3 id="radial-kernel">Radial kernel</h3>
+
+<p>We will now use a classifier with a radial kernel and cost = 0.01.
+The new model has 617 support vectors,
+306 of which lie on the <code>CH</code> side (or the wrong side of the margin) and
+311 on the <code>MM</code> side (or the wrong side of the margin).</p>
+
+<pre><code class="language-r">svmfit.rad &lt;- svm(Purchase ~ ., data = OJ, subset = train,
+                kernel = &quot;radial&quot;, cost = 0.01)
+summary(svmfit.rad)
+</code></pre>
+
+<pre><code>##
+## Call:
+## svm(formula = Purchase ~ ., data = OJ, kernel = &quot;radial&quot;, cost = 0.01,
+##     subset = train)
+##
+##
+## Parameters:
+##    SVM-Type:  C-classification
+##  SVM-Kernel:  radial
+##        cost:  0.01
+##       gamma:  0.05555556
+##
+## Number of Support Vectors:  617
+##
+##  ( 306 311 )
+##
+##
+## Number of Classes:  2
+##
+## Levels:
+##  CH MM
+</code></pre>
+
+<p>We calculate the training and test error rates.</p>
+
+<pre><code class="language-r">pred.train &lt;- predict(svmfit.rad, OJ.train)
+(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
+sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+</code></pre>
+
+<pre><code>##           
+## pred.train  CH  MM
+##         CH 494 306
+##         MM   0   0
+
+## [1] &quot;The training error rate is: 38.250000%&quot;
+</code></pre>
+
+<pre><code class="language-r">pred.test &lt;- predict(svmfit.rad, OJ.test)
+(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
+sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
+</code></pre>
+
+<pre><code>##          
+## pred.test  CH  MM
+##        CH 159 111
+##        MM   0   0
+
+## [1] &quot;The test error rate is: 41.111111%&quot;
+</code></pre>
+
+<p>We now use the <code>tune()</code> function to find the optimal cost and
+we create the new model using the calculated cost value.
+Based on the results for the training and test error rates,
+the classifier with radial kernel performs better than the linear one.</p>
+
+<pre><code class="language-r">tune.out.rad &lt;- tune(svm, Purchase ~ ., data = OJ.train,
+                 kernel = &quot;radial&quot;,
+                 ranges = list(cost = c(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10)))
+
+svmfit.rad.2 &lt;- svm(Purchase~., data = OJ, subset = train,
+                kernel = &quot;radial&quot;,
+                cost = tune.out.rad$best.model$cost)
+
+pred.train &lt;- predict(svmfit.rad.2, OJ.train)
+(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
+sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+</code></pre>
+
+<pre><code>##           
+## pred.train  CH  MM
+##         CH 453  77
+##         MM  41 229
+
+## [1] &quot;The training error rate is: 14.750000%&quot;
+</code></pre>
+
+<pre><code class="language-r">pred.test &lt;- predict(svmfit.rad.2, OJ.test)
+(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
+sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
+</code></pre>
+
+<pre><code>##          
+## pred.test  CH  MM
+##        CH 143  29
+##        MM  16  82
+
+## [1] &quot;The test error rate is: 16.666667%&quot;
+</code></pre>
+
+<h3 id="polynomial-kernel">Polynomial kernel</h3>
+
+<p>We now repeat the above methodology
+using a support vector machine with a polynomial kernel and <code>degree</code> = 2.</p>
+
+<p>The model with polynomial kernel has 620 support vectors,
+306 of which lie on the <code>CH</code> side (or the wrong side of the margin)
+and 314 on the <code>MM</code> side (or the wrong side of the margin).</p>
+
+<pre><code class="language-r">svmfit.poly &lt;- svm(Purchase~., data = OJ, subset = train,
+                  kernel = &quot;polynomial&quot;, cost = 0.01,
+                  degree = 2)
+
+summary(svmfit.poly)
+</code></pre>
+
+<pre><code>##
+## Call:
+## svm(formula = Purchase ~ ., data = OJ, kernel = &quot;polynomial&quot;,
+##     cost = 0.01, degree = 2, subset = train)
+##
+##
+## Parameters:
+##    SVM-Type:  C-classification
+##  SVM-Kernel:  polynomial
+##        cost:  0.01
+##      degree:  2
+##       gamma:  0.05555556
+##      coef.0:  0
+##
+## Number of Support Vectors:  620
+##
+##  ( 306 314 )
+##
+##
+## Number of Classes:  2
+##
+## Levels:
+##  CH MM
+</code></pre>
+
+<p>We calculate the training and test error rates.</p>
+
+<pre><code class="language-r">pred.train &lt;- predict(svmfit.poly, OJ.train)
+(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
+sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+</code></pre>
+
+<pre><code>##           
+## pred.train  CH  MM
+##         CH 494 306
+##         MM   0   0
+
+## [1] &quot;The training error rate is: 38.250000%&quot;
+</code></pre>
+
+<pre><code class="language-r">pred.test &lt;- predict(svmfit.poly, OJ.test)
+(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
+sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
+</code></pre>
+
+<pre><code>##          
+## pred.test  CH  MM
+##        CH 159 111
+##        MM   0   0
+
+## [1] &quot;The test error rate is: 41.111111%&quot;
+</code></pre>
+
+<p>We now create a new model based on the optimal <code>cost</code>.</p>
+
+<pre><code class="language-r">tune.out.poly &lt;- tune(svm, Purchase~., data = OJ.train,
+                     kernel = &quot;polynomial&quot;,
+                     degree = 2,
+                     ranges = list(cost = c(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10)))
+
+svmfit.poly.2 &lt;- svm(Purchase~., data = OJ, subset = train,
+                    kernel = &quot;polynomial&quot;,
+                    degree = 2,
+                    cost = tune.out.poly$best.model$cost)
+</code></pre>
+
+<p>Finally, we calculate the training and test error rates.</p>
+
+<pre><code class="language-r">pred.train &lt;- predict(svmfit.poly.2, OJ.train)
+(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
+sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+</code></pre>
+
+<pre><code>##           
+## pred.train  CH  MM
+##         CH 450  72
+##         MM  44 234
+
+## [1] &quot;The training error rate is: 14.500000%&quot;
+</code></pre>
+
+<pre><code class="language-r">pred.test &lt;- predict(svmfit.poly.2, OJ.test)
+(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
+sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
+</code></pre>
+
+<pre><code>##          
+## pred.test  CH  MM
+##        CH 140  31
+##        MM  19  80
+
+## [1] &quot;The test error rate is: 18.518519%&quot;
+</code></pre>
+
+<p>Based on the resulted test error rates, the model with the highest accuracy
+appears to be the one with the radial kernel.</p>
+
+<p><em>This analysis is based on Exercise 9.7.8 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+
+
+                <br>
             </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
+                        <a href="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/">Customer behaviour and classification trees</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/">Unsupervised learning - Hierarchical clustering</a>
+                        <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
+                    </div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 

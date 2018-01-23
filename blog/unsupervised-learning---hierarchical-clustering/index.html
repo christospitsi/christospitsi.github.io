@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/projects/projects/" />
-<meta property="og:title" content="Projects" />
-<meta property="twitter:title" content="Projects">
+<meta property="og:url" content="https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/" />
+<meta property="og:title" content="Unsupervised learning - Hierarchical clustering" />
+<meta property="twitter:title" content="Unsupervised learning - Hierarchical clustering">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Projects 
+       Christos Pitsikas - Unsupervised learning - Hierarchical clustering 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/projects/projects/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/">
 
 
 <style media="screen">
@@ -1008,24 +1008,180 @@ margin-left: -4%;
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="page-heading">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-    Projects
+    Unsupervised learning - Hierarchical clustering
 
 </div>
 
+                </div>
+                <div class="meta">
+                    <div class="date" title="Mon Jan 15 2018 14:23:58 UTC">Jan 15, 2018</div>
+                    
+                        
+                    
+                    <div class="reading-time middot">3 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/r">R</a> </li>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/statistical-learning">Statistical Learning</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="markdown">
                 
     
     
 
+<h3 id="hierarchical-clustering">Hierarchical Clustering</h3>
+
+<p><code>USArrests</code> data set contains statistics,
+in arrests per 100,000 residents for assault,
+murder,
+and rape in each of the 50 US states in 1973.</p>
+
+<p>We perform hierarchical clustering on the data set,
+with complete linkage and Euclidean distance and
+we cut the dendrogram at a height that results in three distinct clusters.
+We can see below the clusters created by the model.</p>
+
+<pre><code class="language-r">hc.complete &lt;- hclust(dist(USArrests), method = &quot;complete&quot;)
+a &lt;- cutree(hc.complete, k = 3)
+
+writeLines(&quot;Cluster 1&quot;)
+(c1 &lt;- names(a[a == 1]))
+</code></pre>
+
+<pre><code>## Cluster 1
+##  [1] &quot;Alabama&quot;        &quot;Alaska&quot;         &quot;Arizona&quot;        &quot;California&quot;    
+##  [5] &quot;Delaware&quot;       &quot;Florida&quot;        &quot;Illinois&quot;       &quot;Louisiana&quot;     
+##  [9] &quot;Maryland&quot;       &quot;Michigan&quot;       &quot;Mississippi&quot;    &quot;Nevada&quot;        
+## [13] &quot;New Mexico&quot;     &quot;New York&quot;       &quot;North Carolina&quot; &quot;South Carolina&quot;
+</code></pre>
+
+<pre><code class="language-r">writeLines(&quot;\n&quot;)
+writeLines(&quot;Cluster 2&quot;)
+(c2 &lt;- names(a[a == 2]))
+</code></pre>
+
+<pre><code>## Cluster 2
+##  [1] &quot;Arkansas&quot;      &quot;Colorado&quot;      &quot;Georgia&quot;       &quot;Massachusetts&quot;
+##  [5] &quot;Missouri&quot;      &quot;New Jersey&quot;    &quot;Oklahoma&quot;      &quot;Oregon&quot;       
+##  [9] &quot;Rhode Island&quot;  &quot;Tennessee&quot;     &quot;Texas&quot;         &quot;Virginia&quot;     
+## [13] &quot;Washington&quot;    &quot;Wyoming&quot;
+</code></pre>
+
+<pre><code class="language-r">writeLines(&quot;\n&quot;)
+writeLines(&quot;Cluster 3&quot;)
+(c3 &lt;- names(a[a == 3]))
+</code></pre>
+
+<pre><code>## Cluster 3
+##  [1] &quot;Connecticut&quot;   &quot;Hawaii&quot;        &quot;Idaho&quot;         &quot;Indiana&quot;      
+##  [5] &quot;Iowa&quot;          &quot;Kansas&quot;        &quot;Kentucky&quot;      &quot;Maine&quot;        
+##  [9] &quot;Minnesota&quot;     &quot;Montana&quot;       &quot;Nebraska&quot;      &quot;New Hampshire&quot;
+## [13] &quot;North Dakota&quot;  &quot;Ohio&quot;          &quot;Pennsylvania&quot;  &quot;South Dakota&quot;
+## [17] &quot;Utah&quot;          &quot;Vermont&quot;       &quot;West Virginia&quot; &quot;Wisconsin&quot;
+</code></pre>
+
+<h3 id="scaled-data">Scaled data</h3>
+
+<p>We now scale the variable to have standard deviation equal to 1 and
+re-apply hierarchical clustering with complete linkage and Euclidean distance.</p>
+
+<pre><code class="language-r">USArrest.sc &lt;- scale(USArrests)
+hc.complete.sc &lt;- hclust(dist(USArrest.sc), method = &quot;complete&quot;)
+b &lt;- cutree(hc.complete.sc, k = 3)
+</code></pre>
+
+<pre><code>## Cluster 1
+## [1] &quot;Alabama&quot;        &quot;Alaska&quot;         &quot;Georgia&quot;        &quot;Louisiana&quot;     
+## [5] &quot;Mississippi&quot;    &quot;North Carolina&quot; &quot;South Carolina&quot; &quot;Tennessee&quot;
+
+## Cluster 2
+##  [1] &quot;Arizona&quot;    &quot;California&quot; &quot;Colorado&quot;   &quot;Florida&quot;    &quot;Illinois&quot;  
+##  [6] &quot;Maryland&quot;   &quot;Michigan&quot;   &quot;Nevada&quot;     &quot;New Mexico&quot; &quot;New York&quot;  
+## [11] &quot;Texas&quot;
+
+## Cluster 3
+##  [1] &quot;Arkansas&quot;      &quot;Connecticut&quot;   &quot;Delaware&quot;      &quot;Hawaii&quot;       
+##  [5] &quot;Idaho&quot;         &quot;Indiana&quot;       &quot;Iowa&quot;          &quot;Kansas&quot;       
+##  [9] &quot;Kentucky&quot;      &quot;Maine&quot;         &quot;Massachusetts&quot; &quot;Minnesota&quot;    
+## [13] &quot;Missouri&quot;      &quot;Montana&quot;       &quot;Nebraska&quot;      &quot;New Hampshire&quot;
+## [17] &quot;New Jersey&quot;    &quot;North Dakota&quot;  &quot;Ohio&quot;          &quot;Oklahoma&quot;     
+## [21] &quot;Oregon&quot;        &quot;Pennsylvania&quot;  &quot;Rhode Island&quot;  &quot;South Dakota&quot;
+## [25] &quot;Utah&quot;          &quot;Vermont&quot;       &quot;Virginia&quot;      &quot;Washington&quot;   
+## [29] &quot;West Virginia&quot; &quot;Wisconsin&quot;     &quot;Wyoming&quot;
+</code></pre>
+
+<p>We can see above the new clusters created using the scaled data.
+The results indicate that by using variable scaling,
+the generated clusters are significantly different;
+Clusters 1 and 2 are now much smaller and
+many states have been moved to a different cluster.</p>
+
+<p>As we can see below,
+the <code>Assault</code> variable has very high mean value compared to the rest and
+as a result it has a much stronger effect on the dissimilarities calculation.</p>
+
+<p>By scaling the variables to have standard deviation equal to one before the dissimilarities are computed,
+we effectively give to all variables equal importance during the hierarchical clustering.</p>
+
+<pre><code class="language-r">apply(USArrests, 2, mean)
+</code></pre>
+
+<pre><code>##   Murder  Assault UrbanPop     Rape
+##    7.788  170.760   65.540   21.232
+</code></pre>
+
+<p><em>This analysis is based on Exercise 10.7.9 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+
+
+                <br>
             </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
+                        <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">Support vector machines and customer behaviour classification</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="https://christospitsi.github.io/blog/pca-and-k-means-clustering/">PCA and K-means clustering</a>
+                        <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
+                    </div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 

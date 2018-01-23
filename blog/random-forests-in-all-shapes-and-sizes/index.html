@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/projects/projects/" />
-<meta property="og:title" content="Projects" />
-<meta property="twitter:title" content="Projects">
+<meta property="og:url" content="https://christospitsi.github.io/blog/random-forests-in-all-shapes-and-sizes/" />
+<meta property="og:title" content="Random forests in all shapes and sizes" />
+<meta property="twitter:title" content="Random forests in all shapes and sizes">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Projects 
+       Christos Pitsikas - Random forests in all shapes and sizes 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/projects/projects/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/random-forests-in-all-shapes-and-sizes/">
 
 
 <style media="screen">
@@ -1008,24 +1008,124 @@ margin-left: -4%;
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="page-heading">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-    Projects
+    Random forests in all shapes and sizes
 
 </div>
 
+                </div>
+                <div class="meta">
+                    <div class="date" title="Sat Dec 2 2017 11:28:37 UTC">Dec 2, 2017</div>
+                    
+                        
+                    
+                    <div class="reading-time middot">2 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/r">R</a> </li>
+                          
+                            <li class="middot"><a href="https://christospitsi.github.io/tags/statistical-learning">Statistical Learning</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="markdown">
                 
     
-    
+    <p>As presented in <a href="https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/">previous post</a>, <code>Boston</code> data set
+provides information regarding the housing values in the suburbs of Boston.</p>
 
+<p>In this post, we will use <em>random forest</em> models of different sizes and
+taking under consideration different number of predictors,
+in order to predict the median house value.</p>
+
+<p>As we can see on the generated plot, the error rate for a model with small number of trees (less than 100) is quite high.
+Moreover, by using more trees, the accuracy tends to increase until a certain point (~ 200 trees) where it stabilises.</p>
+
+<p>With regard to the number of predictors used,
+it appears that the most accurate model is the one which uses p/2 parameters
+whereas the models which use all the parameters (m = p) have the highest error rates.</p>
+
+<pre><code class="language-r">library(MASS)
+library(randomForest)
+
+set.seed(1)
+train &lt;- sample(1:nrow(Boston), nrow(Boston) / 2) #Indexes of training set
+boston.test &lt;- Boston[-train, &quot;medv&quot;] #Test Set
+
+a &lt;- matrix(nrow = 500, ncol = 3) #Stores test errors
+x &lt;- 1
+
+  for (i in c(13, 13/2, sqrt(13))) { #Number of predictors per tree
+    for (n in 1:500) {               #Number of trees
+    bag.Boston &lt;- randomForest(medv ~., data = Boston, subset = train,
+                             mtry = i, ntree = n, importance = TRUE)
+
+    yhat.bag &lt;- predict(bag.Boston, newdata = Boston[-train, ])
+    a[n,x] &lt;- mean((yhat.bag - boston.test)^2) #Test Error
+    }
+    x &lt;- x + 1
+  }
+
+plot(a[,1], type = &quot;l&quot;, col = &quot;coral2&quot;, ylim = c(10, 20),  
+     ylab = &quot;Test MSE&quot;, xlab = &quot;Number of Trees&quot;)
+
+lines(a[,2], type = &quot;l&quot;, col = &quot;blue&quot;)
+lines(a[,3], type = &quot;l&quot;, col = &quot;green&quot;)
+
+legend(300, 20, c(&quot;m = p&quot;, &quot;m = p/2&quot;, &quot;m = sqrt(p)&quot;),
+       lty = c(1, 1, 1), col = c(&quot;Coral2&quot;, &quot;Blue&quot;, &quot;Green&quot;))
+</code></pre>
+
+<p><img src="https://christospitsi.github.io/images/unnamed-chunk-1-10.png" style="display: block; margin: auto;" /></p>
+
+<p><em>This analysis is based on Exercise 8.4.7 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+
+
+                <br>
             </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
+                        <a href="https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/">Cross validation on a simulated dataset</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/">Predicting sales using regression trees and bagging</a>
+                        <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
+                    </div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 
