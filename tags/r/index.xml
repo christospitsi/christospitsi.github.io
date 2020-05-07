@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on   Christos Pitsikas</title>
@@ -6,7 +6,6 @@
     <description>Recent content in R on   Christos Pitsikas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2018 Christos Pitsikas, Powered by Hugo and Cocoa-Eh</copyright>
     <lastBuildDate>Mon, 22 Jan 2018 21:48:18 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/tags/r/index.xml" rel="self" type="application/rss+xml" />
@@ -31,18 +30,18 @@ Medical practice is one of the fields in which the aforementioned methods are wi
       <guid>https://christospitsi.github.io/blog/pca-and-k-means-clustering/</guid>
       <description>In this problem, we will generate simulated data, and then permorm PCA and K-means clustering on the data.
 We first create cluster c1 using rnorm() function and then, by shifting the observations of that cluster, we create clusters c2 and c3. Finally, using rbind() function, we combine all three clusters to a single data frame.
-set.seed(1) c1 &amp;lt;- matrix(rnorm(1000), ncol = 50) c2 &amp;lt;- c1 + 2 c3 &amp;lt;- c1 - 3 data &amp;lt;- rbind(c1, c2, c3)  PCA We now perform principal component analysis using the prcomp() function without scaling the data and then plot the principal component score vectors and the clusters.</description>
+set.seed(1) c1 &amp;lt;- matrix(rnorm(1000), ncol = 50) c2 &amp;lt;- c1 + 2 c3 &amp;lt;- c1 - 3 data &amp;lt;- rbind(c1, c2, c3) PCA We now perform principal component analysis using the prcomp() function without scaling the data and then plot the principal component score vectors and the clusters.</description>
     </item>
     
     <item>
       <title>Unsupervised learning - Hierarchical clustering</title>
-      <link>https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/</link>
+      <link>https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/</link>
       <pubDate>Mon, 15 Jan 2018 14:23:58 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/</guid>
+      <guid>https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/</guid>
       <description>Hierarchical Clustering USArrests data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973.
 We perform hierarchical clustering on the data set, with complete linkage and Euclidean distance and we cut the dendrogram at a height that results in three distinct clusters. We can see below the clusters created by the model.
-hc.complete &amp;lt;- hclust(dist(USArrests), method = &amp;quot;complete&amp;quot;) a &amp;lt;- cutree(hc.</description>
+hc.complete &amp;lt;- hclust(dist(USArrests), method = &amp;#34;complete&amp;#34;) a &amp;lt;- cutree(hc.</description>
     </item>
     
     <item>
@@ -61,7 +60,7 @@ After splitting the data into training and test sets, we fit a SVM classifier to
       <pubDate>Mon, 18 Dec 2017 12:39:29 +0000</pubDate>
       
       <guid>https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/</guid>
-      <description>In this example we are going to use OJ dataset which contains 1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and a number of characteristics of the customer and product. (please see documentation for more details)
+      <description>In this example we are going to use OJ dataset which contains 1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and a number of characteristics of the customer and product. (please see documentationfor more details)
 Before we examine the possible models, we create as usual a training set with 800 observations and the test set with the remaining observations from the OJ data set.</description>
     </item>
     
@@ -71,7 +70,7 @@ Before we examine the possible models, we create as usual a training set with 80
       <pubDate>Thu, 14 Dec 2017 12:15:54 +0000</pubDate>
       
       <guid>https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/</guid>
-      <description>Carseats is a simulated data set containing sales of child car seats at 400 different stores and various predictors (please see documentation for more details).
+      <description>Carseats is a simulated data set containing sales of child car seats at 400 different stores and various predictors (please see documentationfor more details).
 We will examine how classification trees, bagging and random forest models can be applied to predict the sales of this product.
 We load the necessary libraries and then we split the data set into a training and a test set
 library(tree) library(randomForest) library(ISLR) train &amp;lt;- sample(1:nrow(Carseats), 200) Carseats.</description>
@@ -95,26 +94,25 @@ As we can see on the generated plot, the error rate for a model with small numbe
       
       <guid>https://christospitsi.github.io/blog/cross-validation-on-a-simulated-dataset/</guid>
       <description>For the purposes of this exercise, we generate the simulated data using the below equation:
-set.seed(1) x &amp;lt;- rnorm(100) y &amp;lt;- x -2*x^2 + rnorm(100)  Our data set consists of 100 values for x (n = 100) and one predictor (p = 1) The function for the calculation of y is of the below form:
-Y = β0 + β1X + β2X2 + ϵ. In our example, β0 = 0, β1 = 1, β2 = −2 and the error is a randomly generated number.</description>
+set.seed(1) x &amp;lt;- rnorm(100) y &amp;lt;- x -2*x^2 + rnorm(100) Our data set consists of 100 values for x (n = 100) and one predictor (p = 1) The function for the calculation of y is of the below form:
+Y = β0+ β1X + β2X2+ ϵ. In our example, β0= 0, β1= 1, β2= −2 and the error is a randomly generated number.</description>
     </item>
     
     <item>
       <title>S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach</title>
-      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/</link>
+      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange-a-for-loop-loocv-approach/</link>
       <pubDate>Wed, 18 Oct 2017 23:24:14 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/</guid>
-      <description>The Leave-one-out cross validation test error can be estimated using the R build-in function cv.glm, however, it is worth exploring an alternative solution, using functions glm, predict.glm and a for loop. For the purposes of this exercise, we will revisit the percentage returns for the S&amp;amp;P 500 stock index included in Weekly dataset.
-We first fit a logistic regression model which predicts Direction using Lag1 and Lag2 variables and the whole dataset as training set.</description>
+      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange-a-for-loop-loocv-approach/</guid>
+      <description>The Leave-one-out cross validation test error can be estimated using the R build-in function cv.glm, however, it is worth exploring an alternative solution, using functions glm, predict.glm and a for loop. For the purposes of this exercise, we will revisit the percentage returns for the S&amp;amp;P 500 stock index included in Weekly dataset.We first fit a logistic regression model which predicts Direction using Lag1 and Lag2 variables and the whole dataset as training set.</description>
     </item>
     
     <item>
       <title>The credit card problem - Validation set approach</title>
-      <link>https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/</link>
+      <link>https://christospitsi.github.io/blog/the-credit-card-problem-validation-set-approach/</link>
       <pubDate>Tue, 10 Oct 2017 22:17:53 +0000</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/</guid>
+      <guid>https://christospitsi.github.io/blog/the-credit-card-problem-validation-set-approach/</guid>
       <description>Default is a simulated data set from ISLR library with information on ten thousand customers. We are interested in predicting whether a customer will default using the following predictors:
  balance: The average balance that the customer has remaining on their credit card after making their monthly payment income: Income of the customer.  We fit a logistic regression model which uses income and balance to predict default and then we print a summary with all the calculated values.</description>
     </item>
@@ -126,15 +124,15 @@ We first fit a logistic regression model which predicts Direction using Lag1 and
       
       <guid>https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/</guid>
       <description>The Auto data set, included in the ISLR library provides us with details for 392 vehicles and the following variables for each observation:
- Mpg: Miles per gallon cylinders: Number of cylinders (4-8) displacement: Engine displacement (cu. inches) horsepower: Engine power weight: Vehicle weight (lbs.) acceleration: Time to accelerate from 0 to 60 mph (sec.) year: Model Year (modulo 100) origin: Origin of the car (1. American, 2. European, 3.</description>
+ Mpg: Miles per gallon cylinders: Number of cylinders (4-8) displacement: Engine displacement (cu. inches) horsepower: Engine power weight: Vehicle weight (lbs.) acceleration: Time to accelerate from 0 to 60 mph (sec.) year: Model Year (modulo 100) origin: Origin of the car (1. American, 2. European, 3. Japanese) name: Vehicle name  Based on the mpg variable, we create variable mpg01 which is equal to 1 if mpg is above the median mpg value and equal 0 if mpg value is below the median.</description>
     </item>
     
     <item>
       <title>S&amp;P 500 stock exchange - Logistic regression model</title>
-      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/</link>
+      <link>https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/</link>
       <pubDate>Fri, 08 Sep 2017 00:09:00 +0200</pubDate>
       
-      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/</guid>
+      <guid>https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/</guid>
       <description>For the purposes of this post we will use the Weekly dataset, included in the ISLR library. The dataset consists of percentage returns for the S&amp;amp;P 500 stock index between 1990 and 2010.
 In the data frame, there are 1089 observations and the following variables:
  year: Year that the observation was recorded lag1: Percentage return for previous week lag2: Percentage return for 2 weeks previous lag3: Percentage return for 3 weeks previous lag4: Percentage return for 4 weeks previous lag5: Percentage return for 5 weeks previous volume: Volume of shares traded (average number of daily shares traded in billions) today: Percentage return for this week direction: A factor with levels Down and Up indicating whether the market had a positive or negative return on a given week  Below we can see a numerical summary for all predictors:</description>
@@ -147,8 +145,8 @@ In the data frame, there are 1089 observations and the following variables:
       
       <guid>https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/</guid>
       <description>In this exercise we create some simulated data and fit a simple linear regression model. The simulated data are generated using the rnorm() function with mean 0 and variance 1. The generated data are stored in vector X.
-set.seed(1) x &amp;lt;- rnorm(100, 0, 1)  In addition to the data, we generate vector eps which will represent the error of the model.
-eps &amp;lt;- rnorm(100, 0, sqrt(0.25))  We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.</description>
+set.seed(1) x &amp;lt;- rnorm(100, 0, 1) In addition to the data, we generate vector eps which will represent the error of the model.
+eps &amp;lt;- rnorm(100, 0, sqrt(0.25)) We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.</description>
     </item>
     
     <item>
@@ -159,7 +157,7 @@ eps &amp;lt;- rnorm(100, 0, sqrt(0.25))  We create vector y based on the below l
       <guid>https://christospitsi.github.io/blog/a-few-hello-world-r-commands-and-boston-housing-prices/</guid>
       <description>The Boston data set, part of the MASS library, contains information regarding the housing values in the suburbs of Boston.
 The dimensions of the data frame are shown below:
-library (MASS) dim(Boston) ## [1] 506 14  The 506 rows of the dataset correspond to 506 observations, each of which has 14 predictors (number of columns).
+library (MASS) dim(Boston) ## [1] 506 14 The 506 rows of the dataset correspond to 506 observations, each of which has 14 predictors (number of columns).
 Using pairs() function, we generate scatterplots for all combinations between predictors in order to try to figure out any possible associations.</description>
     </item>
     
@@ -171,7 +169,7 @@ Using pairs() function, we generate scatterplots for all combinations between pr
       <guid>https://christospitsi.github.io/blog/statistics-101/</guid>
       <description>Mean, Median and Mode A few introductory words about the very basic definitions and R commands of measures of central tendency and spread in statistics.
 Suppose we ask a group of 10 students how many brothers and sisters they have and the number obtained are as follows:
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; (2&amp;nbsp;&amp;nbsp;3&amp;nbsp;&amp;nbsp;0&amp;nbsp; &amp;nbsp;5&amp;nbsp;&amp;nbsp;2&amp;nbsp;&amp;nbsp;1 &amp;nbsp;&amp;nbsp;1&amp;nbsp;&amp;nbsp;0&amp;nbsp;&amp;nbsp;3 &amp;nbsp;&amp;nbsp;3)
+ (2 3 0 5 2 1 1 0 3 3)
 The mean of our data is the arithmetic average of the observations whereas the median is the middle value when the observations are ranked in order.</description>
     </item>
     

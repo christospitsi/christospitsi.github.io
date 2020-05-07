@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Numpy on   Christos Pitsikas</title>
@@ -6,7 +6,6 @@
     <description>Recent content in Numpy on   Christos Pitsikas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2018 Christos Pitsikas, Powered by Hugo and Cocoa-Eh</copyright>
     <lastBuildDate>Tue, 06 Feb 2018 22:42:26 +0000</lastBuildDate>
     
 	<atom:link href="https://christospitsi.github.io/tags/numpy/index.xml" rel="self" type="application/rss+xml" />
@@ -19,7 +18,7 @@
       
       <guid>https://christospitsi.github.io/blog/introduction-to-numpy/</guid>
       <description>NumPy library provides us with a plethora of array manipulation functions, much more efficient than the standard Python ones. Let us begin by generating vectors u = -10, -9, -8, &amp;hellip;0 and v = -0.1, 0.4, 0.9&amp;hellip;4.9.
-import numpy as np u = np.arange(-10, 1, 1, dtype = float) v = np.arange(-0.1, (-0.1 + 11*0.5), 0.5, dtype = float) u,v  (array([-10., -9., -8., -7., -6., -5., -4., -3., -2.</description>
+import numpy as np u = np.arange(-10, 1, 1, dtype = float) v = np.arange(-0.1, (-0.1 + 11*0.5), 0.5, dtype = float) u,v (array([-10., -9., -8., -7., -6., -5., -4., -3., -2., -1., 0.</description>
     </item>
     
   </channel>

@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://christospitsi.github.io/blog/</loc>
+    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
+  </url>
   
   <url>
     <loc>https://christospitsi.github.io/blog/introduction-to-numpy/</loc>
@@ -8,8 +13,43 @@
   </url>
   
   <url>
+    <loc>https://christospitsi.github.io/tags/numpy/</loc>
+    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/tags/python/</loc>
+    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/tags/</loc>
+    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://christospitsi.github.io/projects/wdbc/</loc>
     <lastmod>2018-01-22T21:48:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/projects/</loc>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/tags/r/</loc>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/tags/statistical-learning/</loc>
+    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://christospitsi.github.io/</loc>
+    <lastmod>2018-01-22T19:09:45+00:00</lastmod>
   </url>
   
   <url>
@@ -23,7 +63,7 @@
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/</loc>
+    <loc>https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/</loc>
     <lastmod>2018-01-15T14:23:58+00:00</lastmod>
   </url>
   
@@ -58,12 +98,12 @@
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/</loc>
+    <loc>https://christospitsi.github.io/blog/sp-500-stock-exchange-a-for-loop-loocv-approach/</loc>
     <lastmod>2017-10-18T23:24:14+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/</loc>
+    <loc>https://christospitsi.github.io/blog/the-credit-card-problem-validation-set-approach/</loc>
     <lastmod>2017-10-10T22:17:53+00:00</lastmod>
   </url>
   
@@ -73,7 +113,7 @@
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/</loc>
+    <loc>https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/</loc>
     <lastmod>2017-09-08T00:09:00+02:00</lastmod>
   </url>
   
@@ -93,56 +133,7 @@
   </url>
   
   <url>
-    <loc>https://christospitsi.github.io/</loc>
-    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/blog/</loc>
-    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://christospitsi.github.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/tags/numpy/</loc>
-    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/projects/</loc>
-    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/tags/python/</loc>
-    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/tags/r/</loc>
-    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/tags/statistical-learning/</loc>
-    <lastmod>2018-01-22T21:48:18+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://christospitsi.github.io/tags/</loc>
-    <lastmod>2018-02-06T22:42:26+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/" />
-<meta property="og:title" content="Customer behaviour and classification trees" />
-<meta property="twitter:title" content="Customer behaviour and classification trees">
+<meta property="og:url" content="https://christospitsi.github.io/blog/the-credit-card-problem-validation-set-approach/" />
+<meta property="og:title" content="The credit card problem - Validation set approach" />
+<meta property="twitter:title" content="The credit card problem - Validation set approach">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Customer behaviour and classification trees 
+       Christos Pitsikas - The credit card problem - Validation set approach 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/the-credit-card-problem-validation-set-approach/">
 
 
 <style media="screen">
@@ -1016,17 +1016,17 @@ margin-left: -4%;
                 <div class="title-container">
                     <div class="page-heading">
 
-    Customer behaviour and classification trees
+    The credit card problem - Validation set approach
 
 </div>
 
                 </div>
                 <div class="meta">
-                    <div class="date" title="Mon Dec 18 2017 12:39:29 UTC">Dec 18, 2017</div>
+                    <div class="date" title="Tue Oct 10 2017 22:17:53 UTC">Oct 10, 2017</div>
                     
                         
                     
-                    <div class="reading-time middot">5 minute read</div>
+                    <div class="reading-time middot">4 minute read</div>
                     <div class="tags">
                         <ul>
                           
@@ -1047,133 +1047,118 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    <p>In this example we are going to use <code>OJ</code> dataset which contains
-1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and
-a number of characteristics of the customer and product.
-(please see <!-- raw HTML omitted -->documentation<!-- raw HTML omitted -->
-for more details)</p>
-<p>Before we examine the possible models,
-we create as usual a training set with 800 observations and the test set
-with the remaining observations from the <code>OJ</code> data set.</p>
+    <p><em>Default</em> is a simulated data set from ISLR library with information on ten thousand customers. We are interested in predicting whether a customer will default using the following predictors:</p>
+<ul>
+<li><em>balance</em>: The average balance that the customer has remaining on their credit card after making their monthly payment</li>
+<li><em>income</em>: Income of the customer.</li>
+</ul>
+<p>We fit a logistic regression model which uses <em>income</em> and <em>balance</em> to predict <em>default</em> and then we print a summary with all the calculated values.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(ISLR)
-<span style="color:#a6e22e">library</span>(tree)
+default.fits1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">glm</span>(default <span style="color:#f92672">~</span> income <span style="color:#f92672">+</span> balance,
+                 data <span style="color:#f92672">=</span> Default, family <span style="color:#f92672">=</span> binomial)
 
-<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
-train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">nrow</span>(OJ), <span style="color:#ae81ff">800</span>)
-OJ.test <span style="color:#f92672">&lt;-</span> OJ[<span style="color:#f92672">-</span>train, ]
-</code></pre></div><p>We now fit a tree to the training data with <em>Purchase</em> as the response and the other variables as predictors.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tree</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train)
-<span style="color:#a6e22e">summary</span>(tree.OJ)
+<span style="color:#a6e22e">summary</span>(default.fits1)
 </code></pre></div><pre><code>##
-## Classification tree:
-## tree(formula = Purchase ~ ., data = OJ, subset = train)
-## Variables actually used in tree construction:
-## [1] &quot;LoyalCH&quot;       &quot;PriceDiff&quot;     &quot;SpecialCH&quot;     &quot;ListPriceDiff&quot;
-## Number of terminal nodes:  8
-## Residual mean deviance:  0.7305 = 578.6 / 792
-## Misclassification error rate: 0.165 = 132 / 800
-</code></pre>
-<p>Using the summary function we can produce summary statistics about the tree.
-As we can see, the tree has 8 terminal nodes and the training error rate is 16.5%.</p>
-<p>In addition to the tree statistics,
-by typing the name of the tree we can get a detailed text output which describes
-the tree structure and the various parameters for each node/branch.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.OJ
-</code></pre></div><pre><code>## node), split, n, deviance, yval, (yprob)
-##       * denotes terminal node
+## Call:
+## glm(formula = default ~ income + balance, family = binomial,
+##     data = Default)
 ##
-##  1) root 800 1064.00 CH ( 0.61750 0.38250 )  
-##    2) LoyalCH &lt; 0.508643 350  409.30 MM ( 0.27143 0.72857 )  
-##      4) LoyalCH &lt; 0.264232 166  122.10 MM ( 0.12048 0.87952 )  
-##        8) LoyalCH &lt; 0.0356415 57   10.07 MM ( 0.01754 0.98246 ) *
-##        9) LoyalCH &gt; 0.0356415 109  100.90 MM ( 0.17431 0.82569 ) *
-##      5) LoyalCH &gt; 0.264232 184  248.80 MM ( 0.40761 0.59239 )  
-##       10) PriceDiff &lt; 0.195 83   91.66 MM ( 0.24096 0.75904 )  
-##         20) SpecialCH &lt; 0.5 70   60.89 MM ( 0.15714 0.84286 ) *
-##         21) SpecialCH &gt; 0.5 13   16.05 CH ( 0.69231 0.30769 ) *
-##       11) PriceDiff &gt; 0.195 101  139.20 CH ( 0.54455 0.45545 ) *
-##    3) LoyalCH &gt; 0.508643 450  318.10 CH ( 0.88667 0.11333 )  
-##      6) LoyalCH &lt; 0.764572 172  188.90 CH ( 0.76163 0.23837 )  
-##       12) ListPriceDiff &lt; 0.235 70   95.61 CH ( 0.57143 0.42857 ) *
-##       13) ListPriceDiff &gt; 0.235 102   69.76 CH ( 0.89216 0.10784 ) *
-##      7) LoyalCH &gt; 0.764572 278   86.14 CH ( 0.96403 0.03597 ) *
-</code></pre>
-<p>For instance, the line for terminal node 20 shows that under the branch <code>SpecialCH &lt; 0.5</code>,
-60.89 observations have been classified as <code>MM</code> which is the most occurring class on that node.
-Moreover, the deviance is 70 and the <em>class proportions</em> of <code>CH</code> and <code>MM</code> are 15.7 and 84.2 respectively.</p>
-<p>On the graphical presentation of the tree below,
-we can see that it has 7 <em>internal nodes</em> and 8 <em>terminal nodes</em>.
-The most important predictor appears to be the <em>LoyalCH</em>
-since it have been used to split the data on the first node and
-then again on the next two internal nodes.
-Additionally, all splits on the right branch have been performed in order to
-increase the node <em>purity</em> since all terminal nodes have been classified as <code>CH</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(tree.OJ)
-<span style="color:#a6e22e">text</span>(tree.OJ, pretty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cex <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>)  
-</code></pre></div><p><!-- raw HTML omitted --></p>
-<p>We will now predict the response on the test data and generate the confusion matrix.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">OJ.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(tree.OJ, OJ.test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#a6e22e">table</span>(OJ.pred, OJ.test[ ,<span style="color:#e6db74">&#34;Purchase&#34;</span>])
-</code></pre></div><pre><code>##        
-## OJ.pred  CH  MM
-##      CH 147  49
-##      MM  12  62
-</code></pre>
-<p>As we see on the confusion matrix above, the correct predictions percentage is:
-(62 + 147)/(62 + 147 + 12 + 49) = 77%,
-hence the (test) classification error rate is 23%.</p>
-<h3 id="optimal-tree-size">Optimal tree size</h3>
-<p>We will now apply the <code>cv.tree()</code> function
-in order to determine the optimal tree size.</p>
-<p>On the plotted error rate and the <code>cv.OJ</code> printed parameters,
-we see that the trees with 8, 5 and 2 terminal nodes have 156 cross-validatiod errors each
-which is the lowest cross-validation error rate.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">cv.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cv.tree</span>(tree.OJ, FUN <span style="color:#f92672">=</span> prune.misclass)
-cv.OJ
-</code></pre></div><pre><code>## $size
-## [1] 8 5 2 1
+## Deviance Residuals:
+##     Min       1Q   Median       3Q      Max  
+## -2.4725  -0.1444  -0.0574  -0.0211   3.7245  
 ##
-## $dev
-## [1] 156 156 156 306
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.154e+01  4.348e-01 -26.545  &lt; 2e-16 ***
+## income       2.081e-05  4.985e-06   4.174 2.99e-05 ***
+## balance      5.647e-03  2.274e-04  24.836  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 *** 0.001 ** 0.01 * 0.05 '.' 0.1 ' ' 1
 ##
-## $k
-## [1]       -Inf   0.000000   4.666667 160.000000
+## (Dispersion parameter for binomial family taken to be 1)
 ##
-## $method
-## [1] &quot;misclass&quot;
+##     Null deviance: 2920.6  on 9999  degrees of freedom
+## Residual deviance: 1579.0  on 9997  degrees of freedom
+## AIC: 1585
 ##
-## attr(,&quot;class&quot;)
-## [1] &quot;prune&quot;         &quot;tree.sequence&quot;
+## Number of Fisher Scoring iterations: 8
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(cv.OJ<span style="color:#f92672">$</span>size, cv.OJ<span style="color:#f92672">$</span>dev, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b&#34;</span>,
-     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test Error Rate&#34;</span>, xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tree Size&#34;</span>)
-</code></pre></div><p><!-- raw HTML omitted --></p>
-<h3 id="pruned-trees">Pruned trees</h3>
-<p>We apply the <code>prune.misclass()</code> method in order to produce pruned trees with 5 terminal nodes.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">prune.misclass</span>(tree.OJ, best <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
-<span style="color:#a6e22e">summary</span>(prune.OJ)
-</code></pre></div><pre><code>##
-## Classification tree:
-## snip.tree(tree = tree.OJ, nodes = 3:4)
-## Variables actually used in tree construction:
-## [1] &quot;LoyalCH&quot;   &quot;PriceDiff&quot; &quot;SpecialCH&quot;
-## Number of terminal nodes:  5
-## Residual mean deviance:  0.8256 = 656.4 / 795
-## Misclassification error rate: 0.165 = 132 / 800
+<p>We will use the validation set approach in order to estimate the test error rate of the model. In this approach, we randomly split the data into a training set and a validation set. We then use the two sets to train and test the model. We will now apply this method by creating a general function <code>glm.error(x)</code>, with argument <em>x</em> being the size of the training set.</p>
+<p>The function first creates the training set using the <code>sample()</code> function, the total number of observations (10000) and x as argument, performs logistic regression and then calculates the probabilities vector <code>probs</code> for the training set. Finally, it creates the validation set <code>def.test</code> which comprises of the observations we didn&rsquo;t use for the training of the model and then calculates the test error of the method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">glm.error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
+
+<span style="color:#75715e">#Creates training sample     </span>
+<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">5</span>)
+train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">10000</span>, x)
+
+<span style="color:#75715e">#Logistic Regression (income,balance)</span>
+default.fits <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">glm</span>(default <span style="color:#f92672">~</span> income <span style="color:#f92672">+</span> balance,
+                    family <span style="color:#f92672">=</span> binomial, data <span style="color:#f92672">=</span> Default, subset <span style="color:#f92672">=</span> train)
+
+<span style="color:#75715e">#Creates vector with predictions</span>
+probs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(default.fits, Default[<span style="color:#f92672">-</span>train, ], type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;response&#34;</span>)
+glm.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;No&#34;</span>, <span style="color:#ae81ff">10000</span><span style="color:#f92672">-</span>x)
+glm.pred[probs <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>] <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;Yes&#34;</span>
+
+<span style="color:#75715e">#Creates validation set</span>
+def.test <span style="color:#f92672">&lt;-</span> Default[<span style="color:#f92672">-</span>train, ]
+
+<span style="color:#75715e">#Calculates and prints test error</span>
+test.error <span style="color:#f92672">&lt;-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(glm.pred <span style="color:#f92672">==</span> def.test<span style="color:#f92672">$</span>default))<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Test error with a training sample of %d observations: %g%%&#34;</span>,
+        x, test.error)
+}
+</code></pre></div><p>Using the above function, we perform logistic regression four times, using each time different training set size. As we can see, by using a bigger training set, the generated model performs better and has a smaller test error.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.error</span>(<span style="color:#ae81ff">1000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 1000 observations: 2.61111%&quot;
 </code></pre>
-<p>We will now predict the response on the test data and produce the confusion matrix,
-using the pruned tree model.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.OJ.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(prune.OJ, OJ.test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#a6e22e">table</span>(prune.OJ.pred, OJ.test[ ,<span style="color:#e6db74">&#34;Purchase&#34;</span>])
-</code></pre></div><pre><code>##              
-## prune.OJ.pred  CH  MM
-##            CH 147  49
-##            MM  12  62
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.error</span>(<span style="color:#ae81ff">4000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 4000 observations: 2.46667%&quot;
 </code></pre>
-<p>As we see on the confusion matrix above,
-the classification error rate of the pruned tree is identical to the error rate
-of the unpruned tree and equal to 23%.</p>
-<p><em>This analysis is based on Exercise 8.4.9 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.error</span>(<span style="color:#ae81ff">6000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 6000 observations: 2.275%&quot;
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.error</span>(<span style="color:#ae81ff">7000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 7000 observations: 2.2%&quot;
+</code></pre>
+<h3 id="logistic-regression-model">Logistic regression model</h3>
+<p>We now fit a logistic regression model which predicts the probability of <em>default</em> using predictor <em>student</em> in addition to <em>income</em> and <em>balance</em>. For the same training and test sets, the generated results show that predictor student didn&rsquo;t improve the test error since the new model performs slightly worse for all sample sizes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">glm.stud <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
+
+<span style="color:#75715e">#Creates training sample     </span>
+<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">5</span>)
+train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">10000</span>, x)
+
+<span style="color:#75715e">#Logistic Regression (income, balance, student)</span>
+default.fits <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">glm</span>(default <span style="color:#f92672">~</span> income <span style="color:#f92672">+</span> balance <span style="color:#f92672">+</span> student,
+                    family <span style="color:#f92672">=</span> binomial, data <span style="color:#f92672">=</span> Default, subset <span style="color:#f92672">=</span> train)
+
+<span style="color:#75715e">#Creates vector with predictions</span>
+probs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(default.fits, Default[<span style="color:#f92672">-</span>train, ], type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;response&#34;</span>)
+glm.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;No&#34;</span>, <span style="color:#ae81ff">10000</span><span style="color:#f92672">-</span>x)
+glm.pred[probs <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>] <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;Yes&#34;</span>
+
+<span style="color:#75715e">#Creates validation set</span>
+def.test <span style="color:#f92672">&lt;-</span> Default[<span style="color:#f92672">-</span>train, ]
+
+<span style="color:#75715e">#Calculates and prints test error</span>
+test.error <span style="color:#f92672">&lt;-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(glm.pred <span style="color:#f92672">==</span> def.test<span style="color:#f92672">$</span>default))<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Test error with a training sample of %d observations: %g%%&#34;</span>,
+        x, test.error)
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.stud</span>(<span style="color:#ae81ff">1000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 1000 observations: 2.63333%&quot;
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.stud</span>(<span style="color:#ae81ff">4000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 4000 observations: 2.58333%&quot;
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.stud</span>(<span style="color:#ae81ff">6000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 6000 observations: 2.325%&quot;
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">glm.stud</span>(<span style="color:#ae81ff">7000</span>)
+</code></pre></div><pre><code>## [1] &quot;Test error with a training sample of 7000 observations: 2.3%&quot;
+</code></pre>
+<p><em>This analysis is based on Exercise 5.5 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
                 <br>
@@ -1184,13 +1169,13 @@ of the unpruned tree and equal to 23%.</p>
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/">Predicting sales using regression trees and bagging</a>
+                        <a href="https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/">Predicting vehicle gas consumption</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">Support vector machines and customer behaviour classification</a>
+                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange-a-for-loop-loocv-approach/">S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     

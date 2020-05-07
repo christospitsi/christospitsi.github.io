@@ -1047,181 +1047,134 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<p>For the purposes of this exercise,
+    <p>For the purposes of this exercise,
 we generate the simulated data using the below equation:</p>
-
-<pre><code class="language-r">set.seed(1)
-x &lt;- rnorm(100)
-y &lt;- x -2*x^2 + rnorm(100)
-</code></pre>
-
-<p>Our data set consists of 100 values for x (n = 100) and one predictor (p = 1) The function for the calculation of <em>y</em> is of the below form:</p>
-
-<p>Y = β<sub>0</sub> + β<sub>1</sub>X + β<sub>2</sub>X<sup>2</sup> + ϵ.
- In our example, β<sub>0</sub> = 0, β<sub>1</sub> = 1, β<sub>2</sub> = −2
- and the error is a randomly generated number.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
+x <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rnorm</span>(<span style="color:#ae81ff">100</span>)
+y <span style="color:#f92672">&lt;-</span> x <span style="color:#ae81ff">-2</span><span style="color:#f92672">*</span>x^2 <span style="color:#f92672">+</span> <span style="color:#a6e22e">rnorm</span>(<span style="color:#ae81ff">100</span>)
+</code></pre></div><p>Our data set consists of 100 values for x (n = 100) and one predictor (p = 1) The function for the calculation of <em>y</em> is of the below form:</p>
+<p>Y = β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->1<!-- raw HTML omitted -->X + β<!-- raw HTML omitted -->2<!-- raw HTML omitted -->X<!-- raw HTML omitted -->2<!-- raw HTML omitted --> + ϵ.
+In our example, β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> = 0, β<!-- raw HTML omitted -->1<!-- raw HTML omitted --> = 1, β<!-- raw HTML omitted -->2<!-- raw HTML omitted --> = −2
+and the error is a randomly generated number.</p>
 <p>On the following plot of X against Y we can see that the points seem to have a <em>quadratic</em> shape which was what we expected since we used a quadratic equation to calculate the y values.</p>
-
-<pre><code class="language-r">plot(x, y, col = &quot;coral2&quot;,
-    xlab = &quot;X&quot;, ylab = &quot;Y&quot;,
-    type = &quot;p&quot;, pch = 20, cex.axis = 0.8, cex.lab = 0.8)
-</code></pre>
-
-<p><center><img align = "middle" src="https://christospitsi.github.io/images/unnamed-chunk-5-1.png" style="width: 90%; height: 90%;"/></center></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(x, y, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;coral2&#34;</span>,
+    xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;X&#34;</span>, ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y&#34;</span>,
+    type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p&#34;</span>, pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, cex.axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, cex.lab <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>)
+</code></pre></div><!-- raw HTML omitted -->
 <h3 id="loocv">LOOCV</h3>
-
 <p>We will now calculate the LOOCV test errors for the following models
 using least squares:</p>
-
-<p>i. Y = β<sub>0</sub> + β<sub>1</sub>X + ϵ</br>
-ii. Y = β<sub>0</sub> + β<sub>1</sub>X + β<sub>2</sub>X<sup>2</sup> + ϵ</br>
-iii. Y = β<sub>0</sub> + β<sub>1</sub>X + β<sub>2</sub>X<sup>2</sup> + β<sub>3</sub>X<sup>3</sup> + ϵ</br>
-iv. Y = β<sub>0</sub> + β<sub>1</sub>X + β<sub>2</sub>X<sup>2</sup> + 
-β<sub>3</sub>X<sup>3</sup> + β<sub>4</sub>X<sup>4</sup> + ϵ</p>
-
+<p>i. Y = β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->1<!-- raw HTML omitted -->X + ϵ<!-- raw HTML omitted -->
+ii. Y = β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->1<!-- raw HTML omitted -->X + β<!-- raw HTML omitted -->2<!-- raw HTML omitted -->X<!-- raw HTML omitted -->2<!-- raw HTML omitted --> + ϵ<!-- raw HTML omitted -->
+iii. Y = β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->1<!-- raw HTML omitted -->X + β<!-- raw HTML omitted -->2<!-- raw HTML omitted -->X<!-- raw HTML omitted -->2<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->3<!-- raw HTML omitted -->X<!-- raw HTML omitted -->3<!-- raw HTML omitted --> + ϵ<!-- raw HTML omitted -->
+iv. Y = β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->1<!-- raw HTML omitted -->X + β<!-- raw HTML omitted -->2<!-- raw HTML omitted -->X<!-- raw HTML omitted -->2<!-- raw HTML omitted --> + 
+β<!-- raw HTML omitted -->3<!-- raw HTML omitted -->X<!-- raw HTML omitted -->3<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->4<!-- raw HTML omitted -->X<!-- raw HTML omitted -->4<!-- raw HTML omitted --> + ϵ</p>
 <p>We create a data frame with all values of x and y and
 a vector <code>ls.error</code> which will store the error values for the different models.
 Finally,
 using a for loop and function <code>cv.glm()</code> from <code>boot</code> library,
 we calculate the LOOCV estimates for the test MSE of each model.</p>
-
 <p>We can see on the generated plot with the calculated errors that
 there is a sharp drop between the linear and quadratic fits
 (models i. and ii. respectively).
 Moreover, it appears that the use of higher order polynomials
 does not improve the accuracy of the model (models iii. and iv.)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(boot)
+<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
+df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(y, x)
 
-<pre><code class="language-r">library(boot)
-set.seed(1)
-df &lt;- data.frame(y, x)
+ls.error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rep</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">4</span>)
 
-ls.error &lt;- rep(0, 4)
-
-for (i in 1:4){
-  glm.fit = glm(y~poly(x, i), data = df)
-  ls.error[i] = cv.glm(df, glm.fit)$delta[1]
+<span style="color:#a6e22e">for </span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>){
+  glm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">glm</span>(y<span style="color:#f92672">~</span><span style="color:#a6e22e">poly</span>(x, i), data <span style="color:#f92672">=</span> df)
+  ls.error[i] <span style="color:#f92672">=</span> <span style="color:#a6e22e">cv.glm</span>(df, glm.fit)<span style="color:#f92672">$</span>delta[1]
 }
 ls.error
+</code></pre></div><pre><code>## [1] 7.2881616 0.9374236 0.9566218 0.9539049
 </code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(ls.error, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;coral2&#34;</span>,
+    xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Polynomial Order&#34;</span>,
+    ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test MSE&#34;</span>,
+    type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p&#34;</span>, pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>,
+    xaxp <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>))
 
-<pre><code>## [1] 7.2881616 0.9374236 0.9566218 0.9539049
-</code></pre>
-
-<pre><code class="language-r">plot(ls.error, col = &quot;coral2&quot;,
-    xlab = &quot;Polynomial Order&quot;,
-    ylab = &quot;Test MSE&quot;,
-    type = &quot;p&quot;, pch = 20,
-    xaxp = c(1, 4, 1))
-
-axis(1, at = seq(2, 3))
-lines(ls.error, type = &quot;o&quot;, col = &quot;coral2&quot;)
-</code></pre>
-
-<p><center><img align = "middle" src="https://christospitsi.github.io/images/loocv.err1-1.png" style="width: 90%; height: 90%;"/></center></p>
-
+<span style="color:#a6e22e">axis</span>(<span style="color:#ae81ff">1</span>, at <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))
+<span style="color:#a6e22e">lines</span>(ls.error, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;o&#34;</span>, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;coral2&#34;</span>)
+</code></pre></div><!-- raw HTML omitted -->
 <h3 id="loocv-and-randomness">LOOCV and randomness</h3>
-
 <p>As we explained earlier,
 <em>Leave-One-Out Cross Validation (LOOCV)</em>
 keeps a single observation to be used as validation set.
 This procedure is repeated n times,
 using each time a different observation for testing.</p>
-
 <p>In general, the seed value in R has an effect on all functions
 which use some kind of randomness to perform their calculations.
 In our calculations above,
 we defined at the beginning of the function the seed to be 1.</p>
-
 <p>Function <code>cv.glm()</code> estimates the test error
 using individual observations as validation set,
 one at a time,
 picked in random order based on the seed value thus
 a different seed will have as a result a different picking order.</p>
-
 <p>We now re-run the above code using a different <code>set.seed</code> argument.
 As we can see, the estimated test MSEs for all models are the same
 regardless the seed value since
 we use all observations as validation sets and
 the order does not matter.</p>
-
 <p>It is worth noting that a different seed
 would have an effect on the test MSE calculation
 if we used other cross-validation approaches such as <em>Validation Set</em>
 where we don&rsquo;t use all observations to test the trained models.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(boot)
+<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">5</span>)
+df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(y, x)
 
-<pre><code class="language-r">library(boot)
-set.seed(5)
-df &lt;- data.frame(y, x)
+ls.error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rep</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">4</span>)
 
-ls.error &lt;- rep(0, 4)
-
-for (i in 1:4){
-  glm.fit = glm(y ~ poly(x, i), data = df)
-  ls.error[i] = cv.glm(df, glm.fit)$delta[1]
+<span style="color:#a6e22e">for </span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>){
+  glm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">glm</span>(y <span style="color:#f92672">~</span> <span style="color:#a6e22e">poly</span>(x, i), data <span style="color:#f92672">=</span> df)
+  ls.error[i] <span style="color:#f92672">=</span> <span style="color:#a6e22e">cv.glm</span>(df, glm.fit)<span style="color:#f92672">$</span>delta[1]
 }
 ls.error
+</code></pre></div><pre><code>## [1] 7.2881616 0.9374236 0.9566218 0.9539049
 </code></pre>
-
-<pre><code>## [1] 7.2881616 0.9374236 0.9566218 0.9539049
-</code></pre>
-
 <p>The calculated error values show that
 the most accurate model with the smallest <em>LOOCV error</em> (0.9374)
 was the one shown below.
 This confirms our expectations since this model approaches the form of the real equation used to generate the simulated data set.</p>
-
-<p>Y = β<sub>0</sub> + β<sub>1</sub>X + β<sub>2</sub>X<sup>2</sup> + ϵ</p>
-
+<p>Y = β<!-- raw HTML omitted -->0<!-- raw HTML omitted --> + β<!-- raw HTML omitted -->1<!-- raw HTML omitted -->X + β<!-- raw HTML omitted -->2<!-- raw HTML omitted -->X<!-- raw HTML omitted -->2<!-- raw HTML omitted --> + ϵ</p>
 <p>Statistical significance of the coefficient estimates</p>
-
 <p>We now print the fourth column
 in order to assess the <em>P-Values</em> for the coefficients of each model.
-As we can see, the P-Values for the calculated β<sub>0</sub>,
-β<sub>1</sub> and β<sub>2</sub> are sufficiently small so
+As we can see, the P-Values for the calculated β<!-- raw HTML omitted -->0<!-- raw HTML omitted -->,
+β<!-- raw HTML omitted -->1<!-- raw HTML omitted --> and β<!-- raw HTML omitted -->2<!-- raw HTML omitted --> are sufficiently small so
 we can claim that they are significant whereas
 the values for the rest of the coefficients
 have relatively large values ( &gt;0.05), thus they are insignificant.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(boot)
+<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
+df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(y, x)
 
-<pre><code class="language-r">library(boot)
-set.seed(1)
-df &lt;- data.frame(y, x)
-
-glm.fit = glm(y ~ poly(x, 1), data = df)
-summary(glm.fit)$coefficients[, 4]  
-</code></pre>
-
-<pre><code>##  (Intercept)   poly(x, 1)
+glm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">glm</span>(y <span style="color:#f92672">~</span> <span style="color:#a6e22e">poly</span>(x, <span style="color:#ae81ff">1</span>), data <span style="color:#f92672">=</span> df)
+<span style="color:#a6e22e">summary</span>(glm.fit)<span style="color:#f92672">$</span>coefficients[, <span style="color:#ae81ff">4</span>]  
+</code></pre></div><pre><code>##  (Intercept)   poly(x, 1)
 ## 3.953542e-08 1.923846e-02
 </code></pre>
-
-<pre><code class="language-r">glm.fit = glm(y ~ poly(x, 2), data = df)
-summary(glm.fit)$coefficients[, 4]
-</code></pre>
-
-<pre><code>##  (Intercept)  poly(x, 2)1  poly(x, 2)2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">glm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">glm</span>(y <span style="color:#f92672">~</span> <span style="color:#a6e22e">poly</span>(x, <span style="color:#ae81ff">2</span>), data <span style="color:#f92672">=</span> df)
+<span style="color:#a6e22e">summary</span>(glm.fit)<span style="color:#f92672">$</span>coefficients[, <span style="color:#ae81ff">4</span>]
+</code></pre></div><pre><code>##  (Intercept)  poly(x, 2)1  poly(x, 2)2
 ## 2.656229e-29 4.184810e-09 4.584330e-44
 </code></pre>
-
-<pre><code class="language-r">glm.fit = glm(y ~ poly(x, 3), data = df)
-summary(glm.fit)$coefficients[, 4]
-</code></pre>
-
-<pre><code>##  (Intercept)  poly(x, 3)1  poly(x, 3)2  poly(x, 3)3
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">glm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">glm</span>(y <span style="color:#f92672">~</span> <span style="color:#a6e22e">poly</span>(x, <span style="color:#ae81ff">3</span>), data <span style="color:#f92672">=</span> df)
+<span style="color:#a6e22e">summary</span>(glm.fit)<span style="color:#f92672">$</span>coefficients[, <span style="color:#ae81ff">4</span>]
+</code></pre></div><pre><code>##  (Intercept)  poly(x, 3)1  poly(x, 3)2  poly(x, 3)3
 ## 4.995066e-29 4.971565e-09 1.216703e-43 7.843990e-01
 </code></pre>
-
-<pre><code class="language-r">glm.fit = glm(y ~ poly(x, 4), data = df)
-summary(glm.fit)$coefficients[, 4]
-</code></pre>
-
-<pre><code>##  (Intercept)  poly(x, 4)1  poly(x, 4)2  poly(x, 4)3  poly(x, 4)4
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">glm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">glm</span>(y <span style="color:#f92672">~</span> <span style="color:#a6e22e">poly</span>(x, <span style="color:#ae81ff">4</span>), data <span style="color:#f92672">=</span> df)
+<span style="color:#a6e22e">summary</span>(glm.fit)<span style="color:#f92672">$</span>coefficients[, <span style="color:#ae81ff">4</span>]
+</code></pre></div><pre><code>##  (Intercept)  poly(x, 4)1  poly(x, 4)2  poly(x, 4)3  poly(x, 4)4
 ## 5.169227e-29 4.590732e-09 1.593826e-43 7.836207e-01 1.930956e-01
 </code></pre>
-
 <p><em>This analysis is based on Exercise 5.8 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
@@ -1233,7 +1186,7 @@ summary(glm.fit)$coefficients[, 4]
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---a-for-loop-loocv-approach/">S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach</a>
+                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange-a-for-loop-loocv-approach/">S&amp;P 500 stock exchange - A &#39;for loop&#39; LOOCV approach</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
@@ -1325,13 +1278,6 @@ summary(glm.fit)$coefficients[, 4]
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

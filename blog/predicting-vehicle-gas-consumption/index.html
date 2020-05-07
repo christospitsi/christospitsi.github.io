@@ -1047,10 +1047,7 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<p>The <em>Auto</em> data set, included in the ISLR library provides us with details for 392 vehicles and the following variables for each observation:</p>
-
+    <p>The <em>Auto</em> data set, included in the ISLR library provides us with details for 392 vehicles and the following variables for each observation:</p>
 <ul>
 <li><em>Mpg</em>: Miles per gallon</li>
 <li><em>cylinders</em>: Number of cylinders (4-8)</li>
@@ -1062,89 +1059,63 @@ margin-left: -4%;
 <li><em>origin</em>: Origin of the car (1. American, 2. European, 3. Japanese)</li>
 <li><em>name</em>: Vehicle name</li>
 </ul>
-
 <p>Based on the <em>mpg</em> variable, we create variable <em>mpg01</em> which is equal to 1 if <em>mpg</em> is above the median <em>mpg</em> value and equal 0 if <em>mpg</em> value is below the median.</p>
-
 <p>First we create a vector with size equal to the number of observations and fill it with 0s. Following that, we change 0s to 1s based on the above condition. Finally, we create a new data frame <em>df</em> which consists of the original data set plus the new variable <em>mpg01</em>.</p>
-
-<pre><code class="language-r">library(ISLR)
-mpg01 &lt;- rep(&quot;0&quot;, nrow(Auto))
-mpg01[Auto$mpg &gt; (median(Auto$mpg))] &lt;- &quot;1&quot;
-df &lt;- data.frame(Auto, mpg01)
-</code></pre>
-
-<p>Based on the aforementioned, variable <em>mpg01</em> equals to 1 when <em>mpg</em> is above the median value which means that the car has relatively low gas consumption since it does more miles per gallon. We expect a car to have low consumption when it is not heavy and it is not a &ldquo;sports&rdquo; car i.e. it doesn&rsquo;t have high <em>horsepower</em> neither many <em>cylinders</em>. As we can see below, the data confirm our predictions about those variables.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(ISLR)
+mpg01 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;0&#34;</span>, <span style="color:#a6e22e">nrow</span>(Auto))
+mpg01[Auto<span style="color:#f92672">$</span>mpg <span style="color:#f92672">&gt;</span> (<span style="color:#a6e22e">median</span>(Auto<span style="color:#f92672">$</span>mpg))] <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;1&#34;</span>
+df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(Auto, mpg01)
+</code></pre></div><p>Based on the aforementioned, variable <em>mpg01</em> equals to 1 when <em>mpg</em> is above the median value which means that the car has relatively low gas consumption since it does more miles per gallon. We expect a car to have low consumption when it is not heavy and it is not a &ldquo;sports&rdquo; car i.e. it doesn&rsquo;t have high <em>horsepower</em> neither many <em>cylinders</em>. As we can see below, the data confirm our predictions about those variables.</p>
 <p>Firstly, we investigate whether there is association between <em>horsepower</em> and low gas consumption. On the below plot we can see all values of variable <em>horsepower</em> conditionally coloured based on consumption. Observations with mpg = 1 (low consumption) are in blue colour whereas the ones with mpg = 0 (high consumption) are in red. It is apparent that all vehicles with low consumption are the ones with low horsepower and the two variables are indeed associated.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(df<span style="color:#f92672">$</span>horsepower, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(df<span style="color:#f92672">$</span>mpg01 <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;blue&#34;</span>, <span style="color:#e6db74">&#34;red&#34;</span>),
+     type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p&#34;</span>, pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, cex.axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, cex.lab <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+     main <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Horsepower&#34;</span>,
+     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Horsepower&#34;</span>)
 
-<pre><code class="language-r">plot(df$horsepower, col = ifelse(df$mpg01 == 1, &quot;blue&quot;, &quot;red&quot;),
-     type = &quot;p&quot;, pch = 20, cex.axis = 1, cex.lab = 1,
-     main = &quot;Horsepower&quot;,
-     ylab = &quot;Horsepower&quot;)
-
-legend(250, 225, c(&quot;Low Consumption&quot;, &quot;High Consumption&quot;),
-       pch = c(20, 20), col = c(&quot;Blue&quot;, &quot;Red&quot;))
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/horsepower_mpg-1.png" width="80%" style="display: block; margin: auto;" /></p>
-
+<span style="color:#a6e22e">legend</span>(<span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">225</span>, <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Low Consumption&#34;</span>, <span style="color:#e6db74">&#34;High Consumption&#34;</span>),
+       pch <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>), col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Blue&#34;</span>, <span style="color:#e6db74">&#34;Red&#34;</span>))
+</code></pre></div><p><!-- raw HTML omitted --></p>
 <p>With regard to the cylinder predictor, as we can see on the below boxplot, all vehicles with 4 cylinders (with the exception of four outliers) have low gas consumption whereas the vehicles with 6-8 cylinders have all high consumption and as a consequence low miles per gallon. The result confirms our expectations that fast cars (with many cylinders) have high consumption.</p>
-
-<pre><code class="language-r">boxplot(cylinders~mpg01, data = df,
-        xlab = &quot;mpg01&quot;, ylab = &quot;Cylinders&quot;, col = &quot;Red&quot;)
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/cyl_box-1.png" width="80%" style="display: block; margin: auto;" /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">boxplot</span>(cylinders<span style="color:#f92672">~</span>mpg01, data <span style="color:#f92672">=</span> df,
+        xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;mpg01&#34;</span>, ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Cylinders&#34;</span>, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Red&#34;</span>)
+</code></pre></div><p><!-- raw HTML omitted --></p>
 <p>Finally, the below plot confirms that heavier vehicles have higher consumption:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(df<span style="color:#f92672">$</span>weight, col <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(df<span style="color:#f92672">$</span>mpg01 <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;blue&#34;</span>, <span style="color:#e6db74">&#34;red&#34;</span>),
+     type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p&#34;</span>, pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, cex.axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, cex.lab <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
+     main <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Weight&#34;</span>,
+     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vehicle Weight&#34;</span>)
 
-<pre><code class="language-r">plot(df$weight, col = ifelse(df$mpg01 == 1, &quot;blue&quot;, &quot;red&quot;),
-     type = &quot;p&quot;, pch = 20, cex.axis = 1, cex.lab = 1,
-     main = &quot;Weight&quot;,
-     ylab = &quot;Vehicle Weight&quot;)
-
-legend(255, 5280, c(&quot;Low Consumption&quot;, &quot;High Consumption&quot;),
-       pch = c(20, 20), col = c(&quot;Blue&quot;, &quot;Red&quot;))
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/weight_mpg-1.png" width="80%" style="display: block; margin: auto;" /></p>
-
+<span style="color:#a6e22e">legend</span>(<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">5280</span>, <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Low Consumption&#34;</span>, <span style="color:#e6db74">&#34;High Consumption&#34;</span>),
+       pch <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>), col <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Blue&#34;</span>, <span style="color:#e6db74">&#34;Red&#34;</span>))
+</code></pre></div><p><!-- raw HTML omitted --></p>
 <h3 id="logistic-regression-model">Logistic regression model</h3>
-
 <p>We now split the data into training and test set in order to predict the consumption of a car, using the above features as predictors.
 The logistic regression model is performed on the training set and then we calculate the test error.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
+train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#a6e22e">nrow</span>(df), <span style="color:#a6e22e">nrow</span>(df) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#75715e">#Creates training set</span>
 
-<pre><code class="language-r">set.seed(1)
-train &lt;- sample(nrow(df), nrow(df) / 2) #Creates training set
+mpg01.fits <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">glm</span>(mpg01 <span style="color:#f92672">~</span> horsepower <span style="color:#f92672">+</span> cylinders <span style="color:#f92672">+</span> weight,
+                    family <span style="color:#f92672">=</span> binomial, data <span style="color:#f92672">=</span> df, subset <span style="color:#f92672">=</span> train)
 
-mpg01.fits &lt;- glm(mpg01 ~ horsepower + cylinders + weight,
-                    family = binomial, data = df, subset = train)
+<span style="color:#75715e">#Predicts probabilities</span>
+glm.probs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(mpg01.fits, df[<span style="color:#f92672">-</span>train, ], type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;response&#34;</span>)
 
-#Predicts probabilities
-glm.probs &lt;- predict(mpg01.fits, df[-train, ], type = &quot;response&quot;)
+<span style="color:#75715e">#Converts probabilities to boolean</span>
+glm.probs.b <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ifelse</span>(glm.probs <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>, <span style="color:#e6db74">&#34;1&#34;</span>, <span style="color:#e6db74">&#34;0&#34;</span>)
 
-#Converts probabilities to boolean
-glm.probs.b &lt;- ifelse(glm.probs &gt; 0.5, &quot;1&quot;, &quot;0&quot;)
+df.test <span style="color:#f92672">&lt;-</span> df[<span style="color:#f92672">-</span>train, ] <span style="color:#75715e">#Test set</span>
 
-df.test &lt;- df[-train, ] #Test set
-
-table(glm.probs.b, df.test$mpg01) #Prints confusion matrix
-</code></pre>
-
-<pre><code>##            
+<span style="color:#a6e22e">table</span>(glm.probs.b, df.test<span style="color:#f92672">$</span>mpg01) <span style="color:#75715e">#Prints confusion matrix</span>
+</code></pre></div><pre><code>##            
 ## glm.probs.b  0  1
 ##           0 78  6
 ##           1 15 97
 </code></pre>
-
-<pre><code class="language-r">#Test error calculation
-test.error &lt;- (1 - mean(glm.probs.b == df.test$mpg01))*100  
-sprintf(&quot;Test error: %g%%&quot;, test.error)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#Test error calculation</span>
+test.error <span style="color:#f92672">&lt;-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(glm.probs.b <span style="color:#f92672">==</span> df.test<span style="color:#f92672">$</span>mpg01))<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>  
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Test error: %g%%&#34;</span>, test.error)
+</code></pre></div><pre><code>## [1] &quot;Test error: 10.7143%&quot;
 </code></pre>
-
-<pre><code>## [1] &quot;Test error: 10.7143%&quot;
-</code></pre>
-
 <p><em>This analysis is based on Exercise 4.11 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
@@ -1156,13 +1127,13 @@ sprintf(&quot;Test error: %g%%&quot;, test.error)
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/">S&amp;P 500 stock exchange - Logistic regression model</a>
+                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/">S&amp;P 500 stock exchange - Logistic regression model</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/the-credit-card-problem---validation-set-approach/">The credit card problem - Validation set approach</a>
+                        <a href="https://christospitsi.github.io/blog/the-credit-card-problem-validation-set-approach/">The credit card problem - Validation set approach</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     
@@ -1248,13 +1219,6 @@ sprintf(&quot;Test error: %g%%&quot;, test.error)
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

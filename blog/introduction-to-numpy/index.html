@@ -1047,56 +1047,36 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<p><code>NumPy</code> library provides us with a plethora of array manipulation functions, much more efficient than the standard Python ones.
+    <p><code>NumPy</code> library provides us with a plethora of array manipulation functions, much more efficient than the standard Python ones.
 Let us begin by generating vectors u = -10, -9, -8, &hellip;0 and v = -0.1, 0.4, 0.9&hellip;4.9.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
 
-<pre><code class="language-python">import numpy as np
-
-u = np.arange(-10, 1, 1, dtype = float)
-v = np.arange(-0.1, (-0.1 + 11*0.5), 0.5, dtype = float)
+u <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, dtype <span style="color:#f92672">=</span> float)
+v <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.1</span>, (<span style="color:#f92672">-</span><span style="color:#ae81ff">0.1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">11</span><span style="color:#f92672">*</span><span style="color:#ae81ff">0.5</span>), <span style="color:#ae81ff">0.5</span>, dtype <span style="color:#f92672">=</span> float)
 u,v
 
-</code></pre>
-
-<pre><code>(array([-10.,  -9.,  -8.,  -7.,  -6.,  -5.,  -4.,  -3.,  -2.,  -1.,   0.]),
+</code></pre></div><pre><code>(array([-10.,  -9.,  -8.,  -7.,  -6.,  -5.,  -4.,  -3.,  -2.,  -1.,   0.]),
  array([-0.1,  0.4,  0.9,  1.4,  1.9,  2.4,  2.9,  3.4,  3.9,  4.4,  4.9]))
 </code></pre>
-
 <p>Common mathematical operators can be applied as long as shown below:</p>
-
-<pre><code class="language-python">print((u + v),'\n', (u*v))
-</code></pre>
-
-<pre><code>[-10.1  -8.6  -7.1  -5.6  -4.1  -2.6  -1.1   0.4   1.9   3.4   4.9]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>((u <span style="color:#f92672">+</span> v),<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>, (u<span style="color:#f92672">*</span>v))
+</code></pre></div><pre><code>[-10.1  -8.6  -7.1  -5.6  -4.1  -2.6  -1.1   0.4   1.9   3.4   4.9]
  [  1.   -3.6  -7.2  -9.8 -11.4 -12.  -11.6 -10.2  -7.8  -4.4   0. ]
 </code></pre>
-
 <p>We now increase all elements of vector u by 1,
 subtract 20% from v elements and create vector w, containing all the numbers from u and v.</p>
-
-<pre><code class="language-python">u = u + 1
-v = v - abs(0.2*v)
-w = np.concatenate([u,v])
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">u <span style="color:#f92672">=</span> u <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+v <span style="color:#f92672">=</span> v <span style="color:#f92672">-</span> abs(<span style="color:#ae81ff">0.2</span><span style="color:#f92672">*</span>v)
+w <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate([u,v])
+</code></pre></div><p>We can print the elements stored by indexing <code>w</code> as shown below. The returned values correspond to the 5th, 9th and 21st elements.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span>np<span style="color:#f92672">.</span>round(w[<span style="color:#ae81ff">5</span>],<span style="color:#ae81ff">2</span>), <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span>np<span style="color:#f92672">.</span>round(w[<span style="color:#ae81ff">9</span>],<span style="color:#ae81ff">2</span>), <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span>np<span style="color:#f92672">.</span>round(w[<span style="color:#ae81ff">21</span>],<span style="color:#ae81ff">2</span>)
+</code></pre></div><pre><code>('-4.00', '0.00', '3.92')
 </code></pre>
-
-<p>We can print the elements stored by indexing <code>w</code> as shown below. The returned values correspond to the 5th, 9th and 21st elements.</p>
-
-<pre><code class="language-python">'%.2f'%np.round(w[5],2), '%.2f'%np.round(w[9],2), '%.2f'%np.round(w[21],2)
-</code></pre>
-
-<pre><code>('-4.00', '0.00', '3.92')
-</code></pre>
-
 <p>It is worth noting that the indices start from 0.
 Thus, although the length of <code>w</code> is 22,
 the below indexing returns an error since the last element is w[21].</p>
-
-<pre><code class="language-python">w[22]
-</code></pre>
-
-<pre><code>---------------------------------------------------------------------------
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">w[<span style="color:#ae81ff">22</span>]
+</code></pre></div><pre><code>---------------------------------------------------------------------------
 
 IndexError                             Traceback (most recent call last)
 
@@ -1106,9 +1086,7 @@ IndexError                             Traceback (most recent call last)
 
 IndexError: index 22 is out of bounds for axis 0 with size 22
 </code></pre>
-
 <p>We will now create the matrix below. First, we create an empty table and fill it with zeros and then, using the <code>for</code> loop, we generate the values.</p>
-
 <table>
 <thead>
 <tr>
@@ -1119,7 +1097,6 @@ IndexError: index 22 is out of bounds for axis 0 with size 22
 <th align="center"></th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="center">1</td>
@@ -1128,7 +1105,6 @@ IndexError: index 22 is out of bounds for axis 0 with size 22
 <td align="center">7</td>
 <td align="center">9</td>
 </tr>
-
 <tr>
 <td align="center">11</td>
 <td align="center">13</td>
@@ -1136,7 +1112,6 @@ IndexError: index 22 is out of bounds for axis 0 with size 22
 <td align="center">17</td>
 <td align="center">19</td>
 </tr>
-
 <tr>
 <td align="center">21</td>
 <td align="center">23</td>
@@ -1144,7 +1119,6 @@ IndexError: index 22 is out of bounds for axis 0 with size 22
 <td align="center">27</td>
 <td align="center">29</td>
 </tr>
-
 <tr>
 <td align="center">31</td>
 <td align="center">33</td>
@@ -1154,84 +1128,56 @@ IndexError: index 22 is out of bounds for axis 0 with size 22
 </tr>
 </tbody>
 </table>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">B <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>))
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
 
-<pre><code class="language-python">B = np.zeros((4,5))
-x = 1
-
-for i in range (0, 4):
-    B[i,:] = np.linspace(x, x + 8, 5)
-    x = x + 10  
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">4</span>):
+    B[i,:] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(x, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">5</span>)
+    x <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span>  
 B
-</code></pre>
-
-<pre><code>array([[  1.,   3.,   5.,   7.,   9.],
+</code></pre></div><pre><code>array([[  1.,   3.,   5.,   7.,   9.],
        [ 11.,  13.,  15.,  17.,  19.],
        [ 21.,  23.,  25.,  27.,  29.],
        [ 31.,  33.,  35.,  37.,  39.]])
 </code></pre>
-
 <h3 id="basic-statistics">Basic Statistics</h3>
-
 <p>Suppose we have the following observations of variable x.</p>
-
 <p>10, 2, 15, 6, 4, 9, 12, 11, 3, 0, 12, 10, 9, 7, 11, 10, 8, 5, 10, 6</p>
-
 <p>We create vector <code>x</code> using the <code>Numpy</code> array function.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline  
 
-<pre><code class="language-python">import numpy as np
-import matplotlib.pyplot as plt
-%matplotlib inline  
-
-x = np.array([10, 2, 15, 6, 4, 9, 12, 11, 3, 0, 12, 10, 9,
-              7, 11, 10, 8, 5, 10, 6])
+x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">9</span>,
+              <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>])
+</code></pre></div><p>The standard <code>len()</code> Python function returns the length of the array whereas Numpy function <code>sum()</code> calculates the sum of all array elements.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">len(x)
+</code></pre></div><pre><code>20
 </code></pre>
-
-<p>The standard <code>len()</code> Python function returns the length of the array whereas Numpy function <code>sum()</code> calculates the sum of all array elements.</p>
-
-<pre><code class="language-python">len(x)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#f92672">.</span>sum(x)
+</code></pre></div><pre><code>160
 </code></pre>
-
-<pre><code>20
-</code></pre>
-
-<pre><code class="language-python">np.sum(x)
-</code></pre>
-
-<pre><code>160
-</code></pre>
-
 <p>Numpy library includes functions for common measures of centrality and other statistical parameters. The standard deviation can be calculated as the square root of variance.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#Mean, Median, Variance, Standard deviation</span>
+np<span style="color:#f92672">.</span>mean(x), np<span style="color:#f92672">.</span>median(x), <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span> np<span style="color:#f92672">.</span>var(x), <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.2f</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span> np<span style="color:#f92672">.</span>sqrt(np<span style="color:#f92672">.</span>var(x))
 
-<pre><code class="language-python">#Mean, Median, Variance, Standard deviation
-np.mean(x), np.median(x), '%.2f'% np.var(x), '%.2f'% np.sqrt(np.var(x))
-
+</code></pre></div><pre><code>(8.0, 9.0, '13.80', '3.71')
 </code></pre>
-
-<pre><code>(8.0, 9.0, '13.80', '3.71')
-</code></pre>
-
 <p>We now set a seed for reproducibility and then create a vector y of random variables, with the same length and mean as x and standard deviation 1.</p>
-
-<pre><code class="language-python">np.random.seed(42)
-y = np.random.normal(np.mean(x), 1, len(x))
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">42</span>)
+y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(np<span style="color:#f92672">.</span>mean(x), <span style="color:#ae81ff">1</span>, len(x))
 y
-</code></pre>
-
-<pre><code>array([ 8.49671415,  7.8617357 ,  8.64768854,  9.52302986,  7.76584663,
+</code></pre></div><pre><code>array([ 8.49671415,  7.8617357 ,  8.64768854,  9.52302986,  7.76584663,
         7.76586304,  9.57921282,  8.76743473,  7.53052561,  8.54256004,
         7.53658231,  7.53427025,  8.24196227,  6.08671976,  6.27508217,
         7.43771247,  6.98716888,  8.31424733,  7.09197592,  6.5876963 ])
 </code></pre>
-
 <p>In order to use to <code>corrcoef()</code> and <code>cov()</code> functions to calculate the correlation and
 covariance matrices between x and y,
 we vertically stack the vectors and then call the respective methods.</p>
-
-<pre><code class="language-python">print (&quot;Correlation:\n&quot;, np.corrcoef(np.vstack([x,y])),&quot;\n&quot;)
-print (&quot;Covariance\n&quot;, np.cov(np.vstack([x,y])))
-</code></pre>
-
-<pre><code>Correlation:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span> (<span style="color:#e6db74">&#34;Correlation:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, np<span style="color:#f92672">.</span>corrcoef(np<span style="color:#f92672">.</span>vstack([x,y])),<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">print</span> (<span style="color:#e6db74">&#34;Covariance</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, np<span style="color:#f92672">.</span>cov(np<span style="color:#f92672">.</span>vstack([x,y])))
+</code></pre></div><pre><code>Correlation:
  [[ 1.          0.05431314]
  [ 0.05431314  1.        ]]
 
@@ -1239,21 +1185,16 @@ Covariance
  [[ 14.52631579   0.19873151]
  [  0.19873151   0.92165457]]
 </code></pre>
-
 <p>We now create vectors z and u and fill them with random normal variables. Both vectors are of length 20, mean 8 and standard deviation 1 and 10 respectively.</p>
-
 <p>Finally we plot x,z and u vectors on the same scatter plot.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">z <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">20</span>)
+u <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">20</span>)
 
-<pre><code class="language-python">z = np.random.normal(8,1,20)
-u = np.random.normal(8,10,20)
-
-plt.scatter(x,z)
-plt.scatter(x,u)
-plt.xlabel(&quot;x&quot;)
-plt.ylabel(&quot;z/u&quot;)
-</code></pre>
-
-<p><center><img src="https://christospitsi.github.io/images/output_26_1.png" style="width: 70%; height: 70%" display: block; margin: auto;" /></center></p>
+plt<span style="color:#f92672">.</span>scatter(x,z)
+plt<span style="color:#f92672">.</span>scatter(x,u)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;x&#34;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;z/u&#34;</span>)
+</code></pre></div><!-- raw HTML omitted -->
 
 
                 <br>
@@ -1351,13 +1292,6 @@ plt.ylabel(&quot;z/u&quot;)
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

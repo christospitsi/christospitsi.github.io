@@ -1047,99 +1047,71 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<h3 id="mean-median-and-mode">Mean, Median and Mode</h3>
-
+    <h3 id="mean-median-and-mode">Mean, Median and Mode</h3>
 <p>A few introductory words about
 the very basic definitions and <code>R</code> commands
 of measures of central tendency and spread in statistics.</p>
-
 <p>Suppose we ask a group of 10 students
 how many brothers and sisters they have and
 the number obtained are as follows:</p>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-(2&nbsp;&nbsp;3&nbsp;&nbsp;0&nbsp;
-  &nbsp;5&nbsp;&nbsp;2&nbsp;&nbsp;1
-  &nbsp;&nbsp;1&nbsp;&nbsp;0&nbsp;&nbsp;3
-  &nbsp;&nbsp;3)</p>
-
+<p>     
+(2  3  0 
+ 5  2  1
+  1  0  3
+  3)</p>
 <p>The <em>mean</em> of our data is the arithmetic average of the observations whereas the <em>median</em> is the middle value when the observations are ranked in order.</p>
-
 <p>Those values can be calculated simply by creating a vector with the observations and then calling the respective build-in <code>R</code> commands as shown below:</p>
-
-<pre><code class="language-r">x &lt;- c(2, 3, 0, 5, 2, 1, 1, 0, 3, 3)
-mean(x)
-## [1] 2
-median(x)
-## [1] 2
-</code></pre>
-
-<p>The <em>mode</em> of our data is the most frequently occurring observation. The most frequent observation in our example is 3 which appears three times.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">x <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>)
+<span style="color:#a6e22e">mean</span>(x)
+<span style="color:#75715e">## [1] 2</span>
+<span style="color:#a6e22e">median</span>(x)
+<span style="color:#75715e">## [1] 2</span>
+</code></pre></div><p>The <em>mode</em> of our data is the most frequently occurring observation. The most frequent observation in our example is 3 which appears three times.</p>
 <p>Since there is no built-in R command for mode calculation, we have to create a simple function.</p>
-
 <p>For this purpose, we will use <code>table()</code> function which returns a table with the frequency of each observation and <code>sort()</code> which sorts the frequencies from high to low. <code>names()[1]</code> will then return the first element of the sorted vector, which is our most frequent value.</p>
-
-<pre><code class="language-r">mode &lt;- function(x) {
-  names(sort(table(x), decreasing = TRUE))[1]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mode <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
+  <span style="color:#a6e22e">names</span>(<span style="color:#a6e22e">sort</span>(<span style="color:#a6e22e">table</span>(x), decreasing <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))[1]
 }
 
-mode(x)
-## [1] &quot;3&quot;
-</code></pre>
-
-<h3 id="variance-and-standard-deviation">Variance and Standard deviation</h3>
-
+<span style="color:#a6e22e">mode</span>(x)
+<span style="color:#75715e">## [1] &#34;3&#34;</span>
+</code></pre></div><h3 id="variance-and-standard-deviation">Variance and Standard deviation</h3>
 <p>Now, let&rsquo;s assume that the age of the students asked
 are as follows:</p>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-(23&nbsp;&nbsp;25&nbsp;&nbsp;18&nbsp;
-  &nbsp;45&nbsp;&nbsp;30&nbsp;&nbsp;21
-  &nbsp;&nbsp;22&nbsp;&nbsp;19&nbsp;&nbsp;29
-  &nbsp;&nbsp;35)</p>
-
+<p>     
+(23  25  18 
+ 45  30  21
+  22  19  29
+  35)</p>
 <p><em>Variance</em> and <em>standard deviation</em> are measures of spread and describe
 how much the observations vary from the mean value.
 We can calculate those measures of spread,
 between the numbers of siblings and theirs age
 using the <code>R</code> build-in functions <code>var()</code> and <code>sd()</code>.</p>
-
-<pre><code class="language-r">var(x)
-## [1] 2.444444
-sd(x)
-## [1] 1.563472
-</code></pre>
-
-<p><code>R</code> calculates the <em>unbiased</em> values of variance and standard deviation
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">var</span>(x)
+<span style="color:#75715e">## [1] 2.444444</span>
+<span style="color:#a6e22e">sd</span>(x)
+<span style="color:#75715e">## [1] 1.563472</span>
+</code></pre></div><p><code>R</code> calculates the <em>unbiased</em> values of variance and standard deviation
 where the <em>Bessel&rsquo;s correction</em> has been applied.</p>
-
 <h3 id="covariance-and-correlation">Covariance and correlation</h3>
-
 <p>The <em>covariance</em> measures how much the movement in one variable predicts
 the movement in a corresponding variable.
 In our example,
 variable <code>x</code> is the number of siblings
 and <code>y</code> the age of the students.</p>
-
 <p>In order to calculate those values,
 we create the vectors for <code>x</code> and <code>y</code> variables
 and then call the respective functions</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">y <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">45</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">35</span>)
 
-<pre><code class="language-r">y &lt;- c(23, 25, 18, 45, 30, 21, 22, 19, 29, 35)
+<span style="color:#a6e22e">message</span>(<span style="color:#e6db74">&#39;The covariance coefficient is: &#39;</span>,<span style="color:#a6e22e">cov</span>(x,y))
+<span style="color:#75715e">## The covariance coefficient is: 11.8888888888889</span>
 
-message('The covariance coefficient is: ',cov(x,y))
-## The covariance coefficient is: 11.8888888888889
-
-message('The correlation coefficient is: ',cor(x,y))
-## The correlation coefficient is: 0.91169712523063
-</code></pre>
-
-<p>Since the calculated correlation coefficient (0.91) is positive and near 1,
+<span style="color:#a6e22e">message</span>(<span style="color:#e6db74">&#39;The correlation coefficient is: &#39;</span>,<span style="color:#a6e22e">cor</span>(x,y))
+<span style="color:#75715e">## The correlation coefficient is: 0.91169712523063</span>
+</code></pre></div><p>Since the calculated correlation coefficient (0.91) is positive and near 1,
 we can safely state that there is a very strong positive relationship between <code>x</code> and <code>y</code>.</p>
-
 <p>Although there is a strong relationship between the number of siblings and the age of a student,
 we cannot conclude that there is causation between the two variables since the probability of having a certain amount of siblings is independent from age.</p>
 
@@ -1239,13 +1211,6 @@ we cannot conclude that there is causation between the two variables since the p
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

@@ -1047,60 +1047,40 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<p><code>Carseats</code> is a simulated data set
+    <p><code>Carseats</code> is a simulated data set
 containing sales of child car seats at 400 different stores and various predictors
-(please see <a href="https://www.rdocumentation.org/packages/ISLR/versions/1.2/topics/Carseats">documentation</a> for more details).</p>
-
+(please see <!-- raw HTML omitted -->documentation<!-- raw HTML omitted --> for more details).</p>
 <p>We will examine how classification trees, bagging and random forest models
 can be applied to predict the sales of this product.</p>
-
 <p>We load the necessary libraries and then we split the data set into a training and a test set</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tree)
+<span style="color:#a6e22e">library</span>(randomForest)
+<span style="color:#a6e22e">library</span>(ISLR)
 
-<pre><code class="language-r">library(tree)
-library(randomForest)
-library(ISLR)
-
-train &lt;- sample(1:nrow(Carseats), 200)
-Carseats.test &lt;- Carseats[-train,]
-test &lt;- Carseats[-train, &quot;Sales&quot;]
-</code></pre>
-
-<p>We fit a regression tree and then we plot it as shown below</p>
-
-<pre><code class="language-r">tree.carseats &lt;- tree(Sales~., data = Carseats, subset = train)
-plot(tree.carseats)
-text(tree.carseats, pretty = 0, cex = 0.6)
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/car_2-1.png" style="display: block; margin: auto;" /></p>
-
+train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">nrow</span>(Carseats), <span style="color:#ae81ff">200</span>)
+Carseats.test <span style="color:#f92672">&lt;-</span> Carseats[<span style="color:#f92672">-</span>train,]
+test <span style="color:#f92672">&lt;-</span> Carseats[<span style="color:#f92672">-</span>train, <span style="color:#e6db74">&#34;Sales&#34;</span>]
+</code></pre></div><p>We fit a regression tree and then we plot it as shown below</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.carseats <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tree</span>(Sales<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> Carseats, subset <span style="color:#f92672">=</span> train)
+<span style="color:#a6e22e">plot</span>(tree.carseats)
+<span style="color:#a6e22e">text</span>(tree.carseats, pretty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cex <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.6</span>)
+</code></pre></div><p><!-- raw HTML omitted --></p>
 <p>The resulted tree has 18 terminal nodes (leaves) and
 the most important predictors appear to be <em>ShelveLoc</em> and <em>Price</em>.
 In general, the predicted <em>Sales</em> tend to be higher when the carseat shelve location
 is <em>Good</em> (right-hand branch).</p>
-
 <p>Below we calculate the predicted <em>Sales</em> and then the test error rate.</p>
-
-<pre><code class="language-r">tree.pred &lt;- predict(tree.carseats, Carseats.test)
-tree.error &lt;- mean((tree.pred - test)^2)
-sprintf(&quot;The test error rate of the unpruned tree is: %f%%&quot;,
-        tree.error) #Test set MSE
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(tree.carseats, Carseats.test)
+tree.error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((tree.pred <span style="color:#f92672">-</span> test)^2)
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate of the unpruned tree is: %f%%&#34;</span>,
+        tree.error) <span style="color:#75715e">#Test set MSE</span>
+</code></pre></div><pre><code>## [1] &quot;The test error rate of the unpruned tree is: 4.148897%&quot;
 </code></pre>
-
-<pre><code>## [1] &quot;The test error rate of the unpruned tree is: 4.148897%&quot;
-</code></pre>
-
 <h3 id="optimal-level-of-tree-complexity">Optimal level of tree complexity</h3>
-
 <p>Using the <code>cv.tree()</code> function we can determine the optimal level of the tree complexity.</p>
-
-<pre><code class="language-r">cv.sales &lt;- cv.tree(tree.carseats)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">cv.sales <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cv.tree</span>(tree.carseats)
 cv.sales
-</code></pre>
-
-<pre><code>## $size
+</code></pre></div><pre><code>## $size
 ##  [1] 18 17 16 15 14 12 11 10  9  8  7  6  5  4  3  1
 ##
 ## $dev
@@ -1119,69 +1099,46 @@ cv.sales
 ## attr(,&quot;class&quot;)
 ## [1] &quot;prune&quot;         &quot;tree.sequence&quot;
 </code></pre>
-
 <p>The optimal size of the tree is, as determined below, a tree with 10 terminal nodes.</p>
-
-<pre><code class="language-r">which.min(cv.sales$dev) #Index of the tree with the smallest error
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">which.min</span>(cv.sales<span style="color:#f92672">$</span>dev) <span style="color:#75715e">#Index of the tree with the smallest error</span>
+</code></pre></div><pre><code>## [1] 8
 </code></pre>
-
-<pre><code>## [1] 8
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">cv.sales<span style="color:#f92672">$</span>size<span style="color:#a6e22e">[which.min</span>(cv.sales<span style="color:#f92672">$</span>dev)] <span style="color:#75715e">#Tree size with smaller error</span>
+</code></pre></div><pre><code>## [1] 10
 </code></pre>
-
-<pre><code class="language-r">cv.sales$size[which.min(cv.sales$dev)] #Tree size with smaller error
-</code></pre>
-
-<pre><code>## [1] 10
-</code></pre>
-
 <p>We now create the pruned tree and calculate the test error rate using this new model.</p>
-
 <p>As we can see,
 the new test error rate is 4.81 which is higher from the test error rate of the unpruned tree.
 This means that the model became less complex thus more interpretable,
 at the expense of accuracy.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.carseats <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">prune.tree</span>(tree.carseats,
+                             best <span style="color:#f92672">=</span> cv.sales<span style="color:#f92672">$</span>size<span style="color:#a6e22e">[which.min</span>(cv.sales<span style="color:#f92672">$</span>dev)])
 
-<pre><code class="language-r">prune.carseats &lt;- prune.tree(tree.carseats,
-                             best = cv.sales$size[which.min(cv.sales$dev)])
-
-tree.prune &lt;- predict(prune.carseats, Carseats.test)
-prune.error &lt;- mean((tree.prune - test)^2)
-sprintf(&quot;The test error rate of the pruned tree is: %f%%&quot;,
+tree.prune <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(prune.carseats, Carseats.test)
+prune.error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((tree.prune <span style="color:#f92672">-</span> test)^2)
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate of the pruned tree is: %f%%&#34;</span>,
         prune.error)
+</code></pre></div><pre><code>## [1] &quot;The test error rate of the pruned tree is: 4.819708%&quot;
 </code></pre>
-
-<pre><code>## [1] &quot;The test error rate of the pruned tree is: 4.819708%&quot;
-</code></pre>
-
 <h3 id="bagging">Bagging</h3>
-
 <p>We will now use the <em>bagging</em> approach in order to analyse the data.</p>
-
 <p><em>Bagging</em> is simply a special case of <em>random forest</em> in which
 we use all the predictors hence the <em>mtry</em> parameter in our model will be equal to 10.</p>
-
 <p>We calculate the test error rate using the same methods as before.
 As we can see, the error rate has been decreased significantly.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">bag.carseats <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">randomForest</span>(Sales <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> Carseats, subset <span style="color:#f92672">=</span> train,
+                           mtry <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, importance <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 
-<pre><code class="language-r">bag.carseats &lt;- randomForest(Sales ~ ., data = Carseats, subset = train,
-                           mtry = 10, importance = TRUE)
-
-bag.pred &lt;- predict(bag.carseats, Carseats.test)
-bag.error &lt;- mean((bag.pred - test)^2)
-sprintf(&quot;The test error rate of the bagging model is: %f%%&quot;,
+bag.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(bag.carseats, Carseats.test)
+bag.error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((bag.pred <span style="color:#f92672">-</span> test)^2)
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate of the bagging model is: %f%%&#34;</span>,
         bag.error)
+</code></pre></div><pre><code>## [1] &quot;The test error rate of the bagging model is: 2.604369%&quot;
 </code></pre>
-
-<pre><code>## [1] &quot;The test error rate of the bagging model is: 2.604369%&quot;
-</code></pre>
-
 <p>The <code>importance()</code> function returns the most important parameters.
 In our example, the most important parameters are <em>Price</em> and <em>ShelveLoc</em>.</p>
-
-<pre><code class="language-r">importance(bag.carseats)
-</code></pre>
-
-<pre><code>##                %IncMSE IncNodePurity
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">importance</span>(bag.carseats)
+</code></pre></div><pre><code>##                %IncMSE IncNodePurity
 ## CompPrice   14.4124562    133.731797
 ## Income       6.5147532     74.346961
 ## Advertising 15.7607104    117.822651
@@ -1193,23 +1150,17 @@ In our example, the most important parameters are <em>Price</em> and <em>ShelveL
 ## Urban       -3.1300102      8.695529
 ## US           7.6298722     15.723975
 </code></pre>
-
 <h3 id="random-forests">Random forests</h3>
-
 <p>We will now use the <em>random forests</em> method to analyze the data.</p>
-
 <p>First we create a model using sqrt(p) parameters.
 The most important parameters on the generated model appear to be <em>ShelveLoc</em>, <em>Price</em> and <em>Age</em>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">    forest.carseats1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">randomForest</span>(Sales <span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> Carseats,
+                                     subset <span style="color:#f92672">=</span> train,
+                                     mtry <span style="color:#f92672">=</span> <span style="color:#a6e22e">sqrt</span>(<span style="color:#ae81ff">10</span>),
+                                     ntree <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, importance <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 
-<pre><code class="language-r">    forest.carseats1 &lt;- randomForest(Sales ~., data = Carseats,
-                                     subset = train,
-                                     mtry = sqrt(10),
-                                     ntree = 500, importance = TRUE)
-
-    importance(forest.carseats1)
-</code></pre>
-
-<pre><code>##                %IncMSE IncNodePurity
+    <span style="color:#a6e22e">importance</span>(forest.carseats1)
+</code></pre></div><pre><code>##                %IncMSE IncNodePurity
 ## CompPrice    7.5233429     127.36625
 ## Income       4.3612064     119.19152
 ## Advertising 12.5799388     138.13567
@@ -1221,31 +1172,25 @@ The most important parameters on the generated model appear to be <em>ShelveLoc<
 ## Urban       -1.3928225      16.01173
 ## US           5.6393475      32.85850
 </code></pre>
-
 <p>In order to determine the effect of the number of the parameters used on a random forest method,
 we create all possible models and then plot the errors.</p>
-
 <p>As we can see,
 in general,
 when we use more parameters the test error rate tends to decrease.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">a <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">matrix</span>(nrow <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>) <span style="color:#75715e">#Vector to store test errors</span>
 
-<pre><code class="language-r">a &lt;- matrix(nrow = 10) #Vector to store test errors
+<span style="color:#a6e22e">for </span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>) {
+    forest.carseats <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">randomForest</span>(Sales <span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> Carseats,
+                                    subset <span style="color:#f92672">=</span> train,
+                                    mtry <span style="color:#f92672">=</span> i, ntree <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>,
+                                    importance <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 
-for (i in 1:10) {
-    forest.carseats &lt;- randomForest(Sales ~., data = Carseats,
-                                    subset = train,
-                                    mtry = i, ntree = 500,
-                                    importance = TRUE)
-
-    yhat.carseats &lt;- predict(forest.carseats, Carseats.test)
-    a[i] &lt;- mean((yhat.carseats - test)^2)
+    yhat.carseats <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(forest.carseats, Carseats.test)
+    a[i] <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((yhat.carseats <span style="color:#f92672">-</span> test)^2)
 }
-plot(a, type = &quot;b&quot;,
-     ylab = &quot;Test Error Rate&quot;, xlab = &quot;Number of Parameters&quot;)
-</code></pre>
-
-<p><center><img align = "middle" src="https://christospitsi.github.io/images/car_11-1.png" style="width: 80%; height: 80%;"/></center></p>
-
+<span style="color:#a6e22e">plot</span>(a, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b&#34;</span>,
+     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test Error Rate&#34;</span>, xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Parameters&#34;</span>)
+</code></pre></div><!-- raw HTML omitted -->
 <p><em>This analysis is based on Exercise 8.4.8 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
@@ -1349,13 +1294,6 @@ plot(a, type = &quot;b&quot;,
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

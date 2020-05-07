@@ -1047,66 +1047,44 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<p>In this exercise we create some simulated data and fit a simple linear regression model.
+    <p>In this exercise we create some simulated data and fit a simple linear regression model.
 The simulated data are generated using the <code>rnorm()</code> function with mean 0 and variance 1. The generated data are stored in
 vector X.</p>
-
-<pre><code class="language-r">set.seed(1)
+<pre><code class="language-{r}" data-lang="{r}">set.seed(1)
 
 x &lt;- rnorm(100, 0, 1)
-</code></pre>
-
-<p>In addition to the data, we generate vector <code>eps</code> which
+</code></pre><p>In addition to the data, we generate vector <code>eps</code> which
 will represent the error of the model.</p>
-
-<pre><code class="language-r">eps &lt;- rnorm(100, 0, sqrt(0.25))
-</code></pre>
-
-<p>We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.5.
+<pre><code class="language-{r}" data-lang="{r}">eps &lt;- rnorm(100, 0, sqrt(0.25))
+</code></pre><p>We create vector y based on the below linear equation in which β0 = -1 and β1 = 0.5.
 The length of y is equal to the length of x vector.</p>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p>                
+          
 y = -1 + 0.5X + ε</p>
-
-<pre><code class="language-r">y = -1 + 0.5 * x + eps
+<pre><code class="language-{r}" data-lang="{r}">y = -1 + 0.5 * x + eps
 length(y)
 
 ## [1] 100
-</code></pre>
-
-<p>We can see below the plot of <code>x</code> and <code>y</code> values. As expected, we observe a linear relationship between them although not perfectly linear duto to the addition of the error <code>eps</code>.</p>
-
-<pre><code class="language-r">plot(x, y, col = &quot;deepskyblue2&quot;,
+</code></pre><p>We can see below the plot of <code>x</code> and <code>y</code> values. As expected, we observe a linear relationship between them although not perfectly linear duto to the addition of the error <code>eps</code>.</p>
+<pre><code class="language-{r}" data-lang="{r}">plot(x, y, col = &quot;deepskyblue2&quot;,
      xlab = &quot;x&quot;, ylab = &quot;y&quot;,
      type = &quot;p&quot;, pch = 20, cex.axis = 1, cex.lab = 1)
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /></p>
-
+</code></pre><p><!-- raw HTML omitted --></p>
 <h3 id="least-squares-model">Least Squares model</h3>
-
 <p>We fit a least squares linear model using the <code>lm.fit</code> function. The calculated parameters are quite close to the actual parameters (-1 and 0.5)</p>
-
-<pre><code class="language-r">lm.fit = lm(y~x)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">lm.fit <span style="color:#f92672">=</span> <span style="color:#a6e22e">lm</span>(y<span style="color:#f92672">~</span>x)
 lm.fit
-##
-## Call:
-## lm(formula = y ~ x)
-##
-## Coefficients:
-## (Intercept)            x  
-##     -1.0188       0.4995
-</code></pre>
-
-<p>We can compare the generated model to the actual equation by plotting the least squares line
+<span style="color:#75715e">##</span>
+<span style="color:#75715e">## Call:</span>
+<span style="color:#75715e">## lm(formula = y ~ x)</span>
+<span style="color:#75715e">##</span>
+<span style="color:#75715e">## Coefficients:</span>
+<span style="color:#75715e">## (Intercept)            x  </span>
+<span style="color:#75715e">##     -1.0188       0.4995</span>
+</code></pre></div><p>We can compare the generated model to the actual equation by plotting the least squares line
 compared to the population regression line. As we can see, the two line are quite close to
 each other.</p>
-
-<p><img src="https://christospitsi.github.io/images/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /></p>
-
+<p><!-- raw HTML omitted --></p>
 <p><em>This analysis is based on Exercise 3.13 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
@@ -1124,7 +1102,7 @@ each other.</p>
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange---logistic-regression-model/">S&amp;P 500 stock exchange - Logistic regression model</a>
+                        <a href="https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/">S&amp;P 500 stock exchange - Logistic regression model</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     
@@ -1210,13 +1188,6 @@ each other.</p>
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

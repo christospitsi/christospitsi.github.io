@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/" />
-<meta property="og:title" content="Customer behaviour and classification trees" />
-<meta property="twitter:title" content="Customer behaviour and classification trees">
+<meta property="og:url" content="https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/" />
+<meta property="og:title" content="Unsupervised learning - Hierarchical clustering" />
+<meta property="twitter:title" content="Unsupervised learning - Hierarchical clustering">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Customer behaviour and classification trees 
+       Christos Pitsikas - Unsupervised learning - Hierarchical clustering 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/">
 
 
 <style media="screen">
@@ -1016,17 +1016,17 @@ margin-left: -4%;
                 <div class="title-container">
                     <div class="page-heading">
 
-    Customer behaviour and classification trees
+    Unsupervised learning - Hierarchical clustering
 
 </div>
 
                 </div>
                 <div class="meta">
-                    <div class="date" title="Mon Dec 18 2017 12:39:29 UTC">Dec 18, 2017</div>
+                    <div class="date" title="Mon Jan 15 2018 14:23:58 UTC">Jan 15, 2018</div>
                     
                         
                     
-                    <div class="reading-time middot">5 minute read</div>
+                    <div class="reading-time middot">3 minute read</div>
                     <div class="tags">
                         <ul>
                           
@@ -1047,133 +1047,85 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    <p>In this example we are going to use <code>OJ</code> dataset which contains
-1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and
-a number of characteristics of the customer and product.
-(please see <!-- raw HTML omitted -->documentation<!-- raw HTML omitted -->
-for more details)</p>
-<p>Before we examine the possible models,
-we create as usual a training set with 800 observations and the test set
-with the remaining observations from the <code>OJ</code> data set.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(ISLR)
-<span style="color:#a6e22e">library</span>(tree)
+    <h3 id="hierarchical-clustering">Hierarchical Clustering</h3>
+<p><code>USArrests</code> data set contains statistics,
+in arrests per 100,000 residents for assault,
+murder,
+and rape in each of the 50 US states in 1973.</p>
+<p>We perform hierarchical clustering on the data set,
+with complete linkage and Euclidean distance and
+we cut the dendrogram at a height that results in three distinct clusters.
+We can see below the clusters created by the model.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">hc.complete <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">hclust</span>(<span style="color:#a6e22e">dist</span>(USArrests), method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;complete&#34;</span>)
+a <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cutree</span>(hc.complete, k <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>)
 
-<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
-train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">nrow</span>(OJ), <span style="color:#ae81ff">800</span>)
-OJ.test <span style="color:#f92672">&lt;-</span> OJ[<span style="color:#f92672">-</span>train, ]
-</code></pre></div><p>We now fit a tree to the training data with <em>Purchase</em> as the response and the other variables as predictors.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tree</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train)
-<span style="color:#a6e22e">summary</span>(tree.OJ)
-</code></pre></div><pre><code>##
-## Classification tree:
-## tree(formula = Purchase ~ ., data = OJ, subset = train)
-## Variables actually used in tree construction:
-## [1] &quot;LoyalCH&quot;       &quot;PriceDiff&quot;     &quot;SpecialCH&quot;     &quot;ListPriceDiff&quot;
-## Number of terminal nodes:  8
-## Residual mean deviance:  0.7305 = 578.6 / 792
-## Misclassification error rate: 0.165 = 132 / 800
+<span style="color:#a6e22e">writeLines</span>(<span style="color:#e6db74">&#34;Cluster 1&#34;</span>)
+(c1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">names</span>(a[a <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>]))
+</code></pre></div><pre><code>## Cluster 1
+##  [1] &quot;Alabama&quot;        &quot;Alaska&quot;         &quot;Arizona&quot;        &quot;California&quot;    
+##  [5] &quot;Delaware&quot;       &quot;Florida&quot;        &quot;Illinois&quot;       &quot;Louisiana&quot;     
+##  [9] &quot;Maryland&quot;       &quot;Michigan&quot;       &quot;Mississippi&quot;    &quot;Nevada&quot;        
+## [13] &quot;New Mexico&quot;     &quot;New York&quot;       &quot;North Carolina&quot; &quot;South Carolina&quot;
 </code></pre>
-<p>Using the summary function we can produce summary statistics about the tree.
-As we can see, the tree has 8 terminal nodes and the training error rate is 16.5%.</p>
-<p>In addition to the tree statistics,
-by typing the name of the tree we can get a detailed text output which describes
-the tree structure and the various parameters for each node/branch.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.OJ
-</code></pre></div><pre><code>## node), split, n, deviance, yval, (yprob)
-##       * denotes terminal node
-##
-##  1) root 800 1064.00 CH ( 0.61750 0.38250 )  
-##    2) LoyalCH &lt; 0.508643 350  409.30 MM ( 0.27143 0.72857 )  
-##      4) LoyalCH &lt; 0.264232 166  122.10 MM ( 0.12048 0.87952 )  
-##        8) LoyalCH &lt; 0.0356415 57   10.07 MM ( 0.01754 0.98246 ) *
-##        9) LoyalCH &gt; 0.0356415 109  100.90 MM ( 0.17431 0.82569 ) *
-##      5) LoyalCH &gt; 0.264232 184  248.80 MM ( 0.40761 0.59239 )  
-##       10) PriceDiff &lt; 0.195 83   91.66 MM ( 0.24096 0.75904 )  
-##         20) SpecialCH &lt; 0.5 70   60.89 MM ( 0.15714 0.84286 ) *
-##         21) SpecialCH &gt; 0.5 13   16.05 CH ( 0.69231 0.30769 ) *
-##       11) PriceDiff &gt; 0.195 101  139.20 CH ( 0.54455 0.45545 ) *
-##    3) LoyalCH &gt; 0.508643 450  318.10 CH ( 0.88667 0.11333 )  
-##      6) LoyalCH &lt; 0.764572 172  188.90 CH ( 0.76163 0.23837 )  
-##       12) ListPriceDiff &lt; 0.235 70   95.61 CH ( 0.57143 0.42857 ) *
-##       13) ListPriceDiff &gt; 0.235 102   69.76 CH ( 0.89216 0.10784 ) *
-##      7) LoyalCH &gt; 0.764572 278   86.14 CH ( 0.96403 0.03597 ) *
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">writeLines</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
+<span style="color:#a6e22e">writeLines</span>(<span style="color:#e6db74">&#34;Cluster 2&#34;</span>)
+(c2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">names</span>(a[a <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>]))
+</code></pre></div><pre><code>## Cluster 2
+##  [1] &quot;Arkansas&quot;      &quot;Colorado&quot;      &quot;Georgia&quot;       &quot;Massachusetts&quot;
+##  [5] &quot;Missouri&quot;      &quot;New Jersey&quot;    &quot;Oklahoma&quot;      &quot;Oregon&quot;       
+##  [9] &quot;Rhode Island&quot;  &quot;Tennessee&quot;     &quot;Texas&quot;         &quot;Virginia&quot;     
+## [13] &quot;Washington&quot;    &quot;Wyoming&quot;
 </code></pre>
-<p>For instance, the line for terminal node 20 shows that under the branch <code>SpecialCH &lt; 0.5</code>,
-60.89 observations have been classified as <code>MM</code> which is the most occurring class on that node.
-Moreover, the deviance is 70 and the <em>class proportions</em> of <code>CH</code> and <code>MM</code> are 15.7 and 84.2 respectively.</p>
-<p>On the graphical presentation of the tree below,
-we can see that it has 7 <em>internal nodes</em> and 8 <em>terminal nodes</em>.
-The most important predictor appears to be the <em>LoyalCH</em>
-since it have been used to split the data on the first node and
-then again on the next two internal nodes.
-Additionally, all splits on the right branch have been performed in order to
-increase the node <em>purity</em> since all terminal nodes have been classified as <code>CH</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(tree.OJ)
-<span style="color:#a6e22e">text</span>(tree.OJ, pretty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cex <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>)  
-</code></pre></div><p><!-- raw HTML omitted --></p>
-<p>We will now predict the response on the test data and generate the confusion matrix.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">OJ.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(tree.OJ, OJ.test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#a6e22e">table</span>(OJ.pred, OJ.test[ ,<span style="color:#e6db74">&#34;Purchase&#34;</span>])
-</code></pre></div><pre><code>##        
-## OJ.pred  CH  MM
-##      CH 147  49
-##      MM  12  62
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">writeLines</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
+<span style="color:#a6e22e">writeLines</span>(<span style="color:#e6db74">&#34;Cluster 3&#34;</span>)
+(c3 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">names</span>(a[a <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>]))
+</code></pre></div><pre><code>## Cluster 3
+##  [1] &quot;Connecticut&quot;   &quot;Hawaii&quot;        &quot;Idaho&quot;         &quot;Indiana&quot;      
+##  [5] &quot;Iowa&quot;          &quot;Kansas&quot;        &quot;Kentucky&quot;      &quot;Maine&quot;        
+##  [9] &quot;Minnesota&quot;     &quot;Montana&quot;       &quot;Nebraska&quot;      &quot;New Hampshire&quot;
+## [13] &quot;North Dakota&quot;  &quot;Ohio&quot;          &quot;Pennsylvania&quot;  &quot;South Dakota&quot;
+## [17] &quot;Utah&quot;          &quot;Vermont&quot;       &quot;West Virginia&quot; &quot;Wisconsin&quot;
 </code></pre>
-<p>As we see on the confusion matrix above, the correct predictions percentage is:
-(62 + 147)/(62 + 147 + 12 + 49) = 77%,
-hence the (test) classification error rate is 23%.</p>
-<h3 id="optimal-tree-size">Optimal tree size</h3>
-<p>We will now apply the <code>cv.tree()</code> function
-in order to determine the optimal tree size.</p>
-<p>On the plotted error rate and the <code>cv.OJ</code> printed parameters,
-we see that the trees with 8, 5 and 2 terminal nodes have 156 cross-validatiod errors each
-which is the lowest cross-validation error rate.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">cv.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cv.tree</span>(tree.OJ, FUN <span style="color:#f92672">=</span> prune.misclass)
-cv.OJ
-</code></pre></div><pre><code>## $size
-## [1] 8 5 2 1
-##
-## $dev
-## [1] 156 156 156 306
-##
-## $k
-## [1]       -Inf   0.000000   4.666667 160.000000
-##
-## $method
-## [1] &quot;misclass&quot;
-##
-## attr(,&quot;class&quot;)
-## [1] &quot;prune&quot;         &quot;tree.sequence&quot;
+<h3 id="scaled-data">Scaled data</h3>
+<p>We now scale the variable to have standard deviation equal to 1 and
+re-apply hierarchical clustering with complete linkage and Euclidean distance.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">USArrest.sc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">scale</span>(USArrests)
+hc.complete.sc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">hclust</span>(<span style="color:#a6e22e">dist</span>(USArrest.sc), method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;complete&#34;</span>)
+b <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cutree</span>(hc.complete.sc, k <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>)
+</code></pre></div><pre><code>## Cluster 1
+## [1] &quot;Alabama&quot;        &quot;Alaska&quot;         &quot;Georgia&quot;        &quot;Louisiana&quot;     
+## [5] &quot;Mississippi&quot;    &quot;North Carolina&quot; &quot;South Carolina&quot; &quot;Tennessee&quot;
+
+## Cluster 2
+##  [1] &quot;Arizona&quot;    &quot;California&quot; &quot;Colorado&quot;   &quot;Florida&quot;    &quot;Illinois&quot;  
+##  [6] &quot;Maryland&quot;   &quot;Michigan&quot;   &quot;Nevada&quot;     &quot;New Mexico&quot; &quot;New York&quot;  
+## [11] &quot;Texas&quot;
+
+## Cluster 3
+##  [1] &quot;Arkansas&quot;      &quot;Connecticut&quot;   &quot;Delaware&quot;      &quot;Hawaii&quot;       
+##  [5] &quot;Idaho&quot;         &quot;Indiana&quot;       &quot;Iowa&quot;          &quot;Kansas&quot;       
+##  [9] &quot;Kentucky&quot;      &quot;Maine&quot;         &quot;Massachusetts&quot; &quot;Minnesota&quot;    
+## [13] &quot;Missouri&quot;      &quot;Montana&quot;       &quot;Nebraska&quot;      &quot;New Hampshire&quot;
+## [17] &quot;New Jersey&quot;    &quot;North Dakota&quot;  &quot;Ohio&quot;          &quot;Oklahoma&quot;     
+## [21] &quot;Oregon&quot;        &quot;Pennsylvania&quot;  &quot;Rhode Island&quot;  &quot;South Dakota&quot;
+## [25] &quot;Utah&quot;          &quot;Vermont&quot;       &quot;Virginia&quot;      &quot;Washington&quot;   
+## [29] &quot;West Virginia&quot; &quot;Wisconsin&quot;     &quot;Wyoming&quot;
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(cv.OJ<span style="color:#f92672">$</span>size, cv.OJ<span style="color:#f92672">$</span>dev, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b&#34;</span>,
-     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test Error Rate&#34;</span>, xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tree Size&#34;</span>)
-</code></pre></div><p><!-- raw HTML omitted --></p>
-<h3 id="pruned-trees">Pruned trees</h3>
-<p>We apply the <code>prune.misclass()</code> method in order to produce pruned trees with 5 terminal nodes.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">prune.misclass</span>(tree.OJ, best <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
-<span style="color:#a6e22e">summary</span>(prune.OJ)
-</code></pre></div><pre><code>##
-## Classification tree:
-## snip.tree(tree = tree.OJ, nodes = 3:4)
-## Variables actually used in tree construction:
-## [1] &quot;LoyalCH&quot;   &quot;PriceDiff&quot; &quot;SpecialCH&quot;
-## Number of terminal nodes:  5
-## Residual mean deviance:  0.8256 = 656.4 / 795
-## Misclassification error rate: 0.165 = 132 / 800
+<p>We can see above the new clusters created using the scaled data.
+The results indicate that by using variable scaling,
+the generated clusters are significantly different;
+Clusters 1 and 2 are now much smaller and
+many states have been moved to a different cluster.</p>
+<p>As we can see below,
+the <code>Assault</code> variable has very high mean value compared to the rest and
+as a result it has a much stronger effect on the dissimilarities calculation.</p>
+<p>By scaling the variables to have standard deviation equal to one before the dissimilarities are computed,
+we effectively give to all variables equal importance during the hierarchical clustering.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">apply</span>(USArrests, <span style="color:#ae81ff">2</span>, mean)
+</code></pre></div><pre><code>##   Murder  Assault UrbanPop     Rape
+##    7.788  170.760   65.540   21.232
 </code></pre>
-<p>We will now predict the response on the test data and produce the confusion matrix,
-using the pruned tree model.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.OJ.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(prune.OJ, OJ.test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#a6e22e">table</span>(prune.OJ.pred, OJ.test[ ,<span style="color:#e6db74">&#34;Purchase&#34;</span>])
-</code></pre></div><pre><code>##              
-## prune.OJ.pred  CH  MM
-##            CH 147  49
-##            MM  12  62
-</code></pre>
-<p>As we see on the confusion matrix above,
-the classification error rate of the pruned tree is identical to the error rate
-of the unpruned tree and equal to 23%.</p>
-<p><em>This analysis is based on Exercise 8.4.9 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+<p><em>This analysis is based on Exercise 10.7.9 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
                 <br>
@@ -1184,13 +1136,13 @@ of the unpruned tree and equal to 23%.</p>
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/">Predicting sales using regression trees and bagging</a>
+                        <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">Support vector machines and customer behaviour classification</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">Support vector machines and customer behaviour classification</a>
+                        <a href="https://christospitsi.github.io/blog/pca-and-k-means-clustering/">PCA and K-means clustering</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     

@@ -13,9 +13,9 @@
 <meta property="og:site_name" content="  Christos Pitsikas" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/" />
-<meta property="og:title" content="Customer behaviour and classification trees" />
-<meta property="twitter:title" content="Customer behaviour and classification trees">
+<meta property="og:url" content="https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/" />
+<meta property="og:title" content="S&amp;P 500 stock exchange - Logistic regression model" />
+<meta property="twitter:title" content="S&amp;P 500 stock exchange - Logistic regression model">
 
     <meta property="og:image" content="https://christospitsi.github.io/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -27,10 +27,10 @@
 <title>
 
 
-       Christos Pitsikas - Customer behaviour and classification trees 
+       Christos Pitsikas - S&amp;P 500 stock exchange - Logistic regression model 
 
 </title>
-<link rel="canonical" href="https://christospitsi.github.io/blog/customer-behaviour-and-classification-trees/">
+<link rel="canonical" href="https://christospitsi.github.io/blog/sp-500-stock-exchange-logistic-regression-model/">
 
 
 <style media="screen">
@@ -1016,17 +1016,17 @@ margin-left: -4%;
                 <div class="title-container">
                     <div class="page-heading">
 
-    Customer behaviour and classification trees
+    S&amp;P 500 stock exchange - Logistic regression model
 
 </div>
 
                 </div>
                 <div class="meta">
-                    <div class="date" title="Mon Dec 18 2017 12:39:29 UTC">Dec 18, 2017</div>
+                    <div class="date" title="Fri Sep 8 2017 00:09:00 &#43;0200">Sep 8, 2017</div>
                     
                         
                     
-                    <div class="reading-time middot">5 minute read</div>
+                    <div class="reading-time middot">7 minute read</div>
                     <div class="tags">
                         <ul>
                           
@@ -1047,133 +1047,151 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    <p>In this example we are going to use <code>OJ</code> dataset which contains
-1070 purchases where the customer either purchased Citrus Hill or Minute Maid Orange Juice and
-a number of characteristics of the customer and product.
-(please see <!-- raw HTML omitted -->documentation<!-- raw HTML omitted -->
-for more details)</p>
-<p>Before we examine the possible models,
-we create as usual a training set with 800 observations and the test set
-with the remaining observations from the <code>OJ</code> data set.</p>
+    <p>For the purposes of this post we will use the <code>Weekly</code> dataset, included in the <code>ISLR</code> library. The dataset consists of percentage returns
+for the S&amp;P 500 stock index between 1990 and 2010.</p>
+<p>In the data frame, there are 1089 observations and the following variables:</p>
+<ul>
+<li><em>year</em>: Year that the observation was recorded</li>
+<li><em>lag1</em>: Percentage return for previous week</li>
+<li><em>lag2</em>: Percentage return for 2 weeks previous</li>
+<li><em>lag3</em>: Percentage return for 3 weeks previous</li>
+<li><em>lag4</em>: Percentage return for 4 weeks previous</li>
+<li><em>lag5</em>: Percentage return for 5 weeks previous</li>
+<li><em>volume</em>: Volume of shares traded (average number of daily shares traded in billions)</li>
+<li><em>today</em>: Percentage return for this week</li>
+<li><em>direction</em>: A factor with levels Down and Up indicating whether the market had a positive or negative return on a given week</li>
+</ul>
+<p>Below we can see a numerical summary for all predictors:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(ISLR)
-<span style="color:#a6e22e">library</span>(tree)
 
-<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
-train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">nrow</span>(OJ), <span style="color:#ae81ff">800</span>)
-OJ.test <span style="color:#f92672">&lt;-</span> OJ[<span style="color:#f92672">-</span>train, ]
-</code></pre></div><p>We now fit a tree to the training data with <em>Purchase</em> as the response and the other variables as predictors.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tree</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train)
-<span style="color:#a6e22e">summary</span>(tree.OJ)
-</code></pre></div><pre><code>##
-## Classification tree:
-## tree(formula = Purchase ~ ., data = OJ, subset = train)
-## Variables actually used in tree construction:
-## [1] &quot;LoyalCH&quot;       &quot;PriceDiff&quot;     &quot;SpecialCH&quot;     &quot;ListPriceDiff&quot;
-## Number of terminal nodes:  8
-## Residual mean deviance:  0.7305 = 578.6 / 792
-## Misclassification error rate: 0.165 = 132 / 800
-</code></pre>
-<p>Using the summary function we can produce summary statistics about the tree.
-As we can see, the tree has 8 terminal nodes and the training error rate is 16.5%.</p>
-<p>In addition to the tree statistics,
-by typing the name of the tree we can get a detailed text output which describes
-the tree structure and the various parameters for each node/branch.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tree.OJ
-</code></pre></div><pre><code>## node), split, n, deviance, yval, (yprob)
-##       * denotes terminal node
-##
-##  1) root 800 1064.00 CH ( 0.61750 0.38250 )  
-##    2) LoyalCH &lt; 0.508643 350  409.30 MM ( 0.27143 0.72857 )  
-##      4) LoyalCH &lt; 0.264232 166  122.10 MM ( 0.12048 0.87952 )  
-##        8) LoyalCH &lt; 0.0356415 57   10.07 MM ( 0.01754 0.98246 ) *
-##        9) LoyalCH &gt; 0.0356415 109  100.90 MM ( 0.17431 0.82569 ) *
-##      5) LoyalCH &gt; 0.264232 184  248.80 MM ( 0.40761 0.59239 )  
-##       10) PriceDiff &lt; 0.195 83   91.66 MM ( 0.24096 0.75904 )  
-##         20) SpecialCH &lt; 0.5 70   60.89 MM ( 0.15714 0.84286 ) *
-##         21) SpecialCH &gt; 0.5 13   16.05 CH ( 0.69231 0.30769 ) *
-##       11) PriceDiff &gt; 0.195 101  139.20 CH ( 0.54455 0.45545 ) *
-##    3) LoyalCH &gt; 0.508643 450  318.10 CH ( 0.88667 0.11333 )  
-##      6) LoyalCH &lt; 0.764572 172  188.90 CH ( 0.76163 0.23837 )  
-##       12) ListPriceDiff &lt; 0.235 70   95.61 CH ( 0.57143 0.42857 ) *
-##       13) ListPriceDiff &gt; 0.235 102   69.76 CH ( 0.89216 0.10784 ) *
-##      7) LoyalCH &gt; 0.764572 278   86.14 CH ( 0.96403 0.03597 ) *
-</code></pre>
-<p>For instance, the line for terminal node 20 shows that under the branch <code>SpecialCH &lt; 0.5</code>,
-60.89 observations have been classified as <code>MM</code> which is the most occurring class on that node.
-Moreover, the deviance is 70 and the <em>class proportions</em> of <code>CH</code> and <code>MM</code> are 15.7 and 84.2 respectively.</p>
-<p>On the graphical presentation of the tree below,
-we can see that it has 7 <em>internal nodes</em> and 8 <em>terminal nodes</em>.
-The most important predictor appears to be the <em>LoyalCH</em>
-since it have been used to split the data on the first node and
-then again on the next two internal nodes.
-Additionally, all splits on the right branch have been performed in order to
-increase the node <em>purity</em> since all terminal nodes have been classified as <code>CH</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(tree.OJ)
-<span style="color:#a6e22e">text</span>(tree.OJ, pretty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cex <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>)  
+<span style="color:#75715e">## Warning: package &#39;ISLR&#39; was built under R version 3.4.2</span>
+
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The Weekly data frame has %d observations and %d predictors&#34;</span>,
+        <span style="color:#a6e22e">nrow</span>(Weekly), <span style="color:#a6e22e">ncol</span>((Weekly)))
+
+<span style="color:#75715e">## [1] &#34;The Weekly data frame has 1089 observations and 9 predictors&#34;          </span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">summary</span>(Weekly)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">##       Year           Lag1               Lag2               Lag3         </span>
+<span style="color:#75715e">##  Min.   :1990   Min.   :-18.1950   Min.   :-18.1950   Min.   :-18.1950</span>
+<span style="color:#75715e">##  1st Qu.:1995   1st Qu.: -1.1540   1st Qu.: -1.1540   1st Qu.: -1.1580</span>
+<span style="color:#75715e">##  Median :2000   Median :  0.2410   Median :  0.2410   Median :  0.2410</span>
+<span style="color:#75715e">##  Mean   :2000   Mean   :  0.1506   Mean   :  0.1511   Mean   :  0.1472</span>
+<span style="color:#75715e">##  3rd Qu.:2005   3rd Qu.:  1.4050   3rd Qu.:  1.4090   3rd Qu.:  1.4090</span>
+<span style="color:#75715e">##  Max.   :2010   Max.   : 12.0260   Max.   : 12.0260   Max.   : 12.0260</span>
+<span style="color:#75715e">##       Lag4               Lag5              Volume       </span>
+<span style="color:#75715e">##  Min.   :-18.1950   Min.   :-18.1950   Min.   :0.08747  </span>
+<span style="color:#75715e">##  1st Qu.: -1.1580   1st Qu.: -1.1660   1st Qu.:0.33202  </span>
+<span style="color:#75715e">##  Median :  0.2380   Median :  0.2340   Median :1.00268  </span>
+<span style="color:#75715e">##  Mean   :  0.1458   Mean   :  0.1399   Mean   :1.57462  </span>
+<span style="color:#75715e">##  3rd Qu.:  1.4090   3rd Qu.:  1.4050   3rd Qu.:2.05373  </span>
+<span style="color:#75715e">##  Max.   : 12.0260   Max.   : 12.0260   Max.   :9.32821  </span>
+<span style="color:#75715e">##      Today          Direction</span>
+<span style="color:#75715e">##  Min.   :-18.1950   Down:484  </span>
+<span style="color:#75715e">##  1st Qu.: -1.1540   Up  :605  </span>
+<span style="color:#75715e">##  Median :  0.2410             </span>
+<span style="color:#75715e">##  Mean   :  0.1499             </span>
+<span style="color:#75715e">##  3rd Qu.:  1.4050             </span>
+<span style="color:#75715e">##  Max.   : 12.0260</span>
+</code></pre></div><p>It appears that all percentage return predictors (<code>Lag1-5</code> and <code>Today</code>) have identical minimum and maximum values, also known as <em>trading curbs</em>. Those limits were introduced to prevent both speculative gains and dramatic losses within a small time frame.</p>
+<p>Additionally, we can calculate all pairwise correlations coefficients among the predictors, with the exception of <code>Direction</code> which is qualitative.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">cor</span>(Weekly[, <span style="color:#ae81ff">-9</span>])
+
+<span style="color:#75715e">##               Year         Lag1        Lag2        Lag3         Lag4</span>
+<span style="color:#75715e">## Year    1.00000000 -0.032289274 -0.03339001 -0.03000649 -0.031127923</span>
+<span style="color:#75715e">## Lag1   -0.03228927  1.000000000 -0.07485305  0.05863568 -0.071273876</span>
+<span style="color:#75715e">## Lag2   -0.03339001 -0.074853051  1.00000000 -0.07572091  0.058381535</span>
+<span style="color:#75715e">## Lag3   -0.03000649  0.058635682 -0.07572091  1.00000000 -0.075395865</span>
+<span style="color:#75715e">## Lag4   -0.03112792 -0.071273876  0.05838153 -0.07539587  1.000000000</span>
+<span style="color:#75715e">## Lag5   -0.03051910 -0.008183096 -0.07249948  0.06065717 -0.075675027</span>
+<span style="color:#75715e">## Volume  0.84194162 -0.064951313 -0.08551314 -0.06928771 -0.061074617</span>
+<span style="color:#75715e">## Today  -0.03245989 -0.075031842  0.05916672 -0.07124364 -0.007825873</span>
+<span style="color:#75715e">##                Lag5      Volume        Today</span>
+<span style="color:#75715e">## Year   -0.030519101  0.84194162 -0.032459894</span>
+<span style="color:#75715e">## Lag1   -0.008183096 -0.06495131 -0.075031842</span>
+<span style="color:#75715e">## Lag2   -0.072499482 -0.08551314  0.059166717</span>
+<span style="color:#75715e">## Lag3    0.060657175 -0.06928771 -0.071243639</span>
+<span style="color:#75715e">## Lag4   -0.075675027 -0.06107462 -0.007825873</span>
+<span style="color:#75715e">## Lag5    1.000000000 -0.05851741  0.011012698</span>
+<span style="color:#75715e">## Volume -0.058517414  1.00000000 -0.033077783</span>
+<span style="color:#75715e">## Today   0.011012698 -0.03307778  1.000000000</span>
+</code></pre></div><p>As expected, the percentage return predictors are not corellated with any of the other predictors and the only association appears to be between <code>Year</code> and <code>Volume</code>. The association is strongly positive and it can be seen graphically on the below plot:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(Weekly<span style="color:#f92672">$</span>Year, Weekly<span style="color:#f92672">$</span>Volume, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;coral2&#34;</span>,
+    xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Year&#34;</span>,
+    ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Average number of daily shares traded (billions)&#34;</span>,
+    type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p&#34;</span>, pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, cex.axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, cex.lab <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>)
 </code></pre></div><p><!-- raw HTML omitted --></p>
-<p>We will now predict the response on the test data and generate the confusion matrix.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">OJ.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(tree.OJ, OJ.test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#a6e22e">table</span>(OJ.pred, OJ.test[ ,<span style="color:#e6db74">&#34;Purchase&#34;</span>])
-</code></pre></div><pre><code>##        
-## OJ.pred  CH  MM
-##      CH 147  49
-##      MM  12  62
-</code></pre>
-<p>As we see on the confusion matrix above, the correct predictions percentage is:
-(62 + 147)/(62 + 147 + 12 + 49) = 77%,
-hence the (test) classification error rate is 23%.</p>
-<h3 id="optimal-tree-size">Optimal tree size</h3>
-<p>We will now apply the <code>cv.tree()</code> function
-in order to determine the optimal tree size.</p>
-<p>On the plotted error rate and the <code>cv.OJ</code> printed parameters,
-we see that the trees with 8, 5 and 2 terminal nodes have 156 cross-validatiod errors each
-which is the lowest cross-validation error rate.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">cv.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cv.tree</span>(tree.OJ, FUN <span style="color:#f92672">=</span> prune.misclass)
-cv.OJ
-</code></pre></div><pre><code>## $size
-## [1] 8 5 2 1
-##
-## $dev
-## [1] 156 156 156 306
-##
-## $k
-## [1]       -Inf   0.000000   4.666667 160.000000
-##
-## $method
-## [1] &quot;misclass&quot;
-##
-## attr(,&quot;class&quot;)
-## [1] &quot;prune&quot;         &quot;tree.sequence&quot;
-</code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(cv.OJ<span style="color:#f92672">$</span>size, cv.OJ<span style="color:#f92672">$</span>dev, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b&#34;</span>,
-     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Test Error Rate&#34;</span>, xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tree Size&#34;</span>)
+<p>We can see below the plots for all combinations of the predictors. The scatterplots between <code>Today</code> and <code>Lag1-5</code> predictors are very similar and there is no indication of an association between them.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">pairs</span>(Weekly)
 </code></pre></div><p><!-- raw HTML omitted --></p>
-<h3 id="pruned-trees">Pruned trees</h3>
-<p>We apply the <code>prune.misclass()</code> method in order to produce pruned trees with 5 terminal nodes.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.OJ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">prune.misclass</span>(tree.OJ, best <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
-<span style="color:#a6e22e">summary</span>(prune.OJ)
-</code></pre></div><pre><code>##
-## Classification tree:
-## snip.tree(tree = tree.OJ, nodes = 3:4)
-## Variables actually used in tree construction:
-## [1] &quot;LoyalCH&quot;   &quot;PriceDiff&quot; &quot;SpecialCH&quot;
-## Number of terminal nodes:  5
-## Residual mean deviance:  0.8256 = 656.4 / 795
-## Misclassification error rate: 0.165 = 132 / 800
+<h3 id="logistic-regression-model">Logistic Regression Model</h3>
+<p>We now fit a logistic regression model with <code>Direction</code> as the response and the five lag variables plus <code>Volume</code> as predictors, using the <code>glm()</code> and <code>summary</code> functions as shown below:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">weekly.fit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">glm</span>(Direction <span style="color:#f92672">~</span> Lag1 <span style="color:#f92672">+</span> Lag2 <span style="color:#f92672">+</span> Lag3 <span style="color:#f92672">+</span> Lag4 <span style="color:#f92672">+</span> Lag5 <span style="color:#f92672">+</span> Volume,
+                 data <span style="color:#f92672">=</span> Weekly, family <span style="color:#f92672">=</span> binomial)
+<span style="color:#a6e22e">summary</span>(weekly.fit)
+
+<span style="color:#75715e">##</span>
+    <span style="color:#75715e">## Call:</span>
+    <span style="color:#75715e">## glm(formula = Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 +</span>
+    <span style="color:#75715e">##     Volume, family = binomial, data = Weekly)</span>
+    <span style="color:#75715e">##</span>
+    <span style="color:#75715e">## Deviance Residuals:</span>
+    <span style="color:#75715e">##     Min       1Q   Median       3Q      Max  </span>
+    <span style="color:#75715e">## -1.6949  -1.2565   0.9913   1.0849   1.4579  </span>
+    <span style="color:#75715e">##</span>
+    <span style="color:#75715e">## Coefficients:</span>
+    <span style="color:#75715e">##             Estimate Std. Error z value Pr(&gt;|z|)   </span>
+    <span style="color:#75715e">## (Intercept)  0.26686    0.08593   3.106   0.0019 **</span>
+    <span style="color:#75715e">## Lag1        -0.04127    0.02641  -1.563   0.1181   </span>
+    <span style="color:#75715e">## Lag2         0.05844    0.02686   2.175   0.0296 *</span>
+    <span style="color:#75715e">## Lag3        -0.01606    0.02666  -0.602   0.5469   </span>
+    <span style="color:#75715e">## Lag4        -0.02779    0.02646  -1.050   0.2937   </span>
+    <span style="color:#75715e">## Lag5        -0.01447    0.02638  -0.549   0.5833   </span>
+    <span style="color:#75715e">## Volume      -0.02274    0.03690  -0.616   0.5377   </span>
+    <span style="color:#75715e">## ---</span>
+    <span style="color:#75715e">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span>
+    <span style="color:#75715e">##</span>
+    <span style="color:#75715e">## (Dispersion parameter for binomial family taken to be 1)</span>
+    <span style="color:#75715e">##</span>
+    <span style="color:#75715e">##     Null deviance: 1496.2  on 1088  degrees of freedom</span>
+    <span style="color:#75715e">## Residual deviance: 1486.4  on 1082  degrees of freedom</span>
+    <span style="color:#75715e">## AIC: 1500.4</span>
+    <span style="color:#75715e">##</span>
+    <span style="color:#75715e">## Number of Fisher Scoring iterations: 4</span>
+</code></pre></div><p>The last column of the results shows the <em>P-Values</em> for each variable. For variables <code>Lag1</code>, <code>Lag3</code>, <code>Lag4</code>, <code>Lag5</code> and <code>Volume</code>, we can accept the <em>null hypothesis</em> that there is no relationship between them and <code>Direction</code>.</p>
+<p>With regards to variable <code>Lag2</code>, the <em>P-Value</em> is equal to 0.0296 which is smaller than the <em>P-Value</em> associated with a 95 percent confidence (a = 0.05). In theory, based on those results, we should reject the null hypothesis Ho that there is no relation between <code>Lag2</code> and <code>Direction</code>, however, it must be noted that since <em>P-Value</em> is very close to the limit value of 0.05, we may as well accept the hypothesis.</p>
+<p>The positive coefficient for predictor <code>Lag2</code> suggests that if the market had a positive return two weeks ago, then it is more likely that it will move upwards this week.</p>
+<h3 id="testing-and-confusion-matrix">Testing and Confusion Matrix</h3>
+<p>We can now use <code>predict()</code> function and the generated model to predict the probability that the market will go up at the end of the week, given values of the predictors.</p>
+<p>Since we used the whole dataset to train our model, the probabilities will be calculated using the training data.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">weekly.prd <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(weekly.fit, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;response&#34;</span>)
+<span style="color:#a6e22e">contrasts</span>(Weekly<span style="color:#f92672">$</span>Direction)
+</code></pre></div><pre><code>##      Up
+## Down  0
+## Up    1
 </code></pre>
-<p>We will now predict the response on the test data and produce the confusion matrix,
-using the pruned tree model.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">prune.OJ.pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(prune.OJ, OJ.test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;class&#34;</span>)
-<span style="color:#a6e22e">table</span>(prune.OJ.pred, OJ.test[ ,<span style="color:#e6db74">&#34;Purchase&#34;</span>])
-</code></pre></div><pre><code>##              
-## prune.OJ.pred  CH  MM
-##            CH 147  49
-##            MM  12  62
+<p>We have created vector <code>weekly.prd</code>, the elements of which are the calculated probabilities. We know that these values correspond to the probability of the market going up on a given week because the <code>contrasts()</code> function indicates that <code>R</code> has created a dummy variable, assigning value 1 to <code>Up</code>.</p>
+<p>In order to compare the predicted values to the actual direction of the market, first we convert the calculated probabilities to &ldquo;Up&rdquo; (for values greater than 0.5) and &ldquo;Down&rdquo; (for values lower than 0.5).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">weekly.prd.dir <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;Up&#34;</span>, <span style="color:#ae81ff">1089</span>)
+weekly.prd.dir[weekly.prd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.5</span>] <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;Down&#34;</span>
+</code></pre></div><p>Using the <code>table()</code> function, we can create the <em>confusion matrix</em> and determine how many of the predictions were actually correct:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">table</span>(weekly.prd.dir, Weekly<span style="color:#f92672">$</span>Direction)
+</code></pre></div><pre><code>##               
+## weekly.prd.dir Down  Up
+##           Down   54  48
+##           Up    430 557
 </code></pre>
-<p>As we see on the confusion matrix above,
-the classification error rate of the pruned tree is identical to the error rate
-of the unpruned tree and equal to 23%.</p>
-<p><em>This analysis is based on Exercise 8.4.9 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
+<p>The results above can be interpreted as follows:</p>
+<ul>
+<li>Element [1,1] = 54: Indicates how many times Predicted Value = &ldquo;Down&rdquo; AND Real Value = &ldquo;Down&rdquo; (Correct prediction)</li>
+<li>Element [1,2] = 48: Indicates how many times Predicted Value = &ldquo;Up&rdquo; AND Real Value = &ldquo;Down&rdquo; (Incorrect prediction)</li>
+<li>Element [2,1] = 430: Indicates how many times Predicted Value = &ldquo;Down&rdquo; AND Real Value = &ldquo;Up&rdquo; (Incorrect prediction)</li>
+<li>Element [2,2] = 557: Indicates how many times Predicted Value = &ldquo;Up&rdquo; AND Real Value = &ldquo;Up&rdquo; (Correct prediction)</li>
+</ul>
+<p>We can calculate the overall fraction of correct predictions by using the <code>mean()</code> function. The result shows that out model made a correct prediction 56.1% of the time.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">mean</span>(weekly.prd.dir <span style="color:#f92672">==</span> Weekly<span style="color:#f92672">$</span>Direction)
+
+<span style="color:#75715e">## [1] 0.5610652</span>
+</code></pre></div><p><em>This analysis is based on Exercise 4.10 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
                 <br>
@@ -1184,13 +1202,13 @@ of the unpruned tree and equal to 23%.</p>
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/predicting-sales-using-regression-trees-and-bagging/">Predicting sales using regression trees and bagging</a>
+                        <a href="https://christospitsi.github.io/blog/a-simple-linear-regression-model-using-simulated-data/">A simple linear regression model using simulated data</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/support-vector-machines-and-customer-behaviour-classification/">Support vector machines and customer behaviour classification</a>
+                        <a href="https://christospitsi.github.io/blog/predicting-vehicle-gas-consumption/">Predicting vehicle gas consumption</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     

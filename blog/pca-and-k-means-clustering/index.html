@@ -1047,153 +1047,103 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<p>In this problem, we will generate simulated data, and then permorm PCA and K-means clustering on the data.</p>
-
+    <p>In this problem, we will generate simulated data, and then permorm PCA and K-means clustering on the data.</p>
 <p>We first create cluster <code>c1</code> using <code>rnorm()</code> function and then,
 by shifting the observations of that cluster,
 we create clusters <code>c2</code> and <code>c3</code>.
 Finally, using <code>rbind()</code> function, we combine all three clusters to a single data frame.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
+c1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">matrix</span>(<span style="color:#a6e22e">rnorm</span>(<span style="color:#ae81ff">1000</span>), ncol <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>)
+c2 <span style="color:#f92672">&lt;-</span> c1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+c3 <span style="color:#f92672">&lt;-</span> c1 <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>
 
-<pre><code class="language-r">set.seed(1)
-c1 &lt;- matrix(rnorm(1000), ncol = 50)
-c2 &lt;- c1 + 2
-c3 &lt;- c1 - 3
-
-data &lt;- rbind(c1, c2, c3)
-</code></pre>
-
-<h3 id="pca">PCA</h3>
-
+data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(c1, c2, c3)
+</code></pre></div><h3 id="pca">PCA</h3>
 <p>We now perform <em>principal component analysis</em>
 using the <code>prcomp()</code> function without scaling the data and
 then plot the principal component score vectors and the clusters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pr.out <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">prcomp</span>(data, scale <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
 
-<pre><code class="language-r">pr.out &lt;- prcomp(data, scale = FALSE)
-
-biplot(pr.out, scale = 0)
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/PCA_2-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">plot(pr.out$x,
-     main = &quot;Unscaled&quot;,
-     xlab = &quot;First Principal Component&quot;,
-     ylab = &quot;Second Principal Component&quot;)
-points(pr.out$x[1:20, c(1,2)], pch = 20, col = &quot;red&quot;)    
-points(pr.out$x[21:40, c(1,2)], pch = 20, col = &quot;green&quot;)
-points(pr.out$x[41:60, c(1,2)], pch = 20, col = &quot;blue&quot;)   
-</code></pre>
-
-<p><img src="https://christospitsi.github.io/images/PCA_2-2.png" style="display: block; margin: auto;" /></p>
-
+<span style="color:#a6e22e">biplot</span>(pr.out, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(pr.out<span style="color:#f92672">$</span>x,
+     main <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unscaled&#34;</span>,
+     xlab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;First Principal Component&#34;</span>,
+     ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Second Principal Component&#34;</span>)
+<span style="color:#a6e22e">points</span>(pr.out<span style="color:#f92672">$</span>x[1<span style="color:#f92672">:</span><span style="color:#ae81ff">20</span>, <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>)], pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;red&#34;</span>)    
+<span style="color:#a6e22e">points</span>(pr.out<span style="color:#f92672">$</span>x[21<span style="color:#f92672">:</span><span style="color:#ae81ff">40</span>, <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>)], pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green&#34;</span>)
+<span style="color:#a6e22e">points</span>(pr.out<span style="color:#f92672">$</span>x[41<span style="color:#f92672">:</span><span style="color:#ae81ff">60</span>, <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>)], pch <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, col <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;blue&#34;</span>)   
+</code></pre></div><p><!-- raw HTML omitted --></p>
 <h3 id="k-means">K-means</h3>
-
 <p>We perform <em>K-means</em> clustering of the observations with K = 3.
 As we can see, the model has perfectly clustered the data.</p>
-
-<pre><code class="language-r">km.out.3 &lt;- kmeans(data, 3, nstart = 20)
-km.out.3$cluster
-</code></pre>
-
-<pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">km.out.3 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">kmeans</span>(data, <span style="color:#ae81ff">3</span>, nstart <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>)
+km.out.3<span style="color:#f92672">$</span>cluster
+</code></pre></div><pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 ## [36] 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 </code></pre>
-
-<pre><code class="language-r">table(km.out.3$cluster)
-</code></pre>
-
-<pre><code>##
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">table</span>(km.out.3<span style="color:#f92672">$</span>cluster)
+</code></pre></div><pre><code>##
 ##  1  2  3
 ## 20 20 20
 </code></pre>
-
 <p>We now perform K-means clustering of the observations with K = 2.
 The results show that one of the clusters has been left untouched whereas
 the rest two have been merged.</p>
-
-<pre><code class="language-r">km.out.2 &lt;- kmeans(data, 2, nstart = 20)
-km.out.2$cluster
-</code></pre>
-
-<pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">km.out.2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">kmeans</span>(data, <span style="color:#ae81ff">2</span>, nstart <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>)
+km.out.2<span style="color:#f92672">$</span>cluster
+</code></pre></div><pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 ## [36] 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 </code></pre>
-
-<pre><code class="language-r">table(km.out.2$cluster)
-</code></pre>
-
-<pre><code>##
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">table</span>(km.out.2<span style="color:#f92672">$</span>cluster)
+</code></pre></div><pre><code>##
 ##  1  2
 ## 20 40
 </code></pre>
-
 <p>When we apply a K-means model with K = 4,
 we observe that
 two of the generated clusters have 20 observations (as per original model)
 whereas the third cluster has been split into two new clusters.</p>
-
-<pre><code class="language-r">km.out.4 &lt;- kmeans(data, 4, nstart = 20)
-km.out.4$cluster
-</code></pre>
-
-<pre><code>##  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 1 2 1 1 2 1 2 1 2 1 2 2 1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">km.out.4 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">kmeans</span>(data, <span style="color:#ae81ff">4</span>, nstart <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>)
+km.out.4<span style="color:#f92672">$</span>cluster
+</code></pre></div><pre><code>##  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 1 2 1 1 2 1 2 1 2 1 2 2 1
 ## [36] 1 2 2 2 2 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
 </code></pre>
-
-<pre><code class="language-r">table(km.out.4$cluster)
-</code></pre>
-
-<pre><code>##
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">table</span>(km.out.4<span style="color:#f92672">$</span>cluster)
+</code></pre></div><pre><code>##
 ##  1  2  3  4
 ##  9 11 20 20
 </code></pre>
-
 <p>We now perform K-means clustering of the observations with K = 3 on the first two principal components.
 The generated clusters are identical to the one generated by the original model which was built using the raw data.</p>
-
-<pre><code class="language-r">pca &lt;- pr.out$x[, c(1,2)]
-km.out.pca &lt;- kmeans(pca, 3, nstart = 20)
-km.out.pca$cluster
-</code></pre>
-
-<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pca <span style="color:#f92672">&lt;-</span> pr.out<span style="color:#f92672">$</span>x[, <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>)]
+km.out.pca <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">kmeans</span>(pca, <span style="color:#ae81ff">3</span>, nstart <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>)
+km.out.pca<span style="color:#f92672">$</span>cluster
+</code></pre></div><pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 ## [36] 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 </code></pre>
-
-<pre><code class="language-r">table(km.out.pca$cluster)
-</code></pre>
-
-<pre><code>##
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">table</span>(km.out.pca<span style="color:#f92672">$</span>cluster)
+</code></pre></div><pre><code>##
 ##  1  2  3
 ## 20 20 20
 </code></pre>
-
 <p>We now perform K-means clustering of the observations with K = 3
 using the scaled data with standard deviation one.
 As we can see,
 as expected,
 the clusters have not been changed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data.sc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">scale</span>(data)
 
-<pre><code class="language-r">data.sc &lt;- scale(data)
-
-km.out.sc &lt;- kmeans(data.sc, 3, nstart = 20)
-km.out.sc$cluster
-</code></pre>
-
-<pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+km.out.sc <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">kmeans</span>(data.sc, <span style="color:#ae81ff">3</span>, nstart <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>)
+km.out.sc<span style="color:#f92672">$</span>cluster
+</code></pre></div><pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 ## [36] 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 </code></pre>
-
-<pre><code class="language-r">table(km.out.sc$cluster)
-</code></pre>
-
-<pre><code>##
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">table</span>(km.out.sc<span style="color:#f92672">$</span>cluster)
+</code></pre></div><pre><code>##
 ##  1  2  3
 ## 20 20 20
 </code></pre>
-
 <p><em>This analysis is based on Exercise 10.7.10 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
@@ -1205,7 +1155,7 @@ km.out.sc$cluster
                     
                     <div>
                         <img class="icon" src="https://christospitsi.github.io/img/back.svg" alt="back" />
-                        <a href="https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/">Unsupervised learning - Hierarchical clustering</a>
+                        <a href="https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/">Unsupervised learning - Hierarchical clustering</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
@@ -1297,13 +1247,6 @@ km.out.sc$cluster
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>

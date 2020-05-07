@@ -1047,39 +1047,31 @@ margin-left: -4%;
             <div class="markdown">
                 
     
-    
-
-<h3 id="svm-test">SVM TEST</h3>
-
+    <h3 id="svm-test">SVM TEST</h3>
 <p>In this post we will re-examine the <code>OJ</code> data set,
 by applying this time a <em>support vector machines</em> (SVM) model.
 In addition to the <code>ISLR</code> library,
 we import <code>e1071</code> library which
 provides us with the necessary SVM functions and methods.</p>
-
 <p>After splitting the data into training and test sets,
 we fit a SVM classifier to the training data using <code>cost = 0.01</code>,
 with <code>Purchase</code> as the response and all the other variables as predictors.</p>
-
 <p>As we can see, the classifier has a total of 432 support vectors,
 215 of which lie on the <code>CH</code> side (or the wrong side of the margin) and
 217 on the <code>MM</code> side (or the wrong side of the margin).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(ISLR)
+<span style="color:#a6e22e">library</span>(e1071)
 
-<pre><code class="language-r">library(ISLR)
-library(e1071)
+<span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">1</span>)
+train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">nrow</span>(OJ), <span style="color:#ae81ff">800</span>)
+OJ.train <span style="color:#f92672">&lt;-</span>OJ[train, ]
+OJ.test <span style="color:#f92672">&lt;-</span> OJ[<span style="color:#f92672">-</span>train, ]
 
-set.seed(1)
-train &lt;- sample(1:nrow(OJ), 800)
-OJ.train &lt;-OJ[train, ]
-OJ.test &lt;- OJ[-train, ]
+svmfit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train,
+                kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;linear&#34;</span>, cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span>)
 
-svmfit &lt;- svm(Purchase~., data = OJ, subset = train,
-                kernel = &quot;linear&quot;, cost = 0.01)
-
-summary(svmfit)
-</code></pre>
-
-<pre><code>##
+<span style="color:#a6e22e">summary</span>(svmfit)
+</code></pre></div><pre><code>##
 ## Call:
 ## svm(formula = Purchase ~ ., data = OJ, kernel = &quot;linear&quot;, cost = 0.01,
 ##     subset = train)
@@ -1101,108 +1093,80 @@ summary(svmfit)
 ## Levels:
 ##  CH MM
 </code></pre>
-
 <p>Using the confusion matrices for the training and test data,
 we calculate the errors using the below function.</p>
-
-<pre><code class="language-r">error &lt;- function(x){
-  return((((x[2] + x[3])/sum(x))*100))
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">error <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x){
+  <span style="color:#a6e22e">return</span>((((x[2] <span style="color:#f92672">+</span> x[3])<span style="color:#f92672">/</span><span style="color:#a6e22e">sum</span>(x))<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>))
 }
 
-pred.train &lt;- predict(svmfit, OJ.train)
-(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
-</code></pre>
-
-<pre><code>##           
+pred.train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit, OJ.train)
+(train.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.train, OJ.train[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+</code></pre></div><pre><code>##           
 ## pred.train  CH  MM
 ##         CH 439  78
 ##         MM  55 228
 </code></pre>
-
-<pre><code class="language-r">sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The training error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(train.mtx))
+</code></pre></div><pre><code>## [1] &quot;The training error rate is: 16.625000%&quot;
 </code></pre>
-
-<pre><code>## [1] &quot;The training error rate is: 16.625000%&quot;
-</code></pre>
-
-<pre><code class="language-r">pred.test &lt;- predict(svmfit, OJ.test)
-(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
-sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
-</code></pre>
-
-<pre><code>##          
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit, OJ.test)
+(test.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.test, OJ.test[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(test.mtx))
+</code></pre></div><pre><code>##          
 ## pred.test  CH  MM
 ##        CH 141  31
 ##        MM  18  80
 
 ## [1] &quot;The test error rate is: 18.148148%&quot;
 </code></pre>
-
 <h3 id="optimal-cost">Optimal Cost</h3>
-
 <p>Using the <code>tune()</code> function we can find the optimal <code>cost</code> among the below values.
 <code>Cost</code> controls the bias-variance trade-off of the model.</p>
-
 <p>The calculated optimal <code>cost</code> value is 0.05.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tune.out <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tune</span>(svm, Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ.train,
+                 kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;linear&#34;</span>,
+                 ranges <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(cost <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.05</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">10</span>)))
 
-<pre><code class="language-r">tune.out &lt;- tune(svm, Purchase~., data = OJ.train,
-                 kernel = &quot;linear&quot;,
-                 ranges = list(cost = c(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10)))
-
-tune.out$best.model$cost
+tune.out<span style="color:#f92672">$</span>best.model<span style="color:#f92672">$</span>cost
+</code></pre></div><pre><code>## [1] 0.05
 </code></pre>
-
-<pre><code>## [1] 0.05
-</code></pre>
-
 <p>We can now calculate the training and test error rates using a SVM and the optimal cost.
 As we can see, the training error rate has slightly decreased
 whereas the test error rate is the same.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">svmfit.2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train,
+                kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;linear&#34;</span>,
+                cost <span style="color:#f92672">=</span> tune.out<span style="color:#f92672">$</span>best.model<span style="color:#f92672">$</span>cost,
+                scale <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
 
-<pre><code class="language-r">svmfit.2 &lt;- svm(Purchase~., data = OJ, subset = train,
-                kernel = &quot;linear&quot;,
-                cost = tune.out$best.model$cost,
-                scale = FALSE)
-
-pred.train &lt;- predict(svmfit.2, OJ.train)
-(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
-sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
-</code></pre>
-
-<pre><code>##           
+pred.train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.2, OJ.train)
+(train.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.train, OJ.train[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The training error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(train.mtx))
+</code></pre></div><pre><code>##           
 ## pred.train  CH  MM
 ##         CH 437  75
 ##         MM  57 231
 
 ## [1] &quot;The training error rate is: 16.500000%&quot;
 </code></pre>
-
-<pre><code class="language-r">pred.test &lt;- predict(svmfit.2, OJ.test)
-(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
-sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
-</code></pre>
-
-<pre><code>##          
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.2, OJ.test)
+(test.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.test, OJ.test[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(test.mtx))
+</code></pre></div><pre><code>##          
 ## pred.test  CH  MM
 ##        CH 143  33
 ##        MM  16  78
 
 ## [1] &quot;The test error rate is: 18.148148%&quot;
 </code></pre>
-
 <h3 id="radial-kernel">Radial kernel</h3>
-
 <p>We will now use a classifier with a radial kernel and cost = 0.01.
 The new model has 617 support vectors,
 306 of which lie on the <code>CH</code> side (or the wrong side of the margin) and
 311 on the <code>MM</code> side (or the wrong side of the margin).</p>
-
-<pre><code class="language-r">svmfit.rad &lt;- svm(Purchase ~ ., data = OJ, subset = train,
-                kernel = &quot;radial&quot;, cost = 0.01)
-summary(svmfit.rad)
-</code></pre>
-
-<pre><code>##
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">svmfit.rad <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm</span>(Purchase <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train,
+                kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;radial&#34;</span>, cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span>)
+<span style="color:#a6e22e">summary</span>(svmfit.rad)
+</code></pre></div><pre><code>##
 ## Call:
 ## svm(formula = Purchase ~ ., data = OJ, kernel = &quot;radial&quot;, cost = 0.01,
 ##     subset = train)
@@ -1224,91 +1188,71 @@ summary(svmfit.rad)
 ## Levels:
 ##  CH MM
 </code></pre>
-
 <p>We calculate the training and test error rates.</p>
-
-<pre><code class="language-r">pred.train &lt;- predict(svmfit.rad, OJ.train)
-(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
-sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
-</code></pre>
-
-<pre><code>##           
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.rad, OJ.train)
+(train.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.train, OJ.train[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The training error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(train.mtx))
+</code></pre></div><pre><code>##           
 ## pred.train  CH  MM
 ##         CH 494 306
 ##         MM   0   0
 
 ## [1] &quot;The training error rate is: 38.250000%&quot;
 </code></pre>
-
-<pre><code class="language-r">pred.test &lt;- predict(svmfit.rad, OJ.test)
-(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
-sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
-</code></pre>
-
-<pre><code>##          
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.rad, OJ.test)
+(test.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.test, OJ.test[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(test.mtx))
+</code></pre></div><pre><code>##          
 ## pred.test  CH  MM
 ##        CH 159 111
 ##        MM   0   0
 
 ## [1] &quot;The test error rate is: 41.111111%&quot;
 </code></pre>
-
 <p>We now use the <code>tune()</code> function to find the optimal cost and
 we create the new model using the calculated cost value.
 Based on the results for the training and test error rates,
 the classifier with radial kernel performs better than the linear one.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tune.out.rad <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tune</span>(svm, Purchase <span style="color:#f92672">~</span> ., data <span style="color:#f92672">=</span> OJ.train,
+                 kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;radial&#34;</span>,
+                 ranges <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(cost <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.05</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">10</span>)))
 
-<pre><code class="language-r">tune.out.rad &lt;- tune(svm, Purchase ~ ., data = OJ.train,
-                 kernel = &quot;radial&quot;,
-                 ranges = list(cost = c(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10)))
+svmfit.rad.2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train,
+                kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;radial&#34;</span>,
+                cost <span style="color:#f92672">=</span> tune.out.rad<span style="color:#f92672">$</span>best.model<span style="color:#f92672">$</span>cost)
 
-svmfit.rad.2 &lt;- svm(Purchase~., data = OJ, subset = train,
-                kernel = &quot;radial&quot;,
-                cost = tune.out.rad$best.model$cost)
-
-pred.train &lt;- predict(svmfit.rad.2, OJ.train)
-(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
-sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
-</code></pre>
-
-<pre><code>##           
+pred.train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.rad.2, OJ.train)
+(train.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.train, OJ.train[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The training error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(train.mtx))
+</code></pre></div><pre><code>##           
 ## pred.train  CH  MM
 ##         CH 453  77
 ##         MM  41 229
 
 ## [1] &quot;The training error rate is: 14.750000%&quot;
 </code></pre>
-
-<pre><code class="language-r">pred.test &lt;- predict(svmfit.rad.2, OJ.test)
-(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
-sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
-</code></pre>
-
-<pre><code>##          
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.rad.2, OJ.test)
+(test.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.test, OJ.test[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(test.mtx))
+</code></pre></div><pre><code>##          
 ## pred.test  CH  MM
 ##        CH 143  29
 ##        MM  16  82
 
 ## [1] &quot;The test error rate is: 16.666667%&quot;
 </code></pre>
-
 <h3 id="polynomial-kernel">Polynomial kernel</h3>
-
 <p>We now repeat the above methodology
 using a support vector machine with a polynomial kernel and <code>degree</code> = 2.</p>
-
 <p>The model with polynomial kernel has 620 support vectors,
 306 of which lie on the <code>CH</code> side (or the wrong side of the margin)
 and 314 on the <code>MM</code> side (or the wrong side of the margin).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">svmfit.poly <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train,
+                  kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;polynomial&#34;</span>, cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span>,
+                  degree <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
 
-<pre><code class="language-r">svmfit.poly &lt;- svm(Purchase~., data = OJ, subset = train,
-                  kernel = &quot;polynomial&quot;, cost = 0.01,
-                  degree = 2)
-
-summary(svmfit.poly)
-</code></pre>
-
-<pre><code>##
+<span style="color:#a6e22e">summary</span>(svmfit.poly)
+</code></pre></div><pre><code>##
 ## Call:
 ## svm(formula = Purchase ~ ., data = OJ, kernel = &quot;polynomial&quot;,
 ##     cost = 0.01, degree = 2, subset = train)
@@ -1332,79 +1276,60 @@ summary(svmfit.poly)
 ## Levels:
 ##  CH MM
 </code></pre>
-
 <p>We calculate the training and test error rates.</p>
-
-<pre><code class="language-r">pred.train &lt;- predict(svmfit.poly, OJ.train)
-(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
-sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
-</code></pre>
-
-<pre><code>##           
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.poly, OJ.train)
+(train.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.train, OJ.train[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The training error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(train.mtx))
+</code></pre></div><pre><code>##           
 ## pred.train  CH  MM
 ##         CH 494 306
 ##         MM   0   0
 
 ## [1] &quot;The training error rate is: 38.250000%&quot;
 </code></pre>
-
-<pre><code class="language-r">pred.test &lt;- predict(svmfit.poly, OJ.test)
-(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
-sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
-</code></pre>
-
-<pre><code>##          
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.poly, OJ.test)
+(test.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.test, OJ.test[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(test.mtx))
+</code></pre></div><pre><code>##          
 ## pred.test  CH  MM
 ##        CH 159 111
 ##        MM   0   0
 
 ## [1] &quot;The test error rate is: 41.111111%&quot;
 </code></pre>
-
 <p>We now create a new model based on the optimal <code>cost</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tune.out.poly <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tune</span>(svm, Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ.train,
+                     kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;polynomial&#34;</span>,
+                     degree <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+                     ranges <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(cost <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.05</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">10</span>)))
 
-<pre><code class="language-r">tune.out.poly &lt;- tune(svm, Purchase~., data = OJ.train,
-                     kernel = &quot;polynomial&quot;,
-                     degree = 2,
-                     ranges = list(cost = c(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10)))
-
-svmfit.poly.2 &lt;- svm(Purchase~., data = OJ, subset = train,
-                    kernel = &quot;polynomial&quot;,
-                    degree = 2,
-                    cost = tune.out.poly$best.model$cost)
-</code></pre>
-
-<p>Finally, we calculate the training and test error rates.</p>
-
-<pre><code class="language-r">pred.train &lt;- predict(svmfit.poly.2, OJ.train)
-(train.mtx &lt;- table(pred.train, OJ.train[,&quot;Purchase&quot;]))
-sprintf(&quot;The training error rate is: %f%%&quot;, error(train.mtx))
-</code></pre>
-
-<pre><code>##           
+svmfit.poly.2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">svm</span>(Purchase<span style="color:#f92672">~</span>., data <span style="color:#f92672">=</span> OJ, subset <span style="color:#f92672">=</span> train,
+                    kernel <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;polynomial&#34;</span>,
+                    degree <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
+                    cost <span style="color:#f92672">=</span> tune.out.poly<span style="color:#f92672">$</span>best.model<span style="color:#f92672">$</span>cost)
+</code></pre></div><p>Finally, we calculate the training and test error rates.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.train <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.poly.2, OJ.train)
+(train.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.train, OJ.train[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The training error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(train.mtx))
+</code></pre></div><pre><code>##           
 ## pred.train  CH  MM
 ##         CH 450  72
 ##         MM  44 234
 
 ## [1] &quot;The training error rate is: 14.500000%&quot;
 </code></pre>
-
-<pre><code class="language-r">pred.test &lt;- predict(svmfit.poly.2, OJ.test)
-(test.mtx &lt;- table(pred.test, OJ.test[,&quot;Purchase&quot;]))
-sprintf(&quot;The test error rate is: %f%%&quot;, error(test.mtx))
-</code></pre>
-
-<pre><code>##          
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred.test <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(svmfit.poly.2, OJ.test)
+(test.mtx <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(pred.test, OJ.test[,<span style="color:#e6db74">&#34;Purchase&#34;</span>]))
+<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;The test error rate is: %f%%&#34;</span>, <span style="color:#a6e22e">error</span>(test.mtx))
+</code></pre></div><pre><code>##          
 ## pred.test  CH  MM
 ##        CH 140  31
 ##        MM  19  80
 
 ## [1] &quot;The test error rate is: 18.518519%&quot;
 </code></pre>
-
 <p>Based on the resulted test error rates, the model with the highest accuracy
 appears to be the one with the radial kernel.</p>
-
 <p><em>This analysis is based on Exercise 9.7.8 from &ldquo;An Introduction to Statistical Learning&rdquo; book by Robert Tibshirani and Trevor Hastie</em></p>
 
 
@@ -1422,7 +1347,7 @@ appears to be the one with the radial kernel.</p>
                     <div style="width: 100%;"></div>
                     
                     <div>
-                        <a href="https://christospitsi.github.io/blog/unsupervised-learning---hierarchical-clustering/">Unsupervised learning - Hierarchical clustering</a>
+                        <a href="https://christospitsi.github.io/blog/unsupervised-learning-hierarchical-clustering/">Unsupervised learning - Hierarchical clustering</a>
                         <img class="icon" src="https://christospitsi.github.io/img/next.svg" alt="next" />
                     </div>
                     
@@ -1508,13 +1433,6 @@ appears to be the one with the radial kernel.</p>
 
 
 
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-109904395-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
 
 
 <script>
